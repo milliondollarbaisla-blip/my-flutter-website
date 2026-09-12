@@ -169,6 +169,18 @@
       margin-top: 5px;
     }
 
+    .free-tier-counter {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--neon-green);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 11.5px;
+      display: inline-block;
+      margin-top: 5px;
+      border: 1px solid rgba(212, 255, 61, 0.2);
+    }
+
     .dropdown-container {
       margin: 15px auto 15px auto;
       width: 100%;
@@ -311,14 +323,6 @@
       box-shadow: 0 12px 30px rgba(0,0,0,0.5);
       position: relative;
       cursor: pointer;
-    }
-
-    .tag {
-      color: #FF8A00;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
     }
 
     .idle-view { padding: 15px 10px; }
@@ -607,7 +611,6 @@
       font-size: 16px;
     }
 
-    /* Profile Avatar Picker inside modal */
     .profile-upload-preview {
       width: 80px;
       height: 80px;
@@ -626,7 +629,6 @@
     <div class="user-bar">
       <button class="auth-btn-small" id="userAccountBtn" onclick="toggleAccountDropdown(event)">Sign In / Register</button>
       
-      <!-- Account Dropdown Menu (Right Corner) -->
       <div class="account-dropdown" id="accountDropdown">
         <div class="account-dropdown-header">
           <img id="ddUserAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar">
@@ -645,6 +647,7 @@
     <div class="header">
       <h1 class="brand-title">LINE<span class="leak">LEAK</span></h1>
       <div class="pro-badge" id="proBadge">PRO PASS ACTIVE (UNLIMITED)</div>
+      <div class="free-tier-counter" id="freeCounterBadge">Free Generates Left: 3/3</div>
     </div>
 
     <div class="dropdown-container">
@@ -783,7 +786,7 @@
       
       <div id="authStep1">
         <h3 style="margin-top:0;">Sign In / Register 🔑</h3>
-        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);">Access unlimited viral line generation and pro features.</p>
+        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);">Access free lines or upgrade to pro features.</p>
         
         <div class="auth-box">
           <button class="auth-google-btn" onclick="signInGoogle()">
@@ -839,7 +842,6 @@
       <div class="auth-box">
         <label style="font-size:12px; color:rgba(255,255,255,0.8); text-align:center;">Tap Picture to Select from Gallery</label>
         <img id="profilePreviewImg" class="profile-upload-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Preview" onclick="triggerGalleryUpload()">
-        <!-- Hidden file input for native device gallery selection -->
         <input type="file" id="deviceGalleryInput" accept="image/*" style="display:none" onchange="handleGalleryImageSelect(event)">
 
         <label style="font-size:12px; color:rgba(255,255,255,0.8);">Profile Name</label>
@@ -875,7 +877,7 @@
         <b>How to use LINELEAK:</b><br>
         1. Select your target reel category from the top carousel.<br>
         2. Adjust slang intensity if needed.<br>
-        3. Tap <b>Generate</b> to get an instant viral hook + CapCut layout export.<br><br>
+        3. Tap <b>Generate</b> to get free/pro viral hook + layout export.<br><br>
         Need assistance? DM us on Instagram @lineleakweb.
       </p>
       <button class="btn" style="width:100%;" onclick="closeHelpModal()">Got It</button>
@@ -904,7 +906,7 @@
     <div class="modal-content">
       <span class="close-btn" onclick="closeCheckout()">&times;</span>
       <h3 style="color:var(--neon-green); margin-top:0;">Unlock Pro Pass 🔥</h3>
-      <p style="font-size:13.5px;">7-day unlimited access to all viral lines and export toolsets:</p>
+      <p style="font-size:13.5px;">Your 3 free lines have been used. Upgrade for unlimited access:</p>
       <div class="upi-box">Amount: ₹49 / Week</div>
       <div style="background:#fff; color:#000; padding:10px; border-radius:8px; font-weight:bold; margin-bottom:15px;">lineleak@upi</div>
       <button class="btn" style="width:100%;" onclick="enableProPass()">Activate 1-Week Pro (Demo)</button>
@@ -915,6 +917,7 @@
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     let isPro = false;
     let currentUser = null;
+    let freeGeneratesLeft = 3;
     let lastGeneratedLine = "";
     let lastGeneratedCat = "";
     let slangMode = 3;
@@ -968,6 +971,27 @@
       document.getElementById('sliderLabel').innerText = labels[slangMode];
     }
 
+    function checkFreeGenerates() {
+      const savedCount = localStorage.getItem('ll_free_left');
+      if (savedCount !== null) {
+        freeGeneratesLeft = parseInt(savedCount, 10);
+      } else {
+        freeGeneratesLeft = 3;
+        localStorage.setItem('ll_free_left', '3');
+      }
+      updateFreeCounterUI();
+    }
+
+    function updateFreeCounterUI() {
+      const badge = document.getElementById('freeCounterBadge');
+      if (isPro) {
+        badge.style.display = 'none';
+      } else {
+        badge.style.display = 'inline-block';
+        badge.innerText = `Free Generates Left: ${freeGeneratesLeft}/3`;
+      }
+    }
+
     function checkAuthState() {
       const savedUser = localStorage.getItem('ll_user');
       if (savedUser) {
@@ -978,7 +1002,7 @@
         document.getElementById('userAccountBtn').innerHTML = `<img src="${avatar}" class="user-avatar-mini" alt=""> ${name} ▾`;
         document.getElementById('ddUserName').innerText = name;
         document.getElementById('ddUserAvatar').src = avatar;
-        document.getElementById('ddUserSub').innerText = isPro ? "Pro Member ⚡" : "Free Tier";
+        document.getElementById('ddUserSub').innerText = isPro ? "Pro Member ⚡" : `Free Tier (${freeGeneratesLeft}/3 left)`;
       } else {
         currentUser = null;
         document.getElementById('userAccountBtn').innerHTML = 'Sign In / Register';
@@ -1051,7 +1075,7 @@
         localStorage.setItem('ll_user', JSON.stringify(user));
         checkAuthState();
         closeAuthModal();
-        alert('Phone verification successful! Welcome to LINELEAK Pro.');
+        alert('Phone verification successful!');
       } else {
         alert('Incorrect OTP code entered. Please check your code and try again.');
       }
@@ -1119,7 +1143,7 @@
       if (isPro) {
         statusBox.innerHTML = `Status: <b style="color:var(--neon-green)">PRO PASS ACTIVE</b><br>Enjoy unlimited hooks, unrestricted 18+ street slang, and one-tap CapCut exports.`;
       } else {
-        statusBox.innerHTML = `Status: <b>Free Tier</b><br>Upgrade to the Pro Pass for ₹49/week to unlock full unlimited access.`;
+        statusBox.innerHTML = `Status: <b>Free Tier</b> (${freeGeneratesLeft}/3 free generates remaining)<br>Upgrade to Pro Pass for ₹49/week for unlimited generation.`;
       }
       document.getElementById('subModal').style.display = 'flex';
     }
@@ -1150,6 +1174,7 @@
           isPro = false;
         }
       }
+      checkFreeGenerates();
     }
 
     function renderCircularCategories() {
@@ -1169,10 +1194,6 @@
     }
 
     function selectCategory(cat) {
-      if (!currentUser) {
-        openAuthModal();
-        return;
-      }
       selectedCat = cat;
       renderCircularCategories();
       generateLine();
@@ -1210,27 +1231,20 @@
     }
 
     function reopenLinePopup() {
-      if (!currentUser) {
-        openAuthModal();
-        return;
-      }
-      if (!isPro) {
-        openCheckout();
-        return;
-      }
       if (lastGeneratedLine) {
         showLinePopup(lastGeneratedLine, lastGeneratedCat);
       }
     }
 
     function generateLine() {
-      if (!currentUser) {
-        openAuthModal();
-        return;
-      }
       if (!isPro) {
-        openCheckout();
-        return;
+        if (freeGeneratesLeft <= 0) {
+          openCheckout();
+          return;
+        }
+        freeGeneratesLeft--;
+        localStorage.setItem('ll_free_left', freeGeneratesLeft.toString());
+        updateFreeCounterUI();
       }
 
       let cat = selectedCat;
@@ -1255,10 +1269,6 @@
     }
 
     function openCheckout() {
-      if (!currentUser) {
-        openAuthModal();
-        return;
-      }
       document.getElementById('checkoutModal').style.display = 'flex';
     }
 
