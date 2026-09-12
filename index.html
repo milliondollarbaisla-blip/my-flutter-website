@@ -26,6 +26,7 @@
       text-align: center;
       padding: 20px 15px;
       margin: 0;
+      transition: background-color 0.3s ease;
     }
 
     .container { max-width: 680px; margin: 0 auto; }
@@ -179,6 +180,69 @@
       display: inline-block;
       margin-top: 5px;
       border: 1px solid rgba(212, 255, 61, 0.2);
+    }
+
+    /* New Feature 1: Neon & Gradient Accent Glassmorphism Badges */
+    .glass-badge-card {
+      background: rgba(22, 18, 36, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 255, 61, 0.25);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      border-radius: 16px;
+      padding: 12px 16px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .glass-badge-card .glow-text {
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--ig-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
+    }
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--neon-green);
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* New Feature 3: Hook Categorization Filter Chips */
+    .filter-chips-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 10px 2px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+    .filter-chips-row::-webkit-scrollbar { display: none; }
+    .filter-chip {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .filter-chip.active {
+      background: var(--ig-gradient);
+      border-color: transparent;
+      color: #FFF;
+      box-shadow: 0 4px 12px rgba(225, 48, 108, 0.4);
     }
 
     .dropdown-container {
@@ -500,12 +564,48 @@
     }
     .meta-extras-box b { color: var(--neon-green); }
 
+    /* New Feature 2: Audio Waveform Visualizer */
+    .waveform-visualizer {
+      background: #0B0813;
+      border: 1px solid rgba(212, 255, 61, 0.2);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3px;
+      height: 48px;
+    }
+    .wave-bar {
+      flex: 1;
+      background: var(--ig-gradient);
+      border-radius: 4px;
+      animation: wavePulse 1.2s infinite ease-in-out alternate;
+    }
+    .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.5s; }
+    .wave-bar:nth-child(6) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(7) { animation-delay: 0.4s; }
+    .wave-bar:nth-child(8) { animation-delay: 0.25s; }
+    .wave-bar:nth-child(9) { animation-delay: 0.35s; }
+    .wave-bar:nth-child(10) { animation-delay: 0.05s; }
+
+    @keyframes wavePulse {
+      0% { height: 8px; opacity: 0.4; }
+      100% { height: 32px; opacity: 1; }
+    }
+
     .popup-action-row {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
     .secondary-action-btn {
       flex: 1;
+      min-width: 45%;
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.2);
       color: #FFF;
@@ -514,6 +614,33 @@
       font-weight: 700;
       font-size: 12px;
       cursor: pointer;
+    }
+
+    /* New Feature 6: Copy-to-Clipboard Toast Alerts */
+    .toast-alert {
+      visibility: hidden;
+      min-width: 220px;
+      background: #181329;
+      color: #FFF;
+      text-align: center;
+      border-radius: 25px;
+      padding: 12px 20px;
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      border: 1.5px solid var(--neon-green);
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      transition: opacity 0.3s ease, bottom 0.3s ease;
+      opacity: 0;
+    }
+    .toast-alert.show {
+      visibility: visible;
+      opacity: 1;
+      bottom: 50px;
     }
 
     .pricing-section { margin-top: 35px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 30px; }
@@ -644,10 +771,25 @@
       </div>
     </div>
 
+    <!-- New Feature 1 & 5: Neon Glassmorphism Badge & Dark Mode OLED Customizer -->
+    <div class="glass-badge-card">
+      <span class="glow-text">⚡ SaaS PRO PULSE ENGINE</span>
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleDarkModeTheme()">OLED Black: OFF</button>
+    </div>
+
     <div class="header">
       <h1 class="brand-title">LINE<span class="leak">LEAK</span></h1>
       <div class="pro-badge" id="proBadge">PRO PASS ACTIVE (UNLIMITED)</div>
       <div class="free-tier-counter" id="freeCounterBadge">Free Generates Left: 3/3</div>
+    </div>
+
+    <!-- New Feature 3: Hook Categorization Filter Chips -->
+    <div class="filter-chips-row" id="filterChipsRow">
+      <div class="filter-chip active" onclick="setFilterCategory('All', this)">✨ All Templates</div>
+      <div class="filter-chip" onclick="setFilterCategory('Viral', this)">🔥 Viral</div>
+      <div class="filter-chip" onclick="setFilterCategory('Educational', this)">🧠 Educational</div>
+      <div class="filter-chip" onclick="setFilterCategory('Storytelling', this)">📖 Storytelling</div>
+      <div class="filter-chip" onclick="setFilterCategory('Direct Response', this)">🎯 Direct Response</div>
     </div>
 
     <div class="dropdown-container">
@@ -882,6 +1024,20 @@
       <div id="popupCatTag" class="tag">RANDOM</div>
       <div id="popupLineText" class="line-text-popup">Line Here</div>
       
+      <!-- New Feature 2: Audio Waveform Visualizer Component -->
+      <div class="waveform-visualizer" id="waveformVisualizer">
+        <div class="wave-bar" style="height: 12px;"></div>
+        <div class="wave-bar" style="height: 24px;"></div>
+        <div class="wave-bar" style="height: 36px;"></div>
+        <div class="wave-bar" style="height: 18px;"></div>
+        <div class="wave-bar" style="height: 28px;"></div>
+        <div class="wave-bar" style="height: 40px;"></div>
+        <div class="wave-bar" style="height: 22px;"></div>
+        <div class="wave-bar" style="height: 32px;"></div>
+        <div class="wave-bar" style="height: 14px;"></div>
+        <div class="wave-bar" style="height: 26px;"></div>
+      </div>
+
       <div class="meta-extras-box">
         <div><b>Auto SEO Tags:</b> <span id="metaTags">#reelstrending #viralhacks #hinglish</span></div>
         <div style="margin-top:6px;"><b>CapCut Ready:</b> <span id="metaCapCut">Formatted for instant text overlay insertion.</span></div>
@@ -890,6 +1046,8 @@
       <div class="popup-action-row">
         <button class="secondary-action-btn" onclick="copyHookText()">📋 Copy Hook</button>
         <button class="secondary-action-btn" onclick="copyCapCutFormat()">✂️ CapCut Export</button>
+        <!-- New Feature 4: One-Click SRT/VTT Subtitle Export -->
+        <button class="secondary-action-btn" onclick="downloadSubtitleSRT()">📥 Download SRT</button>
       </div>
     </div>
   </div>
@@ -904,6 +1062,9 @@
       <button class="btn" style="width:100%;" onclick="enableProPass()">Activate 1-Week Pro (Demo)</button>
     </div>
   </div>
+
+  <!-- New Feature 6: Toast Notification Element -->
+  <div class="toast-alert" id="toastAlert">✨ Copied to clipboard successfully!</div>
 
   <!-- Firebase SDK Scripts for Real SMS Auth -->
   <script type="module">
@@ -934,6 +1095,7 @@
     let lastGeneratedCat = "";
     let slangMode = 3;
     let windowConfirmationResult = null;
+    let isOledMode = false;
 
     const categoryIcons = {
       'Random': '🎲',
@@ -973,6 +1135,76 @@
     let selectedCat = 'Random';
     const categories = ['Random', ...Object.keys(linesData)];
     let bags = {};
+
+    // New Feature 6: Show Toast Helper with Haptic Vibrate Support
+    function showToastAlert(message) {
+      if (navigator.vibrate) {
+        navigator.vibrate(40);
+      }
+      const toast = document.getElementById('toastAlert');
+      toast.innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // New Feature 5: Dark Mode OLED Customizer Toggle
+    function toggleDarkModeTheme() {
+      isOledMode = !isOledMode;
+      const btn = document.getElementById('themeToggleBtn');
+      if (isOledMode) {
+        document.documentElement.style.setProperty('--bg-dark', '#000000');
+        document.documentElement.style.setProperty('--card-bg', '#0c0c0c');
+        btn.innerText = 'OLED Black: ON';
+        btn.style.borderColor = 'var(--neon-green)';
+        showToastAlert('⚡ Switched to OLED Pure Black Mode');
+      } else {
+        document.documentElement.style.setProperty('--bg-dark', '#0B0813');
+        document.documentElement.style.setProperty('--card-bg', '#161224');
+        btn.innerText = 'OLED Black: OFF';
+        btn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+        showToastAlert('🌙 Switched to Default Deep Dark Theme');
+      }
+    }
+
+    // New Feature 3: Hook Categorization Filter Chips handler
+    function setFilterCategory(filterType, element) {
+      document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+      element.classList.add('active');
+      
+      if (filterType === 'Viral') {
+        selectedCat = 'Relatable Chaos';
+      } else if (filterType === 'Educational') {
+        selectedCat = 'Adulting / Job';
+      } else if (filterType === 'Storytelling') {
+        selectedCat = 'Self Deprecating';
+      } else if (filterType === 'Direct Response') {
+        selectedCat = 'Rishta & Romance';
+      } else {
+        selectedCat = 'Random';
+      }
+      renderCircularCategories();
+      generateLine();
+    }
+
+    // New Feature 4: One-Click SRT/VTT Subtitle Export generator
+    function downloadSubtitleSRT() {
+      const textContent = document.getElementById('popupLineText').innerText;
+      const srtData = `1\n00:00:00,000 --> 00:00:03,200\n${textContent}\n\n2\n00:00:03,200 --> 00:00:06,000\n[Viral Hook Subtitle Generated by LineLeak]`;
+      
+      const blob = new Blob([srtData], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'lineleak-reel-caption.srt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showToastAlert('📥 SRT Subtitle File Downloaded!');
+    }
 
     function updateSlangIntensity(val) {
       slangMode = parseInt(val);
@@ -1055,7 +1287,7 @@
       localStorage.setItem('ll_user', JSON.stringify(user));
       checkAuthState();
       closeAuthModal();
-      alert('Successfully signed in with Google!');
+      showToastAlert('Successfully signed in with Google!');
     }
 
     function sendFirebaseSMSOTP() {
@@ -1114,7 +1346,7 @@
           localStorage.setItem('ll_user', JSON.stringify(user));
           checkAuthState();
           closeAuthModal();
-          alert('Phone verification successful!');
+          showToastAlert('Phone verification successful!');
         })
         .catch((error) => {
           alert('Incorrect OTP entered. Please check and try again.');
@@ -1125,7 +1357,7 @@
       localStorage.removeItem('ll_user');
       currentUser = null;
       checkAuthState();
-      alert('Logged out successfully.');
+      showToastAlert('Logged out successfully.');
     }
 
     function openProfileModal() {
@@ -1174,7 +1406,7 @@
       localStorage.setItem('ll_user', JSON.stringify(currentUser));
       checkAuthState();
       closeProfileModal();
-      alert('Profile updated successfully!');
+      showToastAlert('Profile updated successfully!');
     }
 
     function showSubscriptionModal() {
@@ -1299,13 +1531,13 @@
 
     function copyHookText() {
       navigator.clipboard.writeText(document.getElementById('popupLineText').innerText);
-      alert('Hook copied to clipboard!');
+      showToastAlert('📋 Hook copied to clipboard!');
     }
 
     function copyCapCutFormat() {
       const fullBundle = `${document.getElementById('popupLineText').innerText}\n\n${document.getElementById('metaTags').innerText}`;
       navigator.clipboard.writeText(fullBundle);
-      alert('CapCut export text & tags copied!');
+      showToastAlert('✂️ CapCut export text & tags copied!');
     }
 
     function openCheckout() {
@@ -1321,7 +1553,7 @@
       localStorage.setItem('ll_pro_expiry', expiryTime.toString());
       checkProStatus();
       closeCheckout();
-      alert('1-Week Pro Pass Activated!');
+      showToastAlert('⚡ 1-Week Pro Pass Activated!');
     }
 
     checkProStatus();
