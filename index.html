@@ -139,7 +139,7 @@
       text-transform: uppercase;
     }
 
-    /* Idle Display State */
+    /* Idle View State */
     .idle-view {
       padding: 25px 10px;
     }
@@ -203,7 +203,7 @@
     }
 
     .line-text-popup {
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 700;
       line-height: 1.5;
       color: #FFF;
@@ -388,7 +388,7 @@
     </div>
   </div>
 
-  <!-- Line Display Pop-Up Modal -->
+  <!-- Line Pop-Up Modal -->
   <div class="popup-overlay" id="linePopup" onclick="closeLinePopup()">
     <div class="popup-box" onclick="event.stopPropagation()">
       <span class="close-btn" onclick="closeLinePopup()">&times;</span>
@@ -426,29 +426,110 @@
         'Mai apni galti se nahi sikhta kyunki woh khud galti hai, mujhe kya sikhaegi.',
         'Mujhe Shri Krishna ne Mahabharat mein hissa nahi lene diya, unhe pata tha ki saare udte teer main hi le lunga.',
         'Padhai ne mujhe chhod diya kyunki mai use time nahi de paa raha tha.',
-        'Khabar mili hai ki bhalai ko pata chal gaya hai ki ab uska zamana nahi raha.'
+        'Khabar mili hai ki bhalai ko pata chal gaya hai ki ab uska zamana nahi raha.',
+        'Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu.',
+        'Mai apni mistakes se seekhta hu, isiliye roz ek nayi mistake karta hu.',
+        'Itna busy nahi hai tu bhai, jitna busy hone ka natak kar raha hai.',
+        'Mujhe toh lagta hai mera luck hi Airplane Mode par pada hua hai.',
+        'Overthinking me Ph.D kar rakhi hai, bas degree milna baaki hai.',
+        'Main itna lazy hu ki galti se sapne mein bhi running karu toh thak ke uthta hu.',
+        'Mera future itna dark hai ki usme torch lekar dhoondna padega.',
+        'Duniya badalne nikla tha, mummy ne bola pehle apna kamra saaf kar.',
+        'Log ghamand me doobte hain, main toh bas overthinking me doobta hu.',
+        'Life mein itni problems hain ki solution dhoondte dhoondte nayi problem ban jaati hai.',
+        'Mera confidence level subah 100% hota hai aur shaam tak negative mein chala jaata hai.',
+        'Mera dimaag aur mera luck dono bilkul same hain, dono hi zaroorat ke time pe kaam nahi karte.',
+        'Bhagwan ne dimaag toh diya tha, par saath mein user manual dena bhool gaye.',
+        'Main wahi banda hu jo dukan par discount maangke full price deke aata hai.',
+        'Log talent se aage badhte hain, main toh bas luck ke bharose chal raha hu.'
       ],
       'Relatable Chaos': [
         'Jaa raha hu sir ko batane ki ab khana khana bhi bhool jaata hu.',
         'Achanak raste mein pressure ban gaya...',
         'Bahar ka khana ek taraf aur main bhi usi taraf!',
-        'Yaar aap toh kitne pyare ho, bakchodi mat kiya karo please.'
+        'Yaar aap toh kitne pyare ho, bakchodi mat kiya karo please.',
+        'Dimag mein bohot chal raha hai, bas kaam nahi chal raha.',
+        'Dimaag keh raha hai mehnat kar, par body bol rahi hai 5 minute aur so ja.',
+        'Raat ko 2 baje lagta hai poori duniya badal dunga, subah 9 baje uthna bhi task lagta hai.',
+        'Mujhe gussa jaldi nahi aata, bas mere samne bakchodi thodi zyada ho jaati hai.',
+        'Dost bolte hain tu change ho gaya hai, bhai change nahi hua hu, bas recharge khatam ho gaya hai.',
+        'Self-control mera utna hi hai jitna raat ko 2 baje reels scroll karte waqt hota hai.',
+        'Subah uthte hi lagta hai aaj kuch tufani karenge, shaam tak pata chalta hai tufan ne hume hi udata diya.',
+        'Mera mood aur mausam dono ka koi bharosa nahi hai.',
+        'Insta open karo toh lagta hai sab ghoom rahe hain, bas main hi ek kone mein baitha hu.',
+        'Bina wajah gussa hona mera birthright hai.',
+        'Kaam karne ka man bohot hota hai, bas body allow nahi karti.',
+        'Raat ko 3 baje reels dekhke lagta hai main hi sabse akela hu.',
+        'Plan toh top karne ka tha, par series ne beech mein aake distraction de diya.',
+        'Battery 1% hoti hai tab tak charger dhoondne ka man nahi karta.',
+        'Phone ki gallery mein screenshots itne hain par kaam ka ek bhi nahi.',
+        'Raste mein koi jaan-pehchan wala dikh jaye toh phone dekhne ka natak chalu ho jaata hai.'
       ],
       'Rishta & Romance': [
         'Jis ladki ne 16 Somwar ka vrat kiya hoga, agar use main mil gaya toh uska Bholenath se bharosa uth jaayega.',
         'Wo toh ladki ke bhai ne khurak de di, warna chote-mote aashiq toh hum bhi the.',
-        'Chashma pehanne wali ladkiyon pe bharosa bilkul na karein.'
+        'Chashma pehanne wali ladkiyon pe bharosa bilkul na karein.',
+        'Usko lagta hai mai busy hu, par mai toh bas reply late karke apni value badha raha tha.',
+        'Single rehne ka koi regret nahi hai, regret toh bas un crush par hai jinko time pe bhav de diya.',
+        'Pyaar me dhokha khana ek taraf, aur Insta reel bhejke seen pe chhutna ek taraf!',
+        'Uska Hmm sunne ke liye poori ramayan likhi thi maine.',
+        'Crush ko dekhte hi dimaag ka GPS offline ho jaata hai.',
+        'Pyaar mein padne ke baad insaan ya toh poet banta hai ya fir mememer.',
+        'Rishta wahi, bakchodi nayi.',
+        'Single rehna aasan hai, bas Shaadi ke Reels scroll karna band kar do.',
+        'Crush ne smiling emoji bheja tha, maine toh bacho ke naam bhi soch liye the.',
+        'Maine poocha tumka kya pasand hai? Usne bol diya apne kaam se kaam rakhna.',
+        'Mera dil aur mera account balance dono hi khali pade hain.',
+        'Pyaar ek dhokha hai, padhai karle abhi bhi mauka hai.',
+        'Love story shuru hone se pehle hi sibling zone ho gayi.',
+        'Usne bola main tumhein kabhi nahi chhodungi, fir door rehne ki salah de di.',
+        'Unse baat karne ke liye late night tak jaagta hu, aur woh kisi aur ke sath busy hain.',
+        'Pyaar ke chakkar mein padke maine apni sleep cycle kharab kar di.',
+        'Romantic Reels dekh ke lagta hai mera partner Google Maps mein ghum gaya hai.'
       ],
       '18+ Spicy': [
         'Dil clean rakhne ka shauk tha, par mood dark aur dimaag dirty nikla.',
         'Masoom itna dikhta hu ki family me sanskari lagta hu, baaki personal life censor board me fasi hai.',
         'Pyaar vyaar sab moh maya hai, asal maza toh raat ko bina kisi guilt ke bakchodi pelne me hai.',
-        'Pyaar mein sab jayaz hai, bas UPI history clear rakhna.'
+        'Pyaar mein sab jayaz hai, bas UPI history clear rakhna.',
+        'Sanskari hone ki acting karta hu, andar se pure unfiltered bakchod hu.',
+        'Shareef bas WhatsApp status tak hu, baaki Instagram DM check mat karna.',
+        'Masoom chehra, dirty dimaag — mera signature style hai.',
+        'Sharafat ki ek umr hoti hai, meri shayad bachpan mein hi khatam ho gayi thi.',
+        'Log dil dekhte hain, main toh bas Insta ke hidden highlights dhoondta hu.',
+        'Hum utne bhi bhole nahi hain jitna hamara face dikhta hai.',
+        'Personal chats delete karne ka jo satisfaction hai, woh alag hi hai.',
+        'Life censor board ki tarah chal rahi hai, har achhe scene pe cut lag jaata hai.',
+        'Innocent look ke peeche high voltage drama chhupa hai.',
+        'Dimaag mein unfiltered thought chalte hain, bas munh pe filter lagana padta hai.',
+        'Sanskari lagna ek art hai, aur main iska Picasso hu.',
+        'Log flirting seekhte hain, hum toh birth se certified hain.',
+        'Dost bolte hain tu dangerous hai, main bolta hu bas mood dark hai.',
+        'Nazar saaf hai, dimaag ki guarantee nahi le sakta.',
+        'Sober rehne ka irada tha, par mood ne wapis cocktail bana diya.',
+        'Raat ke 12 baje ke baad mera dimaag alag hi mode mein chala jaata hai.'
       ],
       'Adulting / Job': [
+        'Account balance dekh ke lagta hai ab se chai bhi aadhi cup hi peeni padegi.',
         'Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.',
         'Monday se pyaar sirf un logon ko hai jinki job hai hi nahi.',
-        "Boss bolta hai 'passion se kaam karo', salary slip mein passion ka column nahi hota."
+        "Boss bolta hai 'passion se kaam karo', salary slip mein passion ka column nahi hota.",
+        'Account balance dekh ke lagta hai ab se paani pee ke hi guzara karna padega.',
+        'Work-life balance dhoondte dhoondte khud balance kho chuka hu.',
+        'HR bolta hai We are like a family, par family me salary toh nahi milti na bhai?',
+        'Month end chal raha hai, ab toh Zomato open karne mein bhi darr lagta hai.',
+        'Job lagne ke baad pata chala ki school ke exams hi aasan the.',
+        'Salary account mein aati hai aur Notification aate hi goodbye bol deti hai.',
+        'Subah alarm bajta hai toh lagta hai resign letter tayyar kar lu.',
+        'Work experience dhoondte dhoondte khud ex ban chuka hu.',
+        'Meeting call pe mute rehna hi mera sabse bada contribution hota hai.',
+        'Chai breaks hi ek maatra wajah hain office jaane ki.',
+        'Appraisal ke naam pe sirf taareef mili, paise toh gayab the.',
+        'Weekend khatam hone ki speed light ki speed se bhi fast hoti hai.',
+        'Ghar wale bolte hain beta bada ho gaya, beta andar se abhi bhi kinder joy maang raha hai.',
+        'TAX cutne ke baad lagta hai main deshwasi nahi, desh ka donor hu.',
+        'Laptop ka screen dekhte dekhte aankhein aur future dono dhundle lagne lage hain.',
+        'Kaam itna hai ki break lene pe bhi guilt feel hone lagta hai.'
       ]
     };
 
@@ -529,7 +610,6 @@
       const popup = document.getElementById('linePopup');
       const progressBar = document.getElementById('timerProgress');
       
-      // Reset timer bar animation
       progressBar.style.transition = 'none';
       progressBar.style.width = '100%';
       
@@ -540,7 +620,6 @@
         progressBar.style.width = '0%';
       }, 50);
 
-      // Auto hide after 5 sec (Idle mode)
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
         closeLinePopup();
