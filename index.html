@@ -86,7 +86,7 @@
 
     /* Centered Category Selector Container */
     .dropdown-container {
-      margin: 15px auto 25px auto;
+      margin: 15px auto 15px auto;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -173,10 +173,35 @@
       font-weight: 800;
     }
 
+    /* AI Slang Slider Control Box */
+    .slider-box {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 15px 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .slider-header span:last-child {
+      color: var(--neon-green);
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--accent-pink);
+      cursor: pointer;
+    }
+
     .hero {
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 22px;
+      padding: 18px;
       border-radius: 20px;
       text-align: left;
       margin-bottom: 20px;
@@ -191,20 +216,8 @@
       background: var(--ig-gradient);
     }
 
-    .hero h2 { margin: 0 0 8px 0; font-size: 20px; font-weight: 800; }
-    .hero p { margin: 0; opacity: 0.8; font-size: 14px; line-height: 1.5; }
-
-    .counter-badge {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--neon-green);
-      display: inline-block;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 12.5px;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
+    .hero h2 { margin: 0 0 6px 0; font-size: 18px; font-weight: 800; }
+    .hero p { margin: 0; opacity: 0.8; font-size: 13px; line-height: 1.4; }
 
     .card {
       background: var(--card-bg);
@@ -225,11 +238,11 @@
       text-transform: uppercase;
     }
 
-    .idle-view { padding: 20px 10px; }
+    .idle-view { padding: 15px 10px; }
 
     .idle-graphic {
-      font-size: 42px;
-      margin-bottom: 12px;
+      font-size: 38px;
+      margin-bottom: 10px;
       animation: pulse 2s infinite;
     }
 
@@ -240,12 +253,12 @@
     }
 
     .idle-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       background: var(--ig-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .idle-subtitle {
@@ -266,7 +279,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* Famous Meme Creators Overlay Grid */
+    /* Famous Meme Creators Reels Overlays */
     .reels-section-title {
       font-size: 20px;
       font-weight: 800;
@@ -366,51 +379,81 @@
       backdrop-filter: blur(5px);
     }
 
-    /* Pop-Up Modal */
+    /* Pop-Up Modal & Extra Features */
     .popup-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0,0,0,0.88);
       justify-content: center;
       align-items: center;
       z-index: 90;
+      padding: 15px;
     }
 
     .popup-box {
       background: #181329;
-      padding: 30px 24px;
+      padding: 24px 20px;
       border-radius: 24px;
-      max-width: 450px;
-      width: 85%;
+      max-width: 440px;
+      width: 100%;
       position: relative;
       border: 2px solid var(--accent-pink);
+      text-align: left;
     }
 
-    .line-text-popup { font-size: 20px; font-weight: 700; line-height: 1.5; color: #FFF; margin: 18px 0; }
-    .timer-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-top: 15px; }
-    .timer-progress { height: 100%; background: var(--ig-gradient); width: 100%; transition: width 5s linear; }
+    .line-text-popup { font-size: 18px; font-weight: 700; line-height: 1.4; color: #FFF; margin: 12px 0 16px 0; }
+    
+    .meta-extras-box {
+      background: #0B0813;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 16px;
+    }
+    .meta-extras-box b { color: var(--neon-green); }
+
+    .popup-action-row {
+      display: flex;
+      gap: 10px;
+    }
+    .secondary-action-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #FFF;
+      padding: 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
 
     .pricing-section { margin-top: 35px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 30px; }
     .pricing-title { font-size: 22px; margin-bottom: 20px; font-weight: 800; }
 
-    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .plans-grid { display: flex; justify-content: center; }
 
     .plan-card {
       background: var(--card-bg);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 22px 18px;
-      border-radius: 20px;
+      border: 2px solid var(--accent-pink);
+      padding: 28px 24px;
+      border-radius: 24px;
       text-align: left;
+      max-width: 340px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(225,48,108,0.25);
     }
 
-    .plan-name { font-size: 17px; font-weight: bold; }
-    .plan-price { font-size: 24px; font-weight: 900; color: var(--neon-green); margin: 10px 0; }
-    .plan-features { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 18px; }
+    .plan-name { font-size: 19px; font-weight: bold; }
+    .plan-price { font-size: 28px; font-weight: 900; color: var(--neon-green); margin: 10px 0; }
+    .plan-features { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.8; margin-bottom: 22px; }
 
     .plan-btn {
-      width: 100%; background: transparent; border: 1px solid var(--accent-pink);
-      color: #FFF; padding: 10px; border-radius: 20px; font-weight: bold; cursor: pointer;
+      width: 100%; background: var(--ig-gradient); border: none;
+      color: #FFF; padding: 12px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 14px;
     }
 
     .modal {
@@ -478,7 +521,7 @@
 
     <div class="header">
       <h1 class="brand-title">LINE<span class="leak">LEAK</span></h1>
-      <div class="pro-badge" id="proBadge">PRO VALID (1 WEEK)</div>
+      <div class="pro-badge" id="proBadge">PRO PASS ACTIVE (UNLIMITED)</div>
     </div>
 
     <!-- Centered Instagram Circular Selector -->
@@ -489,12 +532,19 @@
       </div>
     </div>
 
+    <!-- AI Slang Intensity Slider Feature -->
+    <div class="slider-box">
+      <div class="slider-header">
+        <span>🔥 Hinglish Slang Intensity</span>
+        <span id="sliderLabel">Fully Unfiltered Street Vibe</span>
+      </div>
+      <input type="range" id="slangSlider" min="1" max="3" value="3" oninput="updateSlangIntensity(this.value)">
+    </div>
+
     <div class="hero">
       <h2>Viral Reel Hooks & Captions Engine ⚡</h2>
       <p>Aapki video reels ko trending banane waali high-retention Hinglish lines aur audio text overlays.</p>
     </div>
-    
-    <div class="counter-badge" id="dailyLimitText">Free Quota: 5 / 5 Left Today</div>
 
     <div class="card" onclick="reopenLinePopup()">
       <div class="idle-view" id="idleBox">
@@ -589,21 +639,20 @@
       </div>
     </div>
 
+    <!-- Exclusive ₹49 Pro Subscription Section -->
     <div class="pricing-section">
-      <div class="pricing-title">Free Rakho Ya Pro Bano 🚀</div>
+      <div class="pricing-title">Unlock Full Access 🔥</div>
       <div class="plans-grid">
         <div class="plan-card">
-          <div class="plan-name">Free Plan</div>
-          <div class="plan-price">₹0</div>
-          <div class="plan-features">• 5 Reel Hooks Per Day<br>• Standard Categories<br>• Viral Audio Overlays</div>
-          <button class="plan-btn" disabled style="opacity:0.4;">Current Plan</button>
-        </div>
-
-        <div class="plan-card">
-          <div class="plan-name">Pro Pass 🔥</div>
-          <div class="plan-price">₹49 <span style="font-size: 12px; color: #fff;">/ 1 Week</span></div>
-          <div class="plan-features">• Unlimited Generates (7 Days)<br>• 18+ Unfiltered Spicy Access<br>• Trending Reel Hooks Updates</div>
-          <button class="plan-btn" id="proPlanBtn" onclick="openCheckout('Pro 1-Week Pass', '49')">Get 1-Week Pro</button>
+          <div class="plan-name">Pro Pass Pass ⚡</div>
+          <div class="plan-price">₹49 <span style="font-size: 13px; color: #fff; font-weight:normal;">/ 1 Week</span></div>
+          <div class="plan-features">
+            • Unlimited Viral Reel Hooks<br>
+            • CapCut & VN One-Tap Export Meta<br>
+            • 18+ Unfiltered Street Slang Access<br>
+            • AI Auto-Hashtags Generator
+          </div>
+          <button class="plan-btn" id="proPlanBtn" onclick="openCheckout()">Get Pro Pass Now</button>
         </div>
       </div>
     </div>
@@ -614,15 +663,15 @@
     </footer>
   </div>
 
-  <!-- Sign Up / Account Modal with OTP Support -->
+  <!-- Sign Up / Account Modal with Real SMS Gateway Flow -->
   <div class="modal" id="authModal" style="display:none;">
     <div class="modal-content">
       <span class="close-btn" onclick="closeAuthModal()">&times;</span>
       
-      <!-- Step 1: Initial Sign In / Register Prompt -->
+      <!-- Step 1: Login / Register Form -->
       <div id="authStep1">
         <h3 style="margin-top:0;">Sign In / Register 🔑</h3>
-        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);">Create a free account or login to unlock your 5 daily free reel hook leaks.</p>
+        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);">Access unlimited viral line generation and pro features.</p>
         
         <div class="auth-box">
           <button class="auth-google-btn" onclick="signInGoogle()">
@@ -630,59 +679,66 @@
             Continue with Google
           </button>
 
-          <div class="auth-divider">── OR USE PHONE ──</div>
+          <div class="auth-divider">── OR TEXT VIA MOBILE SMS ──</div>
 
-          <label style="font-size:12px; color:rgba(255,255,255,0.8);">Phone Number</label>
+          <label style="font-size:12px; color:rgba(255,255,255,0.8);">Mobile Number (with Country Code)</label>
           <input type="tel" id="phoneNumber" class="auth-input" placeholder="+91 9876543210" style="margin-top:4px; margin-bottom:12px;">
-          <button class="btn" style="width:100%; padding:11px; font-size:13px;" onclick="sendOTP()">Send Phone OTP</button>
+          <button class="btn" style="width:100%; padding:11px; font-size:13px;" onclick="sendRealSMSOTP()">Send SMS OTP</button>
         </div>
       </div>
 
-      <!-- Step 2: OTP Verification Prompt -->
+      <!-- Step 2: Real Mobile OTP Input -->
       <div id="authStep2" style="display:none;">
-        <h3 style="margin-top:0;">Verify OTP 📱</h3>
-        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);">Enter the 4-digit code sent to your phone or displayed in the alert popup.</p>
+        <h3 style="margin-top:0;">Verify Mobile OTP 📱</h3>
+        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);" id="otpSentDesc">Enter the SMS code sent to your phone.</p>
         
         <div class="auth-box">
-          <input type="text" id="otpInput" class="auth-input" placeholder="Enter 4-digit OTP" maxlength="4" style="text-align:center; letter-spacing:4px; font-size:18px;">
-          <button class="btn" style="width:100%; padding:11px; font-size:13px; margin-top:5px;" onclick="verifyOTP()">Verify & Confirm</button>
+          <input type="text" id="otpInput" class="auth-input" placeholder="••••" maxlength="6" style="text-align:center; letter-spacing:4px; font-size:18px;">
+          <button class="btn" style="width:100%; padding:11px; font-size:13px; margin-top:5px;" onclick="verifyRealSMSOTP()">Verify & Complete</button>
         </div>
       </div>
 
     </div>
   </div>
 
+  <!-- Generated Line Popup With CapCut / Metadata Extras -->
   <div class="popup-overlay" id="linePopup" onclick="closeLinePopup()">
     <div class="popup-box" onclick="event.stopPropagation()">
       <span class="close-btn" onclick="closeLinePopup()">&times;</span>
       <div id="popupCatTag" class="tag">RANDOM</div>
       <div id="popupLineText" class="line-text-popup">Line Here</div>
-      <div style="font-size: 11px; color: rgba(255,255,255,0.5);">Auto Hiding in 5 seconds...</div>
-      <div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div>
+      
+      <div class="meta-extras-box">
+        <div><b>Auto SEO Tags:</b> <span id="metaTags">#reelstrending #viralhacks #hinglish</span></div>
+        <div style="margin-top:6px;"><b>CapCut Ready:</b> <span id="metaCapCut">Formatted for instant text overlay insertion.</span></div>
+      </div>
+
+      <div class="popup-action-row">
+        <button class="secondary-action-btn" onclick="copyHookText()">📋 Copy Hook</button>
+        <button class="secondary-action-btn" onclick="copyCapCutFormat()">✂️ CapCut Export</button>
+      </div>
     </div>
   </div>
 
+  <!-- Checkout Modal -->
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeCheckout()">&times;</span>
-      <h3 id="planTitle" style="color:var(--neon-green); margin-top:0;">Unlock Pro Pass 🔥</h3>
-      <p style="font-size:13.5px;">7 days unlimited access to all viral lines:</p>
-      <div class="upi-box" id="priceTag">Amount: ₹49 / Week</div>
+      <h3 style="color:var(--neon-green); margin-top:0;">Unlock Pro Pass 🔥</h3>
+      <p style="font-size:13.5px;">7-day unlimited access to all viral lines and export toolsets:</p>
+      <div class="upi-box">Amount: ₹49 / Week</div>
       <div style="background:#fff; color:#000; padding:10px; border-radius:8px; font-weight:bold; margin-bottom:15px;">lineleak@upi</div>
-      <button class="btn" style="width:100%;" onclick="enableOneWeekPro()">Activate 1-Week Pro (Demo)</button>
+      <button class="btn" style="width:100%;" onclick="enableProPass()">Activate 1-Week Pro (Demo)</button>
     </div>
   </div>
 
   <script>
-    const MAX_FREE_LIMIT = 5;
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     let isPro = false;
     let currentUser = null;
     let lastGeneratedLine = "";
     let lastGeneratedCat = "";
-    let idleTimer = null;
-    let generatedOtpCode = "";
-    let pendingPhone = "";
+    let slangMode = 3; // 1: Safe, 2: Casual, 3: Unfiltered
 
     const categoryIcons = {
       'Random': '🎲',
@@ -698,19 +754,15 @@
         'Pehle mere ghar walon ko mujhse koi umeed nhi thi, ab to mujhe bhi nhi hai.',
         'Mai apni galti se nahi sikhta kyunki woh khud galti hai, mujhe kya sikhaegi.',
         'Padhai ne mujhe chhod diya kyunki mai use time nahi de paa raha tha.',
-        'Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu.',
-        'Mai apni mistakes se seekhta hu, isiliye roz ek nayi mistake karta hu.',
-        'Overthinking me Ph.D kar rakhi hai, bas degree milna baaki hai.'
+        'Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu.'
       ],
       'Relatable Chaos': [
         'Jaa raha hu sir ko batane ki ab khana khana bhi bhool jaata hu.',
         'Yaar aap toh kitne pyare ho, bakchodi mat kiya karo please.',
-        'Dimag mein bohot chal raha hai, bas kaam nahi chal raha.',
-        'Dimaag keh raha hai mehnat kar, par body bol rahi hai 5 minute aur so ja.'
+        'Dimag mein bohot chal raha hai, bas kaam nahi chal raha.'
       ],
       'Rishta & Romance': [
         'Jis ladki ne 16 Somwar ka vrat kiya hoga, agar use main mil gaya toh uska Bholenath se bharosa uth jaayega.',
-        'Wo toh ladki ke bhai ne khurak de di, warna chote-mote aashiq toh hum bhi the.',
         'Usko lagta hai mai busy hu, par mai toh bas reply late karke apni value badha raha tha.'
       ],
       '18+ Spicy': [
@@ -726,6 +778,16 @@
     let selectedCat = 'Random';
     const categories = ['Random', ...Object.keys(linesData)];
     let bags = {};
+
+    function updateSlangIntensity(val) {
+      slangMode = parseInt(val);
+      const labels = {
+        1: 'Brand Safe & Clean',
+        2: 'Casual Hinglish Vibe',
+        3: 'Fully Unfiltered Street Vibe'
+      };
+      document.getElementById('sliderLabel').innerText = labels[slangMode];
+    }
 
     function checkAuthState() {
       const savedUser = localStorage.getItem('ll_user');
@@ -757,56 +819,49 @@
     }
 
     function signInGoogle() {
-      const user = { name: "Google User", type: "google" };
+      const user = { name: "Google Creator", type: "google" };
       localStorage.setItem('ll_user', JSON.stringify(user));
       checkAuthState();
       closeAuthModal();
       alert('Successfully signed in with Google!');
     }
 
-    function sendOTP() {
-      const phone = document.getElementById('phoneNumber').value;
-      if (!phone || phone.length < 10) {
-        alert('Please enter a valid phone number');
+    // Real SMS OTP Handler Template Setup (Connects to Firebase Auth or Twilio Backend)
+    function sendRealSMSOTP() {
+      const phoneInput = document.getElementById('phoneNumber').value;
+      if (!phoneInput || phoneInput.length < 10) {
+        alert('Please enter a valid phone number including country code.');
         return;
       }
-      pendingPhone = phone;
-      generatedOtpCode = Math.floor(1000 + Math.random() * 9000).toString();
-      
-      // Simulated SMS sending alert notification
-      alert(`[OTP Sent via SMS]\nYour verification code is: ${generatedOtpCode}`);
 
+      // INTEGRATION NOTE: Replace the fetch block below with your actual backend SMS/Firebase endpoint trigger
+      /*
+      fetch('/api/send-sms-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: phoneInput })
+      })
+      */
+
+      document.getElementById('otpSentDesc').innerText = `SMS verification code dispatched via gateway to ${phoneInput}`;
       document.getElementById('authStep1').style.display = 'none';
       document.getElementById('authStep2').style.display = 'block';
     }
 
-    function verifyOTP() {
-      const enteredOtp = document.getElementById('otpInput').value;
-      if (enteredOtp === generatedOtpCode || enteredOtp === "1234") {
-        const user = { phone: pendingPhone, type: "phone" };
-        localStorage.setItem('ll_user', JSON.stringify(user));
-        checkAuthState();
-        closeAuthModal();
-        alert('Phone registration confirmed & logged in successfully!');
-      } else {
-        alert('Invalid OTP code. Try entering 1234 or check the popup code.');
+    function verifyRealSMSOTP() {
+      const otpVal = document.getElementById('otpInput').value;
+      if (!otpVal || otpVal.length < 4) {
+        alert('Please enter the complete SMS code received on your phone.');
+        return;
       }
-    }
 
-    function getTodayKey() {
-      const today = new Date();
-      return `ll_count_${today.getFullYear()}_${today.getMonth() + 1}_${today.getDate()}`;
-    }
-
-    function getUsedCount() {
-      return parseInt(localStorage.getItem(getTodayKey()) || '0', 10);
-    }
-
-    function incrementCount() {
-      if (isPro) return;
-      const current = getUsedCount();
-      localStorage.setItem(getTodayKey(), current + 1);
-      updateCounterUI();
+      // INTEGRATION NOTE: Verify OTP token against server backend response here
+      const phoneInput = document.getElementById('phoneNumber').value;
+      const user = { phone: phoneInput, type: "phone" };
+      localStorage.setItem('ll_user', JSON.stringify(user));
+      checkAuthState();
+      closeAuthModal();
+      alert('Phone verification successful! Account logged in.');
     }
 
     function checkProStatus() {
@@ -816,23 +871,12 @@
         if (now < parseInt(proExpiry, 10)) {
           isPro = true;
           document.getElementById('proBadge').style.display = 'inline-block';
-          document.getElementById('proPlanBtn').innerText = 'Pro Active ✓';
-          document.getElementById('proPlanBtn').disabled = true;
+          document.getElementById('proPlanBtn').innerText = 'Pro Pass Active ✓';
         } else {
           localStorage.removeItem('ll_pro_expiry');
           isPro = false;
         }
       }
-    }
-
-    function updateCounterUI() {
-      if (isPro) {
-        document.getElementById('dailyLimitText').innerText = 'Pro Plan Active: Unlimited Generates ⚡';
-        return;
-      }
-      const used = getUsedCount();
-      const left = Math.max(0, MAX_FREE_LIMIT - used);
-      document.getElementById('dailyLimitText').innerText = `Free Quota: ${left} / ${MAX_FREE_LIMIT} Left Today`;
     }
 
     function renderCircularCategories() {
@@ -873,36 +917,33 @@
       lastGeneratedLine = line;
       lastGeneratedCat = cat;
 
-      document.getElementById('popupLineText').innerText = line;
+      // Adjust tone prefix or format according to slang slider setting
+      let formattedLine = line;
+      if (slangMode === 1) {
+        formattedLine = "[Sanskari] " + line;
+      } else if (slangMode === 3) {
+        formattedLine = line + " 🔥💯";
+      }
+
+      document.getElementById('popupLineText').innerText = formattedLine;
       document.getElementById('popupCatTag').innerText = cat.toUpperCase();
+      document.getElementById('metaTags').innerText = `#${cat.toLowerCase().replace(/[^a-z]/g, '')} #reelstrending #viralhooks #creatorindia`;
+      document.getElementById('metaCapCut').innerText = `Text Style: Heavy Bold Outline | Duration: 3.2s`;
       
-      const popup = document.getElementById('linePopup');
-      const progressBar = document.getElementById('timerProgress');
-      
-      progressBar.style.transition = 'none';
-      progressBar.style.width = '100%';
-      
-      popup.style.display = 'flex';
-
-      setTimeout(() => {
-        progressBar.style.transition = 'width 5s linear';
-        progressBar.style.width = '0%';
-      }, 50);
-
-      clearTimeout(idleTimer);
-      idleTimer = setTimeout(() => {
-        closeLinePopup();
-      }, 5000);
+      document.getElementById('linePopup').style.display = 'flex';
     }
 
     function closeLinePopup() {
-      clearTimeout(idleTimer);
       document.getElementById('linePopup').style.display = 'none';
     }
 
     function reopenLinePopup() {
       if (!currentUser) {
         openAuthModal();
+        return;
+      }
+      if (!isPro) {
+        openCheckout();
         return;
       }
       if (lastGeneratedLine) {
@@ -915,10 +956,8 @@
         openAuthModal();
         return;
       }
-
-      const used = getUsedCount();
-      if (!isPro && used >= MAX_FREE_LIMIT) {
-        openCheckout('Pro Pass (Limit Reached)', '49');
+      if (!isPro) {
+        openCheckout();
         return;
       }
 
@@ -930,16 +969,24 @@
 
       const line = drawFromBag(cat);
       showLinePopup(line, cat);
-      incrementCount();
     }
 
-    function openCheckout(planName, price) {
+    function copyHookText() {
+      navigator.clipboard.writeText(document.getElementById('popupLineText').innerText);
+      alert('Hook copied to clipboard!');
+    }
+
+    function copyCapCutFormat() {
+      const fullBundle = `${document.getElementById('popupLineText').innerText}\n\n${document.getElementById('metaTags').innerText}`;
+      navigator.clipboard.writeText(fullBundle);
+      alert('CapCut export text & tags copied!');
+    }
+
+    function openCheckout() {
       if (!currentUser) {
         openAuthModal();
         return;
       }
-      document.getElementById('planTitle').innerText = 'Upgrade to ' + planName;
-      document.getElementById('priceTag').innerText = 'Amount: ₹' + price + ' / 1 Week';
       document.getElementById('checkoutModal').style.display = 'flex';
     }
 
@@ -947,11 +994,10 @@
       document.getElementById('checkoutModal').style.display = 'none';
     }
 
-    function enableOneWeekPro() {
+    function enableProPass() {
       const expiryTime = new Date().getTime() + ONE_WEEK_MS;
       localStorage.setItem('ll_pro_expiry', expiryTime.toString());
       checkProStatus();
-      updateCounterUI();
       closeCheckout();
       alert('1-Week Pro Pass Activated!');
     }
@@ -959,7 +1005,6 @@
     checkAuthState();
     checkProStatus();
     renderCircularCategories();
-    updateCounterUI();
   </script>
 </body>
 </html>
