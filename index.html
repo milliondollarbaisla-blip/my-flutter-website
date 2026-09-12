@@ -22,7 +22,6 @@
     .btn:active { transform: scale(0.95); }
     .subtext { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 8px; }
 
-    /* Subscription Plans Section */
     .pricing-section { margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
     .pricing-title { font-size: 24px; margin-bottom: 20px; color: #F7F3E9; }
     .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-top: 15px; }
@@ -67,7 +66,7 @@
             ✓ Basic Categories<br>
             ✗ Exclusive Memes
           </div>
-          <button class="plan-btn" onclick="alert('Aap pehle se Free Plan par hain!')">Current Plan</button>
+          <button class="plan-btn" disabled style="opacity:0.5;">Current Plan</button>
         </div>
 
         <div class="plan-card popular">
@@ -79,7 +78,7 @@
             ✓ All Categories Unlocked<br>
             ✓ Custom Copy Format
           </div>
-          <button class="plan-btn" onclick="alert('Subscription feature coming soon!')">Get Pro</button>
+          <button class="plan-btn" onclick="window.open('https://instagram.com', '_blank')">Get Pro</button>
         </div>
 
         <div class="plan-card">
@@ -90,7 +89,7 @@
             ✓ Bulk Export CSV<br>
             ✓ Request New Categories
           </div>
-          <button class="plan-btn" onclick="alert('Subscription feature coming soon!')">Upgrade</button>
+          <button class="plan-btn" onclick="window.open('https://instagram.com', '_blank')">Upgrade</button>
         </div>
 
       </div>
