@@ -3,86 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LINELEAK - Line Generator</title>
+  <title>Mistri - Search Services</title>
   <style>
-    body { background-color: #120E1B; color: #F7F3E9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 30px 15px; margin: 0; }
-    .container { max-width: 600px; margin: 0 auto; }
-    h1 { font-size: 32px; margin-bottom: 20px; }
-    .leak { color: #D4FF3D; }
-    .hero { background: linear-gradient(135deg, #8A5CFF, #FF3366); padding: 25px; border-radius: 20px; text-align: left; margin-bottom: 25px; }
-    .hero h2 { margin: 0 0 10px 0; font-size: 22px; }
-    .hero p { margin: 0; opacity: 0.8; font-size: 14px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
-    .chip { background: transparent; border: 1.5px solid #F7F3E9; color: #F7F3E9; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
-    .chip.active { background: #F7F3E9; color: #120E1B; }
-    .card { background: #1B1626; padding: 30px 20px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); }
-    .tag { color: #D4FF3D; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
-    .line-box { font-size: 20px; font-weight: bold; margin: 20px 0; min-height: 60px; line-height: 1.4; }
-    .btn { background: #D4FF3D; color: #120E1B; padding: 12px 28px; border: none; font-weight: 800; border-radius: 30px; cursor: pointer; font-size: 15px; }
-    .subtext { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 8px; }
+    body { background-color: #0F172A; color: #F8FAFC; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 25px 15px; margin: 0; }
+    .container { max-width: 500px; margin: 0 auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    h1 { color: #38BDF8; margin: 0; font-size: 28px; }
+    .search-box { background: #1E293B; padding: 12px 18px; border-radius: 12px; display: flex; align-items: center; margin-bottom: 20px; border: 1px solid #334155; }
+    .search-box input { background: transparent; border: none; color: white; width: 100%; font-size: 16px; outline: none; }
+    .categories { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; }
+    .cat-card { background: #1E293B; border: 1px solid #334155; padding: 10px 16px; border-radius: 20px; white-space: nowrap; cursor: pointer; font-size: 14px; }
+    .cat-card.active { background: #0284C7; border-color: #38BDF8; }
+    .mistri-card { background: #1E293B; padding: 16px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
+    .info h3 { margin: 0 0 4px 0; font-size: 18px; color: #F8FAFC; }
+    .info p { margin: 0; color: #94A3B8; font-size: 13px; }
+    .rating { background: #0369A1; color: #7DD3FC; padding: 4px 8px; border-radius: 8px; font-weight: bold; font-size: 13px; }
+    .book-btn { background: #38BDF8; color: #0F172A; padding: 8px 16px; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 8px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>LINE<span class="leak">LEAK</span></h1>
-    
-    <div class="hero">
-      <h2>Ek line, poora reel ka comment section bhar de.</h2>
-      <p>Random Hinglish brainrot lines — reels pe chipkao, screenshot bano, aur comments padho.</p>
+    <div class="header">
+      <h1>Mistri 🛠️</h1>
+      <span style="color: #94A3B8; font-size: 13px;">Delhi, India</span>
     </div>
 
-    <div class="chips" id="chipsContainer"></div>
-
-    <div class="card">
-      <div id="catTag" class="tag">RANDOM</div>
-      <div id="lineText" class="line-box">Button daba ke dekho, dimaag thoda ghoomega.</div>
-      <div class="subtext">(Text ko copy kar sakte ho)</div>
-      <br>
-      <button class="btn" onclick="generateLine()">🎲 Naya nikaalo</button>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search Plumber, Electrician..." onkeyup="filterMistri()">
     </div>
+
+    <div class="categories">
+      <div class="cat-card active" onclick="filterCat('All')">All</div>
+      <div class="cat-card" onclick="filterCat('Plumber')">Plumbers</div>
+      <div class="cat-card" onclick="filterCat('Electrician')">Electricians</div>
+      <div class="cat-card" onclick="filterCat('Carpenter')">Carpenters</div>
+    </div>
+
+    <div id="mistriList"></div>
   </div>
 
   <script>
-    const data = {
-      'Rishta / Shaadi': ['Swarg toh chala jaayega bandaa, par wahaan bhi bandi nahi milegi.', 'Biwi se zubaan ladaane ka maza hi alag hai — jeetne ka toh sawaal hi nahi.', 'Shaadi ek exam hai jisme syllabus shaadi ke baad pata chalta hai.'],
-      'Parents / Ghar': ["Mummy ka ek hi dialogue — 'padhai chhod ke sab yaad hai.'", 'Ghar mein Wi-Fi password se zyada secret papa ki salary hai.'],
-      'Dosti': ['Dost woh hota hai jo tumhari galti pe sabse zyada haste — sabse pehle.', 'Group mein sabse zyada online, real life mein sabse zyada ghost.'],
-      'Adulting / Job': ['Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.', "Resume mein 'hardworking' likha, dil mein sirf weekend chal raha hai."],
-      'Random Chaos': ['Zindagi ek WiFi hai — signal full dikhta hai, load kuch nahi hota.', 'Apni life ek meme hai, bas caption abhi tak nahi mila.'],
-      'Spicy Extra': ['Pyaar mein sab jayaz hai, bas UPI history clear rakhna.', 'Ek taraf ka pyaar aur ek taraf ka loan — dono ki EMI zindagi bhar chalti hai.']
-    };
+    const mistris = [
+      { name: "Ramesh Kumar", service: "Plumber", exp: "5 Yrs Exp", rate: "★ 4.8", price: "₹299" },
+      { name: "Suresh Sharma", service: "Electrician", exp: "8 Yrs Exp", rate: "★ 4.9", price: "₹349" },
+      { name: "Amit Verma", service: "Carpenter", exp: "4 Yrs Exp", rate: "★ 4.6", price: "₹399" },
+      { name: "Vikram Singh", service: "Plumber", exp: "6 Yrs Exp", rate: "★ 4.7", price: "₹249" }
+    ];
 
-    let selectedCat = 'Random';
-    const categories = ['Random', ...Object.keys(data)];
-
-    function renderChips() {
-      const container = document.getElementById('chipsContainer');
-      container.innerHTML = categories.map(cat => 
-        `<button class="chip ${cat === selectedCat ? 'active' : ''}" onclick="selectCat('${cat}')">${cat}</button>`
-      ).join('');
+    function renderList(data) {
+      const list = document.getElementById('mistriList');
+      list.innerHTML = data.map(m => `
+        <div class="mistri-card">
+          <div class="info">
+            <h3>${m.name}</h3>
+            <p>${m.service} • ${m.exp}</p>
+            <button class="book-btn">Book (${m.price})</button>
+          </div>
+          <div class="rating">${m.rate}</div>
+        </div>
+      `).join('');
     }
 
-    function selectCat(cat) {
-      selectedCat = cat;
-      renderChips();
-      generateLine();
+    function filterMistri() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = mistris.filter(m => m.name.toLowerCase().includes(q) || m.service.toLowerCase().includes(q));
+      renderList(filtered);
     }
 
-    function generateLine() {
-      let pool = [];
-      let catLabel = selectedCat;
-      if (selectedCat === 'Random') {
-        Object.values(data).forEach(arr => pool.push(...arr));
-        catLabel = 'RANDOM';
-      } else {
-        pool = data[selectedCat];
-      }
-      const randomLine = pool[Math.floor(Math.random() * pool.length)];
-      document.getElementById('lineText').innerText = randomLine;
-      document.getElementById('catTag').innerText = catLabel.toUpperCase();
+    function filterCat(cat) {
+      if (cat === 'All') renderList(mistris);
+      else renderList(mistris.filter(m => m.service === cat));
     }
 
-    renderChips();
+    renderList(mistris);
   </script>
 </body>
 </html>
