@@ -122,12 +122,13 @@
 
     .card {
       background: var(--card-bg);
-      padding: 32px 22px;
+      padding: 30px 20px;
       border-radius: 24px;
       margin-bottom: 25px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 12px 30px rgba(0,0,0,0.5);
       position: relative;
+      cursor: pointer;
     }
 
     .tag {
@@ -138,16 +139,91 @@
       text-transform: uppercase;
     }
 
-    .line-box {
-      font-size: 20px;
-      font-weight: 700;
-      margin: 22px 0;
-      min-height: 80px;
-      line-height: 1.5;
-      display: flex;
-      align-items: center;
+    /* Idle Display State */
+    .idle-view {
+      padding: 25px 10px;
+    }
+
+    .idle-graphic {
+      font-size: 42px;
+      margin-bottom: 12px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .idle-title {
+      font-size: 18px;
+      font-weight: 800;
+      background: var(--ig-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .idle-subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Pop-Up Modal Style */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
       justify-content: center;
+      align-items: center;
+      z-index: 90;
+      backdrop-filter: blur(10px);
+    }
+
+    .popup-box {
+      background: #181329;
+      border: 2px solid transparent;
+      background-image: linear-gradient(#181329, #181329), var(--ig-gradient);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      padding: 30px 24px;
+      border-radius: 24px;
+      max-width: 450px;
+      width: 85%;
+      box-shadow: 0 15px 40px rgba(225, 48, 108, 0.35);
+      animation: popupAnim 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    @keyframes popupAnim {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .line-text-popup {
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.5;
       color: #FFF;
+      margin: 18px 0;
+    }
+
+    .timer-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    .timer-progress {
+      height: 100%;
+      background: var(--ig-gradient);
+      width: 100%;
+      transition: width 5s linear;
     }
 
     .btn {
@@ -165,8 +241,6 @@
     }
 
     .btn:active { transform: scale(0.96); }
-
-    .subtext { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 10px; }
 
     .pricing-section {
       margin-top: 35px;
@@ -274,12 +348,14 @@
 
     <div class="chips" id="chipsContainer"></div>
 
-    <div class="card">
-      <div id="catTag" class="tag">RANDOM</div>
-      <div id="lineText" class="line-box">Button daba ke dekho, dimaag thoda ghoomega.</div>
-      <div class="subtext">(Tap to copy text directly to Instagram)</div>
+    <div class="card" onclick="reopenLinePopup()">
+      <div class="idle-view" id="idleBox">
+        <div class="idle-graphic">📉⚡🔥</div>
+        <div class="idle-title">Ready for Next Viral Leak</div>
+        <div class="idle-subtitle" id="idleSubtext">Tap button below to generate or tap card to view last line!</div>
+      </div>
       <br>
-      <button class="btn" id="generateBtn">🔥 Generate Viral Line</button>
+      <button class="btn" id="generateBtn" onclick="event.stopPropagation(); generateLine();">🔥 Generate Viral Line</button>
     </div>
 
     <div class="pricing-section">
@@ -312,6 +388,18 @@
     </div>
   </div>
 
+  <!-- Line Display Pop-Up Modal -->
+  <div class="popup-overlay" id="linePopup" onclick="closeLinePopup()">
+    <div class="popup-box" onclick="event.stopPropagation()">
+      <span class="close-btn" onclick="closeLinePopup()">&times;</span>
+      <div id="popupCatTag" class="tag">RANDOM</div>
+      <div id="popupLineText" class="line-text-popup">Line Here</div>
+      <div style="font-size: 11px; color: rgba(255,255,255,0.5);">Auto Hiding in 5 seconds... (Tap screen to close)</div>
+      <div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeCheckout()">&times;</span>
@@ -328,6 +416,9 @@
     const MAX_FREE_LIMIT = 5;
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     let isPro = false;
+    let lastGeneratedLine = "";
+    let lastGeneratedCat = "";
+    let idleTimer = null;
 
     const linesData = {
       'Self Deprecating': [
@@ -428,6 +519,47 @@
       return pool[bags[cat].pop()];
     }
 
+    function showLinePopup(line, cat) {
+      lastGeneratedLine = line;
+      lastGeneratedCat = cat;
+
+      document.getElementById('popupLineText').innerText = line;
+      document.getElementById('popupCatTag').innerText = cat.toUpperCase();
+      
+      const popup = document.getElementById('linePopup');
+      const progressBar = document.getElementById('timerProgress');
+      
+      // Reset timer bar animation
+      progressBar.style.transition = 'none';
+      progressBar.style.width = '100%';
+      
+      popup.style.display = 'flex';
+
+      setTimeout(() => {
+        progressBar.style.transition = 'width 5s linear';
+        progressBar.style.width = '0%';
+      }, 50);
+
+      // Auto hide after 5 sec (Idle mode)
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        closeLinePopup();
+      }, 5000);
+
+      document.getElementById('idleSubtext').innerText = 'Tap card anytime to re-view last generated line! 👆';
+    }
+
+    function closeLinePopup() {
+      clearTimeout(idleTimer);
+      document.getElementById('linePopup').style.display = 'none';
+    }
+
+    function reopenLinePopup() {
+      if (lastGeneratedLine) {
+        showLinePopup(lastGeneratedLine, lastGeneratedCat);
+      }
+    }
+
     function generateLine() {
       const used = getUsedCount();
       if (!isPro && used >= MAX_FREE_LIMIT) {
@@ -442,9 +574,7 @@
       }
 
       const line = drawFromBag(cat);
-      document.getElementById('lineText').innerText = line;
-      document.getElementById('catTag').innerText = cat.toUpperCase();
-
+      showLinePopup(line, cat);
       incrementCount();
     }
 
@@ -467,7 +597,6 @@
       alert('1-Week Pro Pass Activated!');
     }
 
-    document.getElementById('generateBtn').addEventListener('click', generateLine);
     checkProStatus();
     renderChips();
     updateCounterUI();
