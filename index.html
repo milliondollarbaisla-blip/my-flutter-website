@@ -242,6 +242,7 @@
   </div>
 
   <script>
+    // Dark Mode Customizer (OLED switch)
     function toggleOLEDTheme() {
       const body = document.body;
       const btn = document.getElementById('themeToggle');
@@ -250,6 +251,7 @@
       btn.textContent = isOLED ? 'OLED Black: ON' : 'OLED Black: OFF';
     }
 
+    // Hook Categorization Filters
     function filterHooks(category, element) {
       document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       element.classList.add('active');
@@ -265,13 +267,14 @@
       document.getElementById('hookOutputText').textContent = sampleHooks[category] || sampleHooks.all;
     }
 
+    // Copy-to-Clipboard Toast Alerts
     function copyHookToClipboard() {
       const textToCopy = document.getElementById('hookOutputText').textContent;
       navigator.clipboard.writeText(textToCopy).then(() => {
         const toast = document.getElementById('clipboardToast');
         toast.classList.add('show');
         if (window.navigator && window.navigator.vibrate) {
-          window.navigator.vibrate(40);
+          window.navigator.vibrate(40); // Haptic feedback confirmation
         }
         setTimeout(() => {
           toast.classList.remove('show');
@@ -279,6 +282,7 @@
       });
     }
 
+    // One-Click SRT Subtitle Export
     function downloadSRT() {
       const text = document.getElementById('hookOutputText').textContent.replace(/"/g, '');
       const srtContent = `1\n00:00:00,000 --> 00:00:03,500\n${text}\n\n2\n00:00:03,500 --> 00:00:06,000\n✨ Tap follow for part 2!`;
