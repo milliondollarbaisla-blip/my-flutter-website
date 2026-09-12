@@ -65,7 +65,7 @@
       margin-top: 8px;
     }
 
-    /* Category Dropdown Container (Safari Fixed) */
+    /* iOS Safari Dropdown Fix */
     .dropdown-wrapper {
       margin-top: 15px;
       width: 100%;
@@ -76,10 +76,10 @@
     .category-select {
       width: 100%;
       padding: 14px 18px;
-      background-color: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      background-color: #1a1528 !important;
+      border: 1.5px solid var(--accent-pink);
       color: #FFFFFF !important;
-      font-size: 16px; /* iOS Safari zoom-in issue fix */
+      font-size: 16px !important; /* Prevents iOS auto-zoom & text hiding */
       font-weight: 700;
       border-radius: 14px;
       outline: none;
@@ -91,12 +91,14 @@
       background-repeat: no-repeat;
       background-position: right 15px top 50%;
       background-size: 12px auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
 
     .category-select option {
-      background-color: #161224;
-      color: #FFFFFF;
+      background-color: #0d0a17 !important;
+      color: #FFFFFF !important;
       font-size: 15px;
+      padding: 10px;
     }
 
     .hero {
@@ -192,48 +194,108 @@
       letter-spacing: 0.5px;
     }
 
+    /* Viral Reels Grid & Overlay Visuals */
     .reels-section-title {
       font-size: 20px;
       font-weight: 800;
       text-align: left;
       margin: 35px 0 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .reels-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
       margin-bottom: 40px;
     }
 
     .reel-mockup {
-      background: #191428;
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       text-align: left;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 220px;
+      height: 380px;
+      position: relative;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    }
+
+    /* Dark Overlay for Reading Hook Text clearly */
+    .reel-mockup::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.85) 100%);
+      z-index: 1;
+    }
+
+    .reel-header, .reel-body, .reel-actions {
+      position: relative;
+      z-index: 2;
     }
 
     .reel-header { display: flex; align-items: center; gap: 8px; }
-    .avatar-ring { width: 28px; height: 28px; border-radius: 50%; background: var(--ig-gradient); }
-    .reel-user { font-size: 11px; font-weight: 700; color: #FFF; }
+    .avatar-ring {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--ig-gradient);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar-ring img { width: 100%; height: 100%; border-radius: 50%; }
+    .reel-user { font-size: 12px; font-weight: 700; color: #FFF; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+    .viral-badge {
+      background: rgba(212, 255, 61, 0.9);
+      color: #000;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-left: auto;
+    }
 
     .reel-overlay-text {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 800;
       line-height: 1.4;
       color: #FFF;
-      background: rgba(0, 0, 0, 0.55);
-      padding: 10px;
-      border-radius: 10px;
+      background: rgba(11, 8, 19, 0.75);
+      padding: 12px;
+      border-radius: 12px;
+      border-left: 3px solid var(--accent-pink);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
-    .reel-actions { display: flex; gap: 12px; font-size: 11px; color: rgba(255, 255, 255, 0.6); }
+    .reel-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #FFF;
+      font-weight: 700;
+    }
 
+    .stat-pill {
+      background: rgba(255,255,255,0.15);
+      padding: 4px 10px;
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Pop-Up Modal */
     .popup-overlay {
       display: none;
       position: fixed;
@@ -302,10 +364,10 @@
       <h1 class="brand-title">LINE<span class="leak">LEAK</span></h1>
       <div class="pro-badge" id="proBadge">PRO VALID (1 WEEK)</div>
 
-      <!-- Dropdown Wrapper -->
+      <!-- Safari Fixed Dropdown Container -->
       <div class="dropdown-wrapper">
         <select class="category-select" id="categoryDropdown">
-          <!-- Dynamic Options rendered by JS -->
+          <!-- Dynamic Options rendered via JS -->
         </select>
       </div>
     </div>
@@ -327,21 +389,78 @@
       <button class="btn" id="generateBtn" onclick="event.stopPropagation(); generateLine();">🔥 Leak Reel Hook</button>
     </div>
 
+    <!-- Viral Creator Reel Formats Section -->
     <div class="reels-section-title">
       <span>✨ Trending Reel Overlay Formats</span>
     </div>
 
     <div class="reels-grid">
-      <div class="reel-mockup">
-        <div class="reel-header"><div class="avatar-ring"></div><span class="reel-user">@lineleak.creator</span></div>
-        <div class="reel-overlay-text">"Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu."</div>
-        <div class="reel-actions">❤️ 12.4k &nbsp;💬 840 &nbsp;✈️ 3.1k</div>
+      <!-- Format 1 -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80');">
+        <div class="reel-header">
+          <div class="avatar-ring">👤</div>
+          <span class="reel-user">@viral.baisla</span>
+          <span class="viral-badge">🔥 1.2M Views</span>
+        </div>
+        <div class="reel-body">
+          <div class="reel-overlay-text">"Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu."</div>
+        </div>
+        <div class="reel-actions">
+          <span class="stat-pill">❤️ 128.4k</span>
+          <span class="stat-pill">💬 3,840</span>
+          <span class="stat-pill">✈️ 45.1k</span>
+        </div>
       </div>
 
-      <div class="reel-mockup">
-        <div class="reel-header"><div class="avatar-ring"></div><span class="reel-user">@viral.vibes</span></div>
-        <div class="reel-overlay-text">"Account balance dekh ke lagta hai ab se chai bhi aadhi cup hi peeni padegi."</div>
-        <div class="reel-actions">❤️ 45.1k &nbsp;💬 2.3k &nbsp;✈️ 18.2k</div>
+      <!-- Format 2 -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80');">
+        <div class="reel-header">
+          <div class="avatar-ring">👩</div>
+          <span class="reel-user">@ritika.creator</span>
+          <span class="viral-badge">🚀 850K Views</span>
+        </div>
+        <div class="reel-body">
+          <div class="reel-overlay-text">"Jis ladki ne 16 Somwar ka vrat kiya hoga, use mai mila toh Bholenath se bharosa uth jaayega."</div>
+        </div>
+        <div class="reel-actions">
+          <span class="stat-pill">❤️ 92.1k</span>
+          <span class="stat-pill">💬 1,420</span>
+          <span class="stat-pill">✈️ 28.9k</span>
+        </div>
+      </div>
+
+      <!-- Format 3 -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80');">
+        <div class="reel-header">
+          <div class="avatar-ring">👨</div>
+          <span class="reel-user">@rohit_vibes</span>
+          <span class="viral-badge">📈 2.4M Views</span>
+        </div>
+        <div class="reel-body">
+          <div class="reel-overlay-text">"Account balance dekh ke lagta hai ab se chai bhi aadhi cup hi peeni padegi."</div>
+        </div>
+        <div class="reel-actions">
+          <span class="stat-pill">❤️ 210.5k</span>
+          <span class="stat-pill">💬 6,100</span>
+          <span class="stat-pill">✈️ 82.4k</span>
+        </div>
+      </div>
+
+      <!-- Format 4 -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80');">
+        <div class="reel-header">
+          <div class="avatar-ring">⚡</div>
+          <span class="reel-user">@lineleak.official</span>
+          <span class="viral-badge">🔥 Trending</span>
+        </div>
+        <div class="reel-body">
+          <div class="reel-overlay-text">"Dil clean rakhne ka shauk tha, par mood dark aur dimaag dirty nikla."</div>
+        </div>
+        <div class="reel-actions">
+          <span class="stat-pill">❤️ 310.2k</span>
+          <span class="stat-pill">💬 9,450</span>
+          <span class="stat-pill">✈️ 105k</span>
+        </div>
       </div>
     </div>
 
@@ -481,7 +600,7 @@
         `<option value="${cat}" ${cat === selectedCat ? 'selected' : ''}>📂 Section: ${cat}</option>`
       ).join('');
 
-      // iOS Safari Fix: Event Listener instead of inline onchange
+      // Safari Fix: Explicit Event Listener
       select.addEventListener('change', function(e) {
         selectedCat = e.target.value;
         generateLine();
@@ -570,7 +689,7 @@
       alert('1-Week Pro Pass Activated!');
     }
 
-    // Initialize Page Controls
+    // Initialize Page
     checkProStatus();
     renderDropdown();
     updateCounterUI();
