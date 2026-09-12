@@ -278,29 +278,46 @@
       currentCategory = category;
     }
 
-    async function generateAIHook() {
-      const topic = document.getElementById('userTopic').value || "general growth";
-      const outputEl = document.getElementById('hookOutputText');
-      outputEl.textContent = "Generating AI hook...";
+async function generateAIHook() {
+  const topic = document.getElementById('userTopic').value || "general growth";
+  const outputEl = document.getElementById('hookOutputText');
+  outputEl.textContent = "Training AI & Generating...";
 
-      if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
-        outputEl.textContent = `"Please update your Gemini API key in the JavaScript code to generate live AI hooks!"`;
-        return;
-      }
+  if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+    outputEl.textContent = `"Please update your Gemini API key in the JavaScript code!"`;
+    return;
+  }
 
-      const prompt = `You are an expert short-form video copywriter. Generate one catchy, highly engaging, viral 3-second hook for an Instagram Reel or TikTok video. 
-      Category: ${currentCategory}
-      Topic/Niche: ${topic}
-      Rules: Return ONLY the raw hook text enclosed in quotation marks. Keep it punchy, curiosity-driven, and under 15 words.`;
+  // Yahan aap AI ko train karne ke liye apni pasand ke examples de rahe hain (Few-shot prompting)
+  const systemInstruction = "You are an expert Instagram Reel and TikTok copywriter. Your hooks must be ultra-catchy, under 15 words, curiosity-driven, and stop the scroll instantly.";
+  
+  const prompt = `Category: ${currentCategory}
+  Topic: ${topic}
+  
+  Here are examples of the exact style and tone I want:
+  - "Nobody is talking about this secret hack for ${topic}..."
+  - "I tried ${topic} for 7 days and the results broke my analytics..."
+  - "Stop scrolling if you want to master ${topic} in under a week..."
 
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }]
-          })
-        });
+  Generate ONE new, highly engaging hook for the topic "${topic}" following the above style. Return ONLY the raw hook text inside quotation marks.`;
+
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: systemInstruction }] },
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    });
+
+    const data = await response.json();
+    const aiText = data.candidates[0].content.parts[0].text.trim();
+    outputEl.textContent = aiText;
+  } catch (error) {
+    outputEl.textContent = `"Error connecting to Gemini AI. Check your API key."`;
+  }
+}
 
         const data = await response.json();
         const aiText = data.candidates[0].content.parts[0].text.trim();
