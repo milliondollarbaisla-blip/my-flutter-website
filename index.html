@@ -430,6 +430,45 @@
       letter-spacing: 0.5px;
     }
 
+    /* AI Generate Tab Styles */
+    .ai-tab-container {
+      background: var(--card-bg);
+      border: 1px solid rgba(212, 255, 61, 0.3);
+      padding: 24px 20px;
+      border-radius: 24px;
+      margin-bottom: 30px;
+      text-align: left;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    }
+    .ai-tab-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: var(--ig-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .ai-textarea {
+      width: 100%;
+      background: #0B0813;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 14px;
+      color: #FFF;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 90px;
+      margin-bottom: 14px;
+      font-family: inherit;
+    }
+    .ai-textarea:focus {
+      outline: none;
+      border-color: var(--neon-green);
+    }
+
     .reels-section-title {
       font-size: 20px;
       font-weight: 800;
@@ -818,6 +857,14 @@
       </div>
       <br>
       <button class="btn" id="generateBtn" onclick="event.stopPropagation(); generateLine();">🔥 Leak Reel Hook</button>
+    </div>
+
+    <!-- AI Generate Tab Section -->
+    <div class="ai-tab-container">
+      <div class="ai-tab-header">✨ AI Generate Hook & Caption</div>
+      <p style="font-size: 12.5px; opacity: 0.8; margin-bottom: 12px;">Apne topic ya idea yahan enter karein, AI aapke liye custom viral hook generate karega:</p>
+      <textarea id="aiPromptInput" class="ai-textarea" placeholder="e.g. Coding karte waqt light chali gayi, office romance, etc..."></textarea>
+      <button class="btn" style="width: 100%; padding: 12px;" onclick="generateAIAudioHook()">✨ Generate with AI</button>
     </div>
 
     <div class="reels-section-title">
@@ -1308,7 +1355,6 @@
 
       const { auth, RecaptchaVerifier, signInWithPhoneNumber } = window.firebaseAuthObj;
 
-      // Initialize invisible reCAPTCHA verifier if not already done
       if (!window.recaptchaVerifier) {
         window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
           'size': 'invisible'
@@ -1527,6 +1573,25 @@
 
       const line = drawFromBag(cat);
       showLinePopup(line, cat);
+    }
+
+    function generateAIAudioHook() {
+      const promptText = document.getElementById('aiPromptInput').value.trim();
+      if (!promptText) {
+        alert('Please enter a prompt or topic for the AI generator.');
+        return;
+      }
+      if (!isPro && freeGeneratesLeft <= 0) {
+        openCheckout();
+        return;
+      }
+      if (!isPro) {
+        freeGeneratesLeft--;
+        localStorage.setItem('ll_free_left', freeGeneratesLeft.toString());
+        updateFreeCounterUI();
+      }
+      const aiGeneratedLine = `AI Custom Hook: "${promptText} pe reels banayi aur reach hi gayab ho gayi!"`;
+      showLinePopup(aiGeneratedLine, 'AI Custom');
     }
 
     function copyHookText() {
