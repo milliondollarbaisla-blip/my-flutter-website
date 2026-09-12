@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>LINELEAK - The Ultimate Reel Audio & Caption Hook Generator</title>
   <style>
     :root {
@@ -12,6 +12,11 @@
       --accent-pink: #E1306C;
       --neon-green: #D4FF3D;
       --text-main: #F7F3E9;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
     }
 
     body {
@@ -60,43 +65,38 @@
       margin-top: 8px;
     }
 
-    /* Category Dropdown Container */
+    /* Category Dropdown Container (Safari Fixed) */
     .dropdown-wrapper {
       margin-top: 15px;
       width: 100%;
       max-width: 340px;
+      position: relative;
     }
 
     .category-select {
       width: 100%;
       padding: 14px 18px;
-      background: rgba(255, 255, 255, 0.08);
+      background-color: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.25);
-      color: var(--text-main);
-      font-size: 15px;
+      color: #FFFFFF !important;
+      font-size: 16px; /* iOS Safari zoom-in issue fix */
       font-weight: 700;
       border-radius: 14px;
       outline: none;
       cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: all 0.25s ease;
       appearance: none;
       -webkit-appearance: none;
+      -moz-appearance: none;
       background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23F7F3E9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
       background-repeat: no-repeat;
       background-position: right 15px top 50%;
       background-size: 12px auto;
     }
 
-    .category-select:focus, .category-select:hover {
-      border-color: var(--accent-pink);
-      box-shadow: 0 0 15px rgba(225, 48, 108, 0.4);
-    }
-
     .category-select option {
-      background: #161224;
-      color: #FFF;
-      padding: 10px;
+      background-color: #161224;
+      color: #FFFFFF;
+      font-size: 15px;
     }
 
     .hero {
@@ -130,7 +130,6 @@
       font-size: 12.5px;
       font-weight: 700;
       margin-bottom: 20px;
-      backdrop-filter: blur(10px);
     }
 
     .card {
@@ -189,22 +188,15 @@
       border-radius: 30px;
       cursor: pointer;
       font-size: 15px;
-      transition: transform 0.2s, box-shadow 0.2s;
       box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
       letter-spacing: 0.5px;
     }
 
-    .btn:active { transform: scale(0.96); }
-
-    /* Reels Visual Stack Section */
     .reels-section-title {
       font-size: 20px;
       font-weight: 800;
       text-align: left;
       margin: 35px 0 15px 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .reels-grid {
@@ -219,45 +211,15 @@
       border-radius: 18px;
       padding: 16px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      position: relative;
       text-align: left;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 220px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      transition: transform 0.3s ease;
     }
 
-    .reel-mockup:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent-pink);
-    }
-
-    .reel-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .avatar-ring {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--ig-gradient);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2px;
-    }
-
-    .avatar-ring img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: #000;
-    }
-
+    .reel-header { display: flex; align-items: center; gap: 8px; }
+    .avatar-ring { width: 28px; height: 28px; border-radius: 50%; background: var(--ig-gradient); }
     .reel-user { font-size: 11px; font-weight: 700; color: #FFF; }
 
     .reel-overlay-text {
@@ -268,17 +230,10 @@
       background: rgba(0, 0, 0, 0.55);
       padding: 10px;
       border-radius: 10px;
-      backdrop-filter: blur(5px);
     }
 
-    .reel-actions {
-      display: flex;
-      gap: 12px;
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.6);
-    }
+    .reel-actions { display: flex; gap: 12px; font-size: 11px; color: rgba(255, 255, 255, 0.6); }
 
-    /* Pop-Up Modal Style */
     .popup-overlay {
       display: none;
       position: fixed;
@@ -287,66 +242,26 @@
       justify-content: center;
       align-items: center;
       z-index: 90;
-      backdrop-filter: blur(10px);
     }
 
     .popup-box {
       background: #181329;
-      border: 2px solid transparent;
-      background-image: linear-gradient(#181329, #181329), var(--ig-gradient);
-      background-origin: border-box;
-      background-clip: padding-box, border-box;
       padding: 30px 24px;
       border-radius: 24px;
       max-width: 450px;
       width: 85%;
-      box-shadow: 0 15px 40px rgba(225, 48, 108, 0.35);
-      animation: popupAnim 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
+      border: 2px solid var(--accent-pink);
     }
 
-    @keyframes popupAnim {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
+    .line-text-popup { font-size: 20px; font-weight: 700; line-height: 1.5; color: #FFF; margin: 18px 0; }
+    .timer-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-top: 15px; }
+    .timer-progress { height: 100%; background: var(--ig-gradient); width: 100%; transition: width 5s linear; }
 
-    .line-text-popup {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1.5;
-      color: #FFF;
-      margin: 18px 0;
-    }
-
-    .timer-bar {
-      width: 100%;
-      height: 4px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 2px;
-      overflow: hidden;
-      margin-top: 15px;
-    }
-
-    .timer-progress {
-      height: 100%;
-      background: var(--ig-gradient);
-      width: 100%;
-      transition: width 5s linear;
-    }
-
-    .pricing-section {
-      margin-top: 35px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 30px;
-    }
-
+    .pricing-section { margin-top: 35px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 30px; }
     .pricing-title { font-size: 22px; margin-bottom: 20px; font-weight: 800; }
 
-    .plans-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
 
     .plan-card {
       background: var(--card-bg);
@@ -354,105 +269,31 @@
       padding: 22px 18px;
       border-radius: 20px;
       text-align: left;
-      position: relative;
     }
 
-    .plan-card.popular {
-      border: 2px solid transparent;
-      background-image: linear-gradient(var(--card-bg), var(--card-bg)), var(--ig-gradient);
-      background-origin: border-box;
-      background-clip: padding-box, border-box;
-    }
-
-    .badge {
-      position: absolute;
-      top: -10px;
-      right: 15px;
-      background: var(--ig-gradient);
-      color: #FFF;
-      font-size: 10px;
-      font-weight: bold;
-      padding: 3px 10px;
-      border-radius: 10px;
-    }
-
-    .plan-name { font-size: 17px; font-weight: bold; margin-bottom: 5px; }
+    .plan-name { font-size: 17px; font-weight: bold; }
     .plan-price { font-size: 24px; font-weight: 900; color: var(--neon-green); margin: 10px 0; }
     .plan-features { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 18px; }
 
     .plan-btn {
-      width: 100%;
-      background: transparent;
-      border: 1px solid var(--accent-pink);
-      color: #FFF;
-      padding: 10px;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    .plan-card.popular .plan-btn {
-      background: var(--ig-gradient);
-      border: none;
+      width: 100%; background: transparent; border: 1px solid var(--accent-pink);
+      color: #FFF; padding: 10px; border-radius: 20px; font-weight: bold; cursor: pointer;
     }
 
     .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.88);
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      backdrop-filter: blur(8px);
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.88); justify-content: center; align-items: center; z-index: 100;
     }
 
     .modal-content {
-      background: var(--card-bg);
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 28px 22px;
-      border-radius: 24px;
-      max-width: 360px;
-      width: 90%;
-      text-align: center;
-      position: relative;
+      background: var(--card-bg); padding: 28px 22px; border-radius: 24px; max-width: 360px; width: 90%; text-align: center; position: relative;
     }
 
     .close-btn { position: absolute; top: 12px; right: 18px; font-size: 22px; color: #fff; cursor: pointer; }
-    .upi-box { background: #0B0813; border: 1px dashed var(--neon-green); padding: 12px; border-radius: 12px; margin: 15px 0; font-weight: bold; color: var(--neon-green); font-size: 16px; }
+    .upi-box { background: #0B0813; border: 1px dashed var(--neon-green); padding: 12px; border-radius: 12px; margin: 15px 0; font-weight: bold; color: var(--neon-green); }
 
-    /* Footer */
-    footer {
-      margin-top: 50px;
-      padding: 25px 0;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .ig-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(225, 48, 108, 0.4);
-      color: #FFF;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-size: 13.5px;
-      font-weight: 700;
-      transition: all 0.25s ease;
-    }
-
-    .ig-link:hover {
-      background: var(--ig-gradient);
-      box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
-    }
+    footer { margin-top: 50px; padding: 25px 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .ig-link { background: rgba(255, 255, 255, 0.05); color: #FFF; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-size: 13.5px; font-weight: 700; }
   </style>
 </head>
 <body>
@@ -461,9 +302,9 @@
       <h1 class="brand-title">LINE<span class="leak">LEAK</span></h1>
       <div class="pro-badge" id="proBadge">PRO VALID (1 WEEK)</div>
 
-      <!-- Category Dropdown Section -->
+      <!-- Dropdown Wrapper -->
       <div class="dropdown-wrapper">
-        <select class="category-select" id="categoryDropdown" onchange="selectCategory(this.value)">
+        <select class="category-select" id="categoryDropdown">
           <!-- Dynamic Options rendered by JS -->
         </select>
       </div>
@@ -486,26 +327,19 @@
       <button class="btn" id="generateBtn" onclick="event.stopPropagation(); generateLine();">🔥 Leak Reel Hook</button>
     </div>
 
-    <!-- Visual Reels Stack Showcase -->
     <div class="reels-section-title">
       <span>✨ Trending Reel Overlay Formats</span>
     </div>
 
     <div class="reels-grid">
       <div class="reel-mockup">
-        <div class="reel-header">
-          <div class="avatar-ring"></div>
-          <span class="reel-user">@lineleak.creator</span>
-        </div>
+        <div class="reel-header"><div class="avatar-ring"></div><span class="reel-user">@lineleak.creator</span></div>
         <div class="reel-overlay-text">"Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu."</div>
         <div class="reel-actions">❤️ 12.4k &nbsp;💬 840 &nbsp;✈️ 3.1k</div>
       </div>
 
       <div class="reel-mockup">
-        <div class="reel-header">
-          <div class="avatar-ring"></div>
-          <span class="reel-user">@viral.vibes</span>
-        </div>
+        <div class="reel-header"><div class="avatar-ring"></div><span class="reel-user">@viral.vibes</span></div>
         <div class="reel-overlay-text">"Account balance dekh ke lagta hai ab se chai bhi aadhi cup hi peeni padegi."</div>
         <div class="reel-actions">❤️ 45.1k &nbsp;💬 2.3k &nbsp;✈️ 18.2k</div>
       </div>
@@ -517,58 +351,42 @@
         <div class="plan-card">
           <div class="plan-name">Free Plan</div>
           <div class="plan-price">₹0</div>
-          <div class="plan-features">
-            • 5 Reel Hooks Per Day<br>
-            • Standard Categories<br>
-            • Viral Audio Overlays
-          </div>
+          <div class="plan-features">• 5 Reel Hooks Per Day<br>• Standard Categories<br>• Viral Audio Overlays</div>
           <button class="plan-btn" disabled style="opacity:0.4;">Current Plan</button>
         </div>
 
-        <div class="plan-card popular">
-          <div class="badge">POPULAR</div>
-          <div class="plan-name">Pro Pass</div>
+        <div class="plan-card">
+          <div class="plan-name">Pro Pass 🔥</div>
           <div class="plan-price">₹49 <span style="font-size: 12px; color: #fff;">/ 1 Week</span></div>
-          <div class="plan-features">
-            • Unlimited Generates (7 Days)<br>
-            • 18+ Unfiltered Spicy Access<br>
-            • Trending Reel Hooks Updates<br>
-            • Zero Limits & Fast Output
-          </div>
+          <div class="plan-features">• Unlimited Generates (7 Days)<br>• 18+ Unfiltered Spicy Access<br>• Trending Reel Hooks Updates</div>
           <button class="plan-btn" id="proPlanBtn" onclick="openCheckout('Pro 1-Week Pass', '49')">Get 1-Week Pro</button>
         </div>
       </div>
     </div>
 
     <footer>
-      <a href="https://www.instagram.com/lineleakweb/" target="_blank" class="ig-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        Follow @lineleakweb on Instagram
-      </a>
+      <a href="https://instagram.com" target="_blank" class="ig-link">Follow @lineleakweb on Instagram</a>
       <div style="font-size: 11px; color: rgba(255,255,255,0.4);">© 2026 LINELEAK. Built for Instagram Content Creators.</div>
     </footer>
   </div>
 
-  <!-- Line Pop-Up Modal -->
   <div class="popup-overlay" id="linePopup" onclick="closeLinePopup()">
     <div class="popup-box" onclick="event.stopPropagation()">
       <span class="close-btn" onclick="closeLinePopup()">&times;</span>
       <div id="popupCatTag" class="tag">RANDOM</div>
       <div id="popupLineText" class="line-text-popup">Line Here</div>
-      <div style="font-size: 11px; color: rgba(255,255,255,0.5);">Auto Hiding in 5 seconds... (Tap screen to close)</div>
+      <div style="font-size: 11px; color: rgba(255,255,255,0.5);">Auto Hiding in 5 seconds...</div>
       <div class="timer-bar"><div class="timer-progress" id="timerProgress"></div></div>
     </div>
   </div>
 
-  <!-- Checkout Modal -->
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeCheckout()">&times;</span>
       <h3 id="planTitle" style="color:var(--neon-green); margin-top:0;">Unlock Pro Pass 🔥</h3>
-      <p style="font-size:13.5px; line-height:1.4;">Get 7 days unlimited access to all unfiltered 18+ viral lines:</p>
+      <p style="font-size:13.5px;">7 days unlimited access to all viral lines:</p>
       <div class="upi-box" id="priceTag">Amount: ₹49 / Week</div>
-      <p style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">Scan or send payment to UPI ID:</p>
-      <div style="background:#fff; color:#000; padding:10px; border-radius:8px; font-weight:bold; font-size:14px; margin-bottom:15px; letter-spacing:1px;">lineleak@upi</div>
+      <div style="background:#fff; color:#000; padding:10px; border-radius:8px; font-weight:bold; margin-bottom:15px;">lineleak@upi</div>
       <button class="btn" style="width:100%;" onclick="enableOneWeekPro()">Activate 1-Week Pro (Demo)</button>
     </div>
   </div>
@@ -585,51 +403,29 @@
       'Self Deprecating': [
         'Pehle mere ghar walon ko mujhse koi umeed nhi thi, ab to mujhe bhi nhi hai.',
         'Mai apni galti se nahi sikhta kyunki woh khud galti hai, mujhe kya sikhaegi.',
-        'Mujhe Shri Krishna ne Mahabharat mein hissa nahi lene diya, unhe pata tha ki saare udte teer main hi le lunga.',
         'Padhai ne mujhe chhod diya kyunki mai use time nahi de paa raha tha.',
-        'Khabar mili hai ki bhalai ko pata chal gaya hai ki ab uska zamana nahi raha.',
         'Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu.',
         'Mai apni mistakes se seekhta hu, isiliye roz ek nayi mistake karta hu.',
-        'Itna busy nahi hai tu bhai, jitna busy hone ka natak kar raha hai.',
-        'Mujhe toh lagta hai mera luck hi Airplane Mode par pada hua hai.',
-        'Overthinking me Ph.D kar rakhi hai, bas degree milna baaki hai.',
-        'Main itna lazy hu ki galti se sapne mein bhi running karu toh thak ke uthta hu.',
-        'Mera future itna dark hai ki usme torch lekar dhoondna padega.',
-        'Duniya badalne nikla tha, mummy ne bola pehle apna kamra saaf kar.',
-        'Log ghamand me doobte hain, main toh bas overthinking me doobta hu.'
+        'Overthinking me Ph.D kar rakhi hai, bas degree milna baaki hai.'
       ],
       'Relatable Chaos': [
         'Jaa raha hu sir ko batane ki ab khana khana bhi bhool jaata hu.',
-        'Achanak raste mein pressure ban gaya...',
-        'Bahar ka khana ek taraf aur main bhi usi taraf!',
         'Yaar aap toh kitne pyare ho, bakchodi mat kiya karo please.',
         'Dimag mein bohot chal raha hai, bas kaam nahi chal raha.',
-        'Dimaag keh raha hai mehnat kar, par body bol rahi hai 5 minute aur so ja.',
-        'Raat ko 2 baje lagta hai poori duniya badal dunga, subah 9 baje uthna bhi task lagta hai.',
-        'Mujhe gussa jaldi nahi aata, bas mere samne bakchodi thodi zyada ho jaati hai.',
-        'Dost bolte hain tu change ho gaya hai, bhai change nahi hua hu, bas recharge khatam ho gaya hai.'
+        'Dimaag keh raha hai mehnat kar, par body bol rahi hai 5 minute aur so ja.'
       ],
       'Rishta & Romance': [
         'Jis ladki ne 16 Somwar ka vrat kiya hoga, agar use main mil gaya toh uska Bholenath se bharosa uth jaayega.',
         'Wo toh ladki ke bhai ne khurak de di, warna chote-mote aashiq toh hum bhi the.',
-        'Chashma pehanne wali ladkiyon pe bharosa bilkul na karein.',
-        'Usko lagta hai mai busy hu, par mai toh bas reply late karke apni value badha raha tha.',
-        'Single rehne ka koi regret nahi hai, regret toh bas un crush par hai jinko time pe bhav de diya.',
-        'Pyaar me dhokha khana ek taraf, aur Insta reel bhejke seen pe chhutna ek taraf!'
+        'Usko lagta hai mai busy hu, par mai toh bas reply late karke apni value badha raha tha.'
       ],
       '18+ Spicy': [
         'Dil clean rakhne ka shauk tha, par mood dark aur dimaag dirty nikla.',
-        'Masoom itna dikhta hu ki family me sanskari lagta hu, baaki personal life censor board me fasi hai.',
-        'Pyaar vyaar sab moh maya hai, asal maza toh raat ko bina kisi guilt ke bakchodi pelne me hai.',
-        'Pyaar mein sab jayaz hai, bas UPI history clear rakhna.',
-        'Sanskari hone ki acting karta hu, andar se pure unfiltered bakchod hu.'
+        'Masoom itna dikhta hu ki family me sanskari lagta hu, baaki personal life censor board me fasi hai.'
       ],
       'Adulting / Job': [
         'Account balance dekh ke lagta hai ab se chai bhi aadhi cup hi peeni padegi.',
-        'Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.',
-        'Monday se pyaar sirf un logon ko hai jinki job hai hi nahi.',
-        "Boss bolta hai 'passion se kaam karo', salary slip mein passion ka column nahi hota.",
-        'Account balance dekh ke lagta hai ab se paani pee ke hi guzara karna padega.'
+        'Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.'
       ]
     };
 
@@ -684,11 +480,12 @@
       select.innerHTML = categories.map(cat => 
         `<option value="${cat}" ${cat === selectedCat ? 'selected' : ''}>📂 Section: ${cat}</option>`
       ).join('');
-    }
 
-    function selectCategory(cat) {
-      selectedCat = cat;
-      generateLine();
+      // iOS Safari Fix: Event Listener instead of inline onchange
+      select.addEventListener('change', function(e) {
+        selectedCat = e.target.value;
+        generateLine();
+      });
     }
 
     function drawFromBag(cat) {
@@ -723,8 +520,6 @@
       idleTimer = setTimeout(() => {
         closeLinePopup();
       }, 5000);
-
-      document.getElementById('idleSubtext').innerText = 'Tap card anytime to re-view last generated line! 👆';
     }
 
     function closeLinePopup() {
