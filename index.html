@@ -49,6 +49,12 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            text-align: left;
+        }
+
+        .glass-card h3 {
+            margin-top: 0;
+            text-align: center;
         }
 
         /* Filter Chips Styles */
@@ -186,7 +192,7 @@
             <h3>Phone Verification (OTP)</h3>
             <input type="text" id="phone-number" class="input-field" placeholder="+91 Your Phone Number">
             <button class="btn-gradient" onclick="sendOTP()">Send SMS OTP</button>
-            <div id="recaptcha-container" style="margin-top: 15px;"></div>
+            <div id="recaptcha-container" style="margin-top: 15px; display: flex; justify-content: center;"></div>
         </div>
 
         <!-- Main Generator Card with Glassmorphism -->
