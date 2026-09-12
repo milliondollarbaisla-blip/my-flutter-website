@@ -24,7 +24,7 @@
       color: var(--text-main);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       text-align: center;
-      padding: 25px 15px;
+      padding: 20px 15px;
       margin: 0;
     }
 
@@ -35,12 +35,12 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     h1.brand-title {
-      font-size: 38px;
-      margin: 0 0 10px 0;
+      font-size: 36px;
+      margin: 0 0 8px 0;
       letter-spacing: 2px;
       font-weight: 900;
       text-transform: uppercase;
@@ -62,43 +62,87 @@
       letter-spacing: 1px;
       display: none;
       box-shadow: 0 2px 10px rgba(225, 48, 108, 0.4);
-      margin-top: 8px;
+      margin-top: 5px;
     }
 
-    /* iOS Safari Dropdown Fix */
-    .dropdown-wrapper {
-      margin-top: 15px;
+    /* Instagram Styled Custom Circular Dropdown / Category Picker */
+    .dropdown-container {
+      margin: 15px 0 25px 0;
       width: 100%;
-      max-width: 340px;
-      position: relative;
     }
 
-    .category-select {
-      width: 100%;
-      padding: 14px 18px;
-      background-color: #1a1528 !important;
-      border: 1.5px solid var(--accent-pink);
-      color: #FFFFFF !important;
-      font-size: 16px !important; /* Prevents iOS auto-zoom & text hiding */
+    .dropdown-label {
+      font-size: 12px;
       font-weight: 700;
-      border-radius: 14px;
-      outline: none;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23F7F3E9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
-      background-repeat: no-repeat;
-      background-position: right 15px top 50%;
-      background-size: 12px auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .category-select option {
-      background-color: #0d0a17 !important;
-      color: #FFFFFF !important;
-      font-size: 15px;
-      padding: 10px;
+    .circular-categories {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding: 6px 4px 12px 4px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE */
+    }
+
+    .circular-categories::-webkit-scrollbar { display: none; } /* Safari & Chrome */
+
+    .cat-circle-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .circle-ring {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 3px;
+      transition: transform 0.2s ease, background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cat-circle-item.active .circle-ring {
+      background: var(--ig-gradient);
+      transform: scale(1.08);
+      box-shadow: 0 4px 15px rgba(225, 48, 108, 0.5);
+    }
+
+    .circle-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #161224;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      border: 2px solid #0B0813;
+    }
+
+    .circle-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 70px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cat-circle-item.active .circle-label {
+      color: #FFF;
+      font-weight: 800;
     }
 
     .hero {
@@ -194,7 +238,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* Viral Reels Grid & Overlay Visuals */
+    /* Famous Creator Reel Mockups Grid */
     .reels-section-title {
       font-size: 20px;
       font-weight: 800;
@@ -228,12 +272,12 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     }
 
-    /* Dark Overlay for Reading Hook Text clearly */
+    /* Dark Overlay for Reading Text */
     .reel-mockup::before {
       content: '';
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.85) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.9) 100%);
       z-index: 1;
     }
 
@@ -253,11 +297,11 @@
       align-items: center;
       justify-content: center;
     }
-    .avatar-ring img { width: 100%; height: 100%; border-radius: 50%; }
+    .avatar-ring img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
     .reel-user { font-size: 12px; font-weight: 700; color: #FFF; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
     .viral-badge {
-      background: rgba(212, 255, 61, 0.9);
+      background: rgba(212, 255, 61, 0.95);
       color: #000;
       font-size: 10px;
       font-weight: 900;
@@ -271,7 +315,7 @@
       font-weight: 800;
       line-height: 1.4;
       color: #FFF;
-      background: rgba(11, 8, 19, 0.75);
+      background: rgba(11, 8, 19, 0.8);
       padding: 12px;
       border-radius: 12px;
       border-left: 3px solid var(--accent-pink);
@@ -289,7 +333,7 @@
     }
 
     .stat-pill {
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.18);
       padding: 4px 10px;
       border-radius: 15px;
       backdrop-filter: blur(5px);
@@ -363,12 +407,13 @@
     <div class="header">
       <h1 class="brand-title">LINE<span class="leak">LEAK</span></h1>
       <div class="pro-badge" id="proBadge">PRO VALID (1 WEEK)</div>
+    </div>
 
-      <!-- Safari Fixed Dropdown Container -->
-      <div class="dropdown-wrapper">
-        <select class="category-select" id="categoryDropdown">
-          <!-- Dynamic Options rendered via JS -->
-        </select>
+    <!-- Instagram Interactive Circular Category Selector (Safari Fixed) -->
+    <div class="dropdown-container">
+      <div class="dropdown-label">Select Reel Category ⚡</div>
+      <div class="circular-categories" id="circularCategories">
+        <!-- Rendered via JS -->
       </div>
     </div>
 
@@ -389,77 +434,85 @@
       <button class="btn" id="generateBtn" onclick="event.stopPropagation(); generateLine();">🔥 Leak Reel Hook</button>
     </div>
 
-    <!-- Viral Creator Reel Formats Section -->
+    <!-- Trending Reel Formats (Famous Indian Creators) -->
     <div class="reels-section-title">
-      <span>✨ Trending Reel Overlay Formats</span>
+      <span>✨ Viral Indian Creators Overlay Formats</span>
     </div>
 
     <div class="reels-grid">
-      <!-- Format 1 -->
-      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80');">
+      <!-- Yashraj Mukhate -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=600&q=80');">
         <div class="reel-header">
-          <div class="avatar-ring">👤</div>
-          <span class="reel-user">@viral.baisla</span>
-          <span class="viral-badge">🔥 1.2M Views</span>
+          <div class="avatar-ring">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Yashraj">
+          </div>
+          <span class="reel-user">@yashrajmukhate</span>
+          <span class="viral-badge">🚀 18.5M Views</span>
         </div>
         <div class="reel-body">
-          <div class="reel-overlay-text">"Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu."</div>
+          <div class="reel-overlay-text">"Rasode me kaun tha? Jab maine music banaya tab pata chala viral hit tha!"</div>
         </div>
         <div class="reel-actions">
-          <span class="stat-pill">❤️ 128.4k</span>
-          <span class="stat-pill">💬 3,840</span>
-          <span class="stat-pill">✈️ 45.1k</span>
+          <span class="stat-pill">❤️ 1.8M</span>
+          <span class="stat-pill">💬 45.2k</span>
+          <span class="stat-pill">✈️ 310k</span>
         </div>
       </div>
 
-      <!-- Format 2 -->
+      <!-- Mr. Faisu (Faisal Shaikh) -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80');">
+        <div class="reel-header">
+          <div class="avatar-ring">
+            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80" alt="Faisu">
+          </div>
+          <span class="reel-user">@mr_faisu_07</span>
+          <span class="viral-badge">🔥 12.1M Views</span>
+        </div>
+        <div class="reel-body">
+          <div class="reel-overlay-text">"Attitude toh pehle bhi tha, ab bas aesthetic look ke saath trending me hai."</div>
+        </div>
+        <div class="reel-actions">
+          <span class="stat-pill">❤️ 1.2M</span>
+          <span class="stat-pill">💬 18.9k</span>
+          <span class="stat-pill">✈️ 180k</span>
+        </div>
+      </div>
+
+      <!-- Dolly Singh -->
       <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80');">
         <div class="reel-header">
-          <div class="avatar-ring">👩</div>
-          <span class="reel-user">@ritika.creator</span>
-          <span class="viral-badge">🚀 850K Views</span>
+          <div class="avatar-ring">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Dolly">
+          </div>
+          <span class="reel-user">@dollysingh</span>
+          <span class="viral-badge">💥 6.4M Views</span>
         </div>
         <div class="reel-body">
-          <div class="reel-overlay-text">"Jis ladki ne 16 Somwar ka vrat kiya hoga, use mai mila toh Bholenath se bharosa uth jaayega."</div>
+          <div class="reel-overlay-text">"Raju ki mummy wala POV shoot karte huye jab viral reel notifications screen par spam ho jaye!"</div>
         </div>
         <div class="reel-actions">
-          <span class="stat-pill">❤️ 92.1k</span>
-          <span class="stat-pill">💬 1,420</span>
-          <span class="stat-pill">✈️ 28.9k</span>
+          <span class="stat-pill">❤️ 680k</span>
+          <span class="stat-pill">💬 12.4k</span>
+          <span class="stat-pill">✈️ 94k</span>
         </div>
       </div>
 
-      <!-- Format 3 -->
+      <!-- CarryMinati -->
       <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80');">
         <div class="reel-header">
-          <div class="avatar-ring">👨</div>
-          <span class="reel-user">@rohit_vibes</span>
-          <span class="viral-badge">📈 2.4M Views</span>
+          <div class="avatar-ring">
+            <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=100&q=80" alt="Carry">
+          </div>
+          <span class="reel-user">@carryminati</span>
+          <span class="viral-badge">⚡ 25.0M Views</span>
         </div>
         <div class="reel-body">
-          <div class="reel-overlay-text">"Account balance dekh ke lagta hai ab se chai bhi aadhi cup hi peeni padegi."</div>
+          <div class="reel-overlay-text">"Toh kaise hai aap log? Like and share button tod do bilkul!"</div>
         </div>
         <div class="reel-actions">
-          <span class="stat-pill">❤️ 210.5k</span>
-          <span class="stat-pill">💬 6,100</span>
-          <span class="stat-pill">✈️ 82.4k</span>
-        </div>
-      </div>
-
-      <!-- Format 4 -->
-      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80');">
-        <div class="reel-header">
-          <div class="avatar-ring">⚡</div>
-          <span class="reel-user">@lineleak.official</span>
-          <span class="viral-badge">🔥 Trending</span>
-        </div>
-        <div class="reel-body">
-          <div class="reel-overlay-text">"Dil clean rakhne ka shauk tha, par mood dark aur dimaag dirty nikla."</div>
-        </div>
-        <div class="reel-actions">
-          <span class="stat-pill">❤️ 310.2k</span>
-          <span class="stat-pill">💬 9,450</span>
-          <span class="stat-pill">✈️ 105k</span>
+          <span class="stat-pill">❤️ 3.1M</span>
+          <span class="stat-pill">💬 98.5k</span>
+          <span class="stat-pill">✈️ 520k</span>
         </div>
       </div>
     </div>
@@ -517,6 +570,15 @@
     let lastGeneratedLine = "";
     let lastGeneratedCat = "";
     let idleTimer = null;
+
+    const categoryIcons = {
+      'Random': '🎲',
+      'Self Deprecating': '😭',
+      'Relatable Chaos': '🤡',
+      'Rishta & Romance': '❤️',
+      '18+ Spicy': '🌶️',
+      'Adulting / Job': '💸'
+    };
 
     const linesData = {
       'Self Deprecating': [
@@ -594,17 +656,27 @@
       document.getElementById('dailyLimitText').innerText = `Free Quota: ${left} / ${MAX_FREE_LIMIT} Left Today`;
     }
 
-    function renderDropdown() {
-      const select = document.getElementById('categoryDropdown');
-      select.innerHTML = categories.map(cat => 
-        `<option value="${cat}" ${cat === selectedCat ? 'selected' : ''}>📂 Section: ${cat}</option>`
-      ).join('');
+    /* Render Circular Category Items (Instagram Story Style) */
+    function renderCircularCategories() {
+      const container = document.getElementById('circularCategories');
+      container.innerHTML = categories.map(cat => {
+        const icon = categoryIcons[cat] || '✨';
+        const isActive = cat === selectedCat ? 'active' : '';
+        return `
+          <div class="cat-circle-item ${isActive}" onclick="selectCategory('${cat}')">
+            <div class="circle-ring">
+              <div class="circle-inner">${icon}</div>
+            </div>
+            <div class="circle-label">${cat}</div>
+          </div>
+        `;
+      }).join('');
+    }
 
-      // Safari Fix: Explicit Event Listener
-      select.addEventListener('change', function(e) {
-        selectedCat = e.target.value;
-        generateLine();
-      });
+    function selectCategory(cat) {
+      selectedCat = cat;
+      renderCircularCategories();
+      generateLine();
     }
 
     function drawFromBag(cat) {
@@ -691,7 +763,7 @@
 
     // Initialize Page
     checkProStatus();
-    renderDropdown();
+    renderCircularCategories();
     updateCounterUI();
   </script>
 </body>
