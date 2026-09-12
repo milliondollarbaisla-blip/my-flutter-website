@@ -606,6 +606,19 @@
       color: #FFF;
       font-size: 16px;
     }
+
+    /* Profile Avatar Picker inside modal */
+    .profile-upload-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--ig-gradient);
+      margin: 0 auto 8px auto;
+      cursor: pointer;
+      border: 2px solid var(--accent-pink);
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -824,10 +837,15 @@
       <h3 style="margin-top:0;">Edit Profile 👤</h3>
       
       <div class="auth-box">
+        <label style="font-size:12px; color:rgba(255,255,255,0.8); text-align:center;">Tap Picture to Select from Gallery</label>
+        <img id="profilePreviewImg" class="profile-upload-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Preview" onclick="triggerGalleryUpload()">
+        <!-- Hidden file input for native device gallery selection -->
+        <input type="file" id="deviceGalleryInput" accept="image/*" style="display:none" onchange="handleGalleryImageSelect(event)">
+
         <label style="font-size:12px; color:rgba(255,255,255,0.8);">Profile Name</label>
         <input type="text" id="editProfileName" class="auth-input" placeholder="Enter name" style="width:100%; margin-bottom:10px;">
 
-        <label style="font-size:12px; color:rgba(255,255,255,0.8);">Profile Picture Image URL</label>
+        <label style="font-size:12px; color:rgba(255,255,255,0.8);">Or Profile Picture Image URL</label>
         <input type="text" id="editProfilePic" class="auth-input" placeholder="https://image-link.com/photo.jpg" style="width:100%; margin-bottom:10px;">
         
         <div style="display:flex; gap:8px;">
@@ -1051,6 +1069,7 @@
       if (!currentUser) return;
       document.getElementById('editProfileName').value = currentUser.name || '';
       document.getElementById('editProfilePic').value = currentUser.avatar || '';
+      document.getElementById('profilePreviewImg').src = currentUser.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80";
       document.getElementById('profileModal').style.display = 'flex';
     }
 
@@ -1058,8 +1077,26 @@
       document.getElementById('profileModal').style.display = 'none';
     }
 
+    function triggerGalleryUpload() {
+      document.getElementById('deviceGalleryInput').click();
+    }
+
+    function handleGalleryImageSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const base64Image = e.target.result;
+          document.getElementById('profilePreviewImg').src = base64Image;
+          document.getElementById('editProfilePic').value = base64Image;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
     function removeProfilePic() {
       document.getElementById('editProfilePic').value = '';
+      document.getElementById('profilePreviewImg').src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80";
     }
 
     function saveProfileChanges() {
@@ -1068,7 +1105,7 @@
       const newPic = document.getElementById('editProfilePic').value.trim();
       
       if (newName) currentUser.name = newName;
-      currentUser.avatar = newPic || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80";
+      if (newPic) currentUser.avatar = newPic;
       
       localStorage.setItem('ll_user', JSON.stringify(currentUser));
       checkAuthState();
