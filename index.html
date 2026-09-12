@@ -786,7 +786,7 @@
       
       <div id="authStep1">
         <h3 style="margin-top:0;">Sign In / Register 🔑</h3>
-        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);">Access free lines or upgrade to pro features.</p>
+        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);">Access free lines or upgrade to pro features via real SMS OTP.</p>
         
         <div class="auth-box">
           <button class="auth-google-btn" onclick="signInGoogle()">
@@ -794,7 +794,7 @@
             Continue with Google
           </button>
 
-          <div class="auth-divider">── OR TEXT VIA MOBILE SMS ──</div>
+          <div class="auth-divider">── OR REAL SMS OTP VIA FIREBASE ──</div>
 
           <label style="font-size:12px; color:rgba(255,255,255,0.8);">Mobile Number & Country Code</label>
           <div class="phone-input-row" style="margin-top:4px; margin-bottom:12px;">
@@ -804,30 +804,22 @@
               <option value="+44">🇬🇧 UK (+44)</option>
               <option value="+971">🇦🇪 UAE (+971)</option>
               <option value="+61">🇦🇺 Australia (+61)</option>
-              <option value="+81">🇯🇵 Japan (+81)</option>
-              <option value="+49">🇩🇪 Germany (+49)</option>
-              <option value="+33">🇫🇷 France (+33)</option>
-              <option value="+86">🇨🇳 China (+86)</option>
-              <option value="+82">🇰🇷 South Korea (+82)</option>
-              <option value="+65">🇸🇬 Singapore (+65)</option>
-              <option value="+92">🇵🇰 Pakistan (+92)</option>
-              <option value="+880">🇧🇩 Bangladesh (+880)</option>
-              <option value="+94">🇱🇰 Sri Lanka (+94)</option>
-              <option value="+977">🇳🇵 Nepal (+977)</option>
             </select>
             <input type="tel" id="phoneNumber" class="auth-input" placeholder="9876543210">
           </div>
-          <button class="btn" style="width:100%; padding:11px; font-size:13px;" onclick="sendRealSMSOTP()">Send SMS OTP</button>
+          <!-- Hidden reCAPTCHA container required for Firebase Phone Auth -->
+          <div id="recaptcha-container"></div>
+          <button class="btn" style="width:100%; padding:11px; font-size:13px;" onclick="sendFirebaseSMSOTP()">Send Real SMS OTP</button>
         </div>
       </div>
 
       <div id="authStep2" style="display:none;">
-        <h3 style="margin-top:0;">Verify Mobile OTP 📱</h3>
-        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);" id="otpSentDesc">Enter the SMS code sent to your phone.</p>
+        <h3 style="margin-top:0;">Verify Real SMS OTP 📱</h3>
+        <p style="font-size:12.5px; color:rgba(255,255,255,0.7);" id="otpSentDesc">Enter the 6-digit code received on your phone.</p>
         
         <div class="auth-box">
-          <input type="text" id="otpInput" class="auth-input" placeholder="••••" maxlength="6" style="text-align:center; letter-spacing:4px; font-size:18px; width:100%;">
-          <button class="btn" style="width:100%; padding:11px; font-size:13px; margin-top:5px;" onclick="verifyRealSMSOTP()">Verify & Complete</button>
+          <input type="text" id="otpInput" class="auth-input" placeholder="123456" maxlength="6" style="text-align:center; letter-spacing:4px; font-size:18px; width:100%;">
+          <button class="btn" style="width:100%; padding:11px; font-size:13px; margin-top:5px;" onclick="verifyFirebaseSMSOTP()">Verify & Complete</button>
         </div>
       </div>
     </div>
@@ -913,6 +905,26 @@
     </div>
   </div>
 
+  <!-- Firebase SDK Scripts for Real SMS Auth -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    // TODO: Replace with your Firebase Project Configuration keys from Firebase Console
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    window.firebaseAuthObj = { auth, RecaptchaVerifier, signInWithPhoneNumber };
+  </script>
+
   <script>
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     let isPro = false;
@@ -921,6 +933,7 @@
     let lastGeneratedLine = "";
     let lastGeneratedCat = "";
     let slangMode = 3;
+    let windowConfirmationResult = null;
 
     const categoryIcons = {
       'Random': '🎲',
@@ -1045,7 +1058,7 @@
       alert('Successfully signed in with Google!');
     }
 
-    function sendRealSMSOTP() {
+    function sendFirebaseSMSOTP() {
       const countryCode = document.getElementById('countryCodeSelect').value;
       const phoneInput = document.getElementById('phoneNumber').value.trim();
       
@@ -1055,30 +1068,57 @@
       }
 
       const fullPhoneNumber = countryCode + phoneInput;
-      const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
-      
-      localStorage.setItem('ll_temp_otp', generatedOtp);
-      localStorage.setItem('ll_target_phone', fullPhoneNumber);
 
-      document.getElementById('otpSentDesc').innerHTML = `OTP code dispatched securely to <b>${fullPhoneNumber}</b>.<br><span style="color:var(--neon-green); font-size:11px;">(Debug Code for Testing: ${generatedOtp})</span>`;
-      document.getElementById('authStep1').style.display = 'none';
-      document.getElementById('authStep2').style.display = 'block';
+      if (!window.firebaseAuthObj) {
+        alert('Firebase configuration is loading or missing. Please update your config keys.');
+        return;
+      }
+
+      const { auth, RecaptchaVerifier, signInWithPhoneNumber } = window.firebaseAuthObj;
+
+      // Initialize invisible reCAPTCHA verifier if not already done
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+          'size': 'invisible'
+        });
+      }
+
+      const appVerifier = window.recaptchaVerifier;
+
+      signInWithPhoneNumber(auth, fullPhoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          windowConfirmationResult = confirmationResult;
+          localStorage.setItem('ll_target_phone', fullPhoneNumber);
+          document.getElementById('otpSentDesc').innerHTML = `Real SMS OTP dispatched securely to <b>${fullPhoneNumber}</b> via Firebase.`;
+          document.getElementById('authStep1').style.display = 'none';
+          document.getElementById('authStep2').style.display = 'block';
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('Error sending SMS OTP: ' + error.message);
+        });
     }
 
-    function verifyRealSMSOTP() {
+    function verifyFirebaseSMSOTP() {
       const userEnteredOtp = document.getElementById('otpInput').value.trim();
-      const savedOtp = localStorage.getItem('ll_temp_otp');
       const phoneInput = localStorage.getItem('ll_target_phone');
 
-      if (userEnteredOtp === savedOtp) {
-        const user = { name: "Mobile Creator", phone: phoneInput, type: "phone", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" };
-        localStorage.setItem('ll_user', JSON.stringify(user));
-        checkAuthState();
-        closeAuthModal();
-        alert('Phone verification successful!');
-      } else {
-        alert('Incorrect OTP code entered. Please check your code and try again.');
+      if (!windowConfirmationResult) {
+        alert('Session expired or OTP request missing. Please request a new code.');
+        return;
       }
+
+      windowConfirmationResult.confirm(userEnteredOtp)
+        .then((result) => {
+          const user = { name: "Mobile Creator", phone: phoneInput, type: "phone", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" };
+          localStorage.setItem('ll_user', JSON.stringify(user));
+          checkAuthState();
+          closeAuthModal();
+          alert('Phone verification successful!');
+        })
+        .catch((error) => {
+          alert('Incorrect OTP entered. Please check and try again.');
+        });
     }
 
     function logoutUser() {
