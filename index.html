@@ -10,7 +10,6 @@
       --card-bg: #161224;
       --ig-gradient: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
       --accent-pink: #E1306C;
-      --accent-yellow: #FD1D1D;
       --neon-green: #D4FF3D;
       --text-main: #F7F3E9;
     }
@@ -26,7 +25,6 @@
 
     .container { max-width: 600px; margin: 0 auto; }
 
-    /* Header & Branding */
     .header {
       display: flex;
       justify-content: space-between;
@@ -60,7 +58,6 @@
       box-shadow: 0 2px 10px rgba(225, 48, 108, 0.4);
     }
 
-    /* Reels Hero Banner */
     .hero {
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -82,7 +79,6 @@
     .hero h2 { margin: 0 0 8px 0; font-size: 20px; font-weight: 800; }
     .hero p { margin: 0; opacity: 0.75; font-size: 13.5px; line-height: 1.4; }
 
-    /* Counter Badge */
     .counter-badge {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.15);
@@ -96,7 +92,6 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Reels Filter Chips */
     .chips {
       display: flex;
       flex-wrap: wrap;
@@ -125,7 +120,6 @@
       box-shadow: 0 4px 12px rgba(225, 48, 108, 0.3);
     }
 
-    /* Generator Card */
     .card {
       background: var(--card-bg);
       padding: 32px 22px;
@@ -174,7 +168,6 @@
 
     .subtext { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 10px; }
 
-    /* Plans Grid */
     .pricing-section {
       margin-top: 35px;
       border-top: 1px solid rgba(255,255,255,0.08);
@@ -239,7 +232,6 @@
       border: none;
     }
 
-    /* Modal Checkout */
     .modal {
       display: none;
       position: fixed;
@@ -290,7 +282,6 @@
       <button class="btn" id="generateBtn">🔥 Generate Viral Line</button>
     </div>
 
-    <!-- Pricing Section -->
     <div class="pricing-section">
       <div class="pricing-title">Free Rakho Ya Pro Bano 🚀</div>
       <div class="plans-grid">
@@ -321,7 +312,6 @@
     </div>
   </div>
 
-  <!-- Checkout Modal -->
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeCheckout()">&times;</span>
@@ -336,48 +326,38 @@
 
   <script>
     const MAX_FREE_LIMIT = 5;
-    const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000; // 7 Days in Milliseconds
+    const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     let isPro = false;
 
     const linesData = {
+      'Self Deprecating': [
+        'Pehle mere ghar walon ko mujhse koi umeed nhi thi, ab to mujhe bhi nhi hai.',
+        'Mai apni galti se nahi sikhta kyunki woh khud galti hai, mujhe kya sikhaegi.',
+        'Mujhe Shri Krishna ne Mahabharat mein hissa nahi lene diya, unhe pata tha ki saare udte teer main hi le lunga.',
+        'Padhai ne mujhe chhod diya kyunki mai use time nahi de paa raha tha.',
+        'Khabar mili hai ki bhalai ko pata chal gaya hai ki ab uska zamana nahi raha.'
+      ],
+      'Relatable Chaos': [
+        'Jaa raha hu sir ko batane ki ab khana khana bhi bhool jaata hu.',
+        'Achanak raste mein pressure ban gaya...',
+        'Bahar ka khana ek taraf aur main bhi usi taraf!',
+        'Yaar aap toh kitne pyare ho, bakchodi mat kiya karo please.'
+      ],
+      'Rishta & Romance': [
+        'Jis ladki ne 16 Somwar ka vrat kiya hoga, agar use main mil gaya toh uska Bholenath se bharosa uth jaayega.',
+        'Wo toh ladki ke bhai ne khurak de di, warna chote-mote aashiq toh hum bhi the.',
+        'Chashma pehanne wali ladkiyon pe bharosa bilkul na karein.'
+      ],
       '18+ Spicy': [
         'Dil clean rakhne ka shauk tha, par mood dark aur dimaag dirty nikla.',
-        'Nazrein seedhi hain, par soch me poora kamra hila dene wali energy hai.',
         'Masoom itna dikhta hu ki family me sanskari lagta hu, baaki personal life censor board me fasi hai.',
         'Pyaar vyaar sab moh maya hai, asal maza toh raat ko bina kisi guilt ke bakchodi pelne me hai.',
-        'Sanskari tab tak hu jab tak saamne waala bilkul limit me behave kare.',
-        'Pyaar mein sab jayaz hai, bas UPI history clear rakhna.',
-        'Ex ko block karna aasan hai, dimaag se delete karna alag project hai.'
-      ],
-      'Rishta / Shaadi': [
-        'Swarg toh chala jaayega bandaa, par wahaan bhi bandi nahi milegi.',
-        'Biwi se zubaan ladaane ka maza hi alag hai — jeetne ka toh sawaal hi nahi.',
-        'Shaadi ek exam hai jisme syllabus shaadi ke baad pata chalta hai.',
-        "Pehle 'I love you' bola tha, ab 'tune bola tha' sunna padta hai.",
-        'Sasural mein sabse bada sach — damaad ka wallet sabse zyada active hota hai.'
-      ],
-      'Parents / Ghar': [
-        "Aaj tak papa ne 'puchi' nahi di, bas 'seedha ho ja' diya hai.",
-        "Mummy ka ek hi dialogue — 'padhai chhod ke sab yaad hai.'",
-        'Ghar mein Wi-Fi password se zyada secret papa ki salary hai.',
-        'Bachpan mein maar padi, ab bas tone badal ke maar padti hai.'
-      ],
-      'Dosti': [
-        'Dost woh hota hai jo tumhari galti pe sabse zyada haste — sabse pehle.',
-        'Group mein sabse zyada online, real life mein sabse zyada ghost.',
-        'Udhaar do dost ko, rishta khatam karne ka sabse tez tareeka.',
-        'Best friend ka matlab — jo tumhari secret sabko bata de, thoda maza le ke.'
+        'Pyaar mein sab jayaz hai, bas UPI history clear rakhna.'
       ],
       'Adulting / Job': [
         'Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.',
         'Monday se pyaar sirf un logon ko hai jinki job hai hi nahi.',
-        "Boss bolta hai 'passion se kaam karo', salary slip mein passion ka column nahi hota.",
-        'Adulting ka matlab — bills yaad rehte hain, khushiyaan bhool jaati hain.'
-      ],
-      'Random Chaos': [
-        'Zindagi ek WiFi hai — signal full dikhta hai, load kuch nahi hota.',
-        'Kal ka plan aaj bana lo, kal phir kal pe daal denge.',
-        'Motivation aata hai raat ko 2 baje, kaam karne ka time subah 9 baje hota hai.'
+        "Boss bolta hai 'passion se kaam karo', salary slip mein passion ka column nahi hota."
       ]
     };
 
@@ -401,7 +381,6 @@
       updateCounterUI();
     }
 
-    // 1-Week Pro Expiry Check
     function checkProStatus() {
       const proExpiry = localStorage.getItem('ll_pro_expiry');
       if (proExpiry) {
@@ -412,7 +391,6 @@
           document.getElementById('proPlanBtn').innerText = 'Pro Active ✓';
           document.getElementById('proPlanBtn').disabled = true;
         } else {
-          // Expired
           localStorage.removeItem('ll_pro_expiry');
           isPro = false;
         }
@@ -480,7 +458,6 @@
       document.getElementById('checkoutModal').style.display = 'none';
     }
 
-    // Set 1 Week Expiry timestamp
     function enableOneWeekPro() {
       const expiryTime = new Date().getTime() + ONE_WEEK_MS;
       localStorage.setItem('ll_pro_expiry', expiryTime.toString());
