@@ -5,64 +5,277 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LINELEAK - Line Generator</title>
   <style>
-    body { background-color: #120E1B; color: #F7F3E9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 30px 15px; margin: 0; }
-    .container { max-width: 650px; margin: 0 auto; }
-    
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    h1 { font-size: 30px; margin: 0; letter-spacing: 1px; }
-    .leak { color: #D4FF3D; }
-    .pro-badge { background: #D4FF3D; color: #120E1B; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 12px; display: none; }
+    :root {
+      --bg-dark: #0B0813;
+      --card-bg: #161224;
+      --ig-gradient: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      --accent-pink: #E1306C;
+      --accent-yellow: #FD1D1D;
+      --neon-green: #D4FF3D;
+      --text-main: #F7F3E9;
+    }
 
-    .hero { background: linear-gradient(135deg, #8A5CFF, #FF3366); padding: 25px; border-radius: 20px; text-align: left; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-    .hero h2 { margin: 0 0 10px 0; font-size: 22px; }
-    .hero p { margin: 0; opacity: 0.85; font-size: 14px; line-height: 1.4; }
-    
-    .counter-badge { background: #1B1626; border: 1px solid #D4FF3D; color: #D4FF3D; display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 20px; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      text-align: center;
+      padding: 25px 15px;
+      margin: 0;
+    }
 
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
-    .chip { background: transparent; border: 1.5px solid #F7F3E9; color: #F7F3E9; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; }
-    .chip.active { background: #F7F3E9; color: #120E1B; }
+    .container { max-width: 600px; margin: 0 auto; }
 
-    .card { background: #1B1626; padding: 30px 20px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 16px rgba(0,0,0,0.4); }
-    .tag { color: #D4FF3D; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
-    .line-box { font-size: 19px; font-weight: bold; margin: 20px 0; min-height: 70px; line-height: 1.5; display: flex; align-items: center; justify-content: center; color: #F7F3E9; }
-    
-    .btn { background: #D4FF3D; color: #120E1B; padding: 12px 28px; border: none; font-weight: 800; border-radius: 30px; cursor: pointer; font-size: 15px; transition: 0.2s; }
-    .btn:active { transform: scale(0.95); }
-    .subtext { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 8px; }
+    /* Header & Branding */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 0 5px;
+    }
 
-    .ad-strip { border: 1px dashed rgba(255,255,255,0.25); border-radius: 12px; padding: 12px; margin-bottom: 30px; font-size: 12px; color: rgba(255,255,255,0.5); display: flex; justify-content: space-between; }
+    h1 {
+      font-size: 28px;
+      margin: 0;
+      letter-spacing: 1.5px;
+      font-weight: 900;
+    }
 
-    /* Subscription Section */
-    .pricing-section { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
-    .pricing-title { font-size: 24px; margin-bottom: 20px; color: #F7F3E9; }
-    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
-    .plan-card { background: #1B1626; border: 1px solid rgba(255,255,255,0.15); padding: 20px 15px; border-radius: 16px; text-align: left; }
-    .plan-card.popular { border: 2px solid #FF3366; background: linear-gradient(135deg, rgba(255,51,102,0.15), rgba(138,92,255,0.15)); position: relative; }
-    .badge { position: absolute; top: -10px; right: 15px; background: #FF3366; color: #FFF; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 10px; }
-    .plan-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #F7F3E9; }
-    .plan-price { font-size: 24px; font-weight: 800; color: #D4FF3D; margin: 10px 0; }
-    .plan-features { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 15px; }
-    .plan-btn { width: 100%; background: transparent; border: 1px solid #D4FF3D; color: #D4FF3D; padding: 10px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: center; }
-    .plan-card.popular .plan-btn { background: #D4FF3D; color: #120E1B; border: none; }
+    .leak {
+      background: var(--ig-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-    /* Modal Popup Window */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(5px); }
-    .modal-content { background: #1B1626; border: 1px solid #D4FF3D; padding: 25px; border-radius: 20px; max-width: 360px; width: 90%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-    .close-btn { position: absolute; top: 10px; right: 15px; font-size: 22px; color: #fff; cursor: pointer; }
-    .upi-box { background: #120E1B; border: 1px dashed #D4FF3D; padding: 12px; border-radius: 10px; margin: 15px 0; font-weight: bold; color: #D4FF3D; font-size: 16px; }
+    .pro-badge {
+      background: var(--ig-gradient);
+      color: #FFF;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 1px;
+      display: none;
+      box-shadow: 0 2px 10px rgba(225, 48, 108, 0.4);
+    }
+
+    /* Reels Hero Banner */
+    .hero {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 22px;
+      border-radius: 20px;
+      text-align: left;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--ig-gradient);
+    }
+
+    .hero h2 { margin: 0 0 8px 0; font-size: 20px; font-weight: 800; }
+    .hero p { margin: 0; opacity: 0.75; font-size: 13.5px; line-height: 1.4; }
+
+    /* Counter Badge */
+    .counter-badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--neon-green);
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Reels Filter Chips */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      padding: 7px 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    .chip.active {
+      background: var(--ig-gradient);
+      border-color: transparent;
+      color: #FFF;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(225, 48, 108, 0.3);
+    }
+
+    /* Generator Card */
+    .card {
+      background: var(--card-bg);
+      padding: 32px 22px;
+      border-radius: 24px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .tag {
+      color: #FF8A00;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .line-box {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 22px 0;
+      min-height: 80px;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+    }
+
+    .btn {
+      background: var(--ig-gradient);
+      color: #FFF;
+      padding: 14px 32px;
+      border: none;
+      font-weight: 800;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
+      letter-spacing: 0.5px;
+    }
+
+    .btn:active { transform: scale(0.96); }
+
+    .subtext { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 10px; }
+
+    /* Plans Grid */
+    .pricing-section {
+      margin-top: 35px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 30px;
+    }
+
+    .pricing-title { font-size: 22px; margin-bottom: 20px; font-weight: 800; }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .plan-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 22px 18px;
+      border-radius: 20px;
+      text-align: left;
+      position: relative;
+    }
+
+    .plan-card.popular {
+      border: 2px solid transparent;
+      background-image: linear-gradient(var(--card-bg), var(--card-bg)), var(--ig-gradient);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+    }
+
+    .badge {
+      position: absolute;
+      top: -10px;
+      right: 15px;
+      background: var(--ig-gradient);
+      color: #FFF;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 10px;
+    }
+
+    .plan-name { font-size: 17px; font-weight: bold; margin-bottom: 5px; }
+    .plan-price { font-size: 24px; font-weight: 900; color: var(--neon-green); margin: 10px 0; }
+    .plan-features { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 18px; }
+
+    .plan-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--accent-pink);
+      color: #FFF;
+      padding: 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .plan-card.popular .plan-btn {
+      background: var(--ig-gradient);
+      border: none;
+    }
+
+    /* Modal Checkout */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.88);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 28px 22px;
+      border-radius: 24px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+    }
+
+    .close-btn { position: absolute; top: 12px; right: 18px; font-size: 22px; color: #fff; cursor: pointer; }
+    .upi-box { background: #0B0813; border: 1px dashed var(--neon-green); padding: 12px; border-radius: 12px; margin: 15px 0; font-weight: bold; color: var(--neon-green); font-size: 16px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>LINE<span class="leak">LEAK</span></h1>
-      <div class="pro-badge" id="proBadge">PRO ✓</div>
+      <div class="pro-badge" id="proBadge">PRO VALID (1 WEEK)</div>
     </div>
 
     <div class="hero">
-      <h2>Ek line, poora reel ka comment section bhar de.</h2>
-      <p>Random Hinglish brainrot lines & 18+ viral lines — reels pe chipkao, screenshot bano, aur comments padho.</p>
+      <h2>Reels Comment Section Hack ⚡</h2>
+      <p>Trending Reel inspired Hinglish lines — audio pe match karo aur viral jao.</p>
     </div>
     
     <div class="counter-badge" id="dailyLimitText">Free Quota: 5 / 5 Left Today</div>
@@ -72,65 +285,60 @@
     <div class="card">
       <div id="catTag" class="tag">RANDOM</div>
       <div id="lineText" class="line-box">Button daba ke dekho, dimaag thoda ghoomega.</div>
-      <div class="subtext">(Text ko select karke copy kar sakte ho)</div>
+      <div class="subtext">(Tap to copy text directly to Instagram)</div>
       <br>
-      <button class="btn" id="generateBtn">🎲 Naya nikaalo</button>
-    </div>
-
-    <div class="ad-strip" id="adStrip">
-      <span>AD SLOT — Free version me ads show honge</span>
-      <span>Skip in 5s</span>
+      <button class="btn" id="generateBtn">🔥 Generate Viral Line</button>
     </div>
 
     <!-- Pricing Section -->
     <div class="pricing-section">
-      <div class="pricing-title">Free rakho ya ₹49 mein VIP bano 🚀</div>
+      <div class="pricing-title">Free Rakho Ya Pro Bano 🚀</div>
       <div class="plans-grid">
         <div class="plan-card">
-          <div class="plan-name">Free Tier</div>
+          <div class="plan-name">Free Plan</div>
           <div class="plan-price">₹0</div>
           <div class="plan-features">
-            • Saari categories access<br>
-            • Din ke 5 free generates<br>
-            • Basic Ads included
+            • 5 Lines Per Day<br>
+            • Basic Categories<br>
+            • Standard Reel Lines
           </div>
-          <button class="plan-btn" disabled style="opacity:0.5;">Current Plan</button>
+          <button class="plan-btn" disabled style="opacity:0.4;">Current Plan</button>
         </div>
 
         <div class="plan-card popular">
-          <div class="badge">RECOMMENDED</div>
-          <div class="plan-name">Pro Lifetime</div>
-          <div class="plan-price">₹49 <span style="font-size: 12px; color: #fff;">/ lifetime</span></div>
+          <div class="badge">POPULAR</div>
+          <div class="plan-name">Pro Pass</div>
+          <div class="plan-price">₹49 <span style="font-size: 12px; color: #fff;">/ 1 Week</span></div>
           <div class="plan-features">
-            • Unlimited generates, daily limit nahi<br>
-            • Zero ads, direct output<br>
-            • Exclusive 18+ Spicy pack<br>
-            • Weekly trending line updates
+            • Unlimited Generates (7 Days)<br>
+            • 18+ Unfiltered Spicy Access<br>
+            • Trending Reels Auto-Updates<br>
+            • Zero Limits & Fast Output
           </div>
-          <button class="plan-btn" id="proPlanBtn" onclick="openCheckout('Pro Lifetime', '49')">Pro unlock karo</button>
+          <button class="plan-btn" id="proPlanBtn" onclick="openCheckout('Pro 1-Week Pass', '49')">Get 1-Week Pro</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal Checkout Window -->
+  <!-- Checkout Modal -->
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeCheckout()">&times;</span>
-      <h3 id="planTitle" style="color:#D4FF3D; margin-top:0;">Unlock Pro Access 🔥</h3>
-      <p style="font-size:14px; line-height:1.4;" id="modalDesc">Unlimited lines aur 18+ unfiltered access unlock karein:</p>
-      <div class="upi-box" id="priceTag">Amount: ₹49</div>
-      <p style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">Scan UPI QR or pay directly to UPI ID:</p>
+      <h3 id="planTitle" style="color:var(--neon-green); margin-top:0;">Unlock Pro Pass 🔥</h3>
+      <p style="font-size:13.5px; line-height:1.4;">Get 7 days unlimited access to all unfiltered 18+ viral lines:</p>
+      <div class="upi-box" id="priceTag">Amount: ₹49 / Week</div>
+      <p style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">Scan or send payment to UPI ID:</p>
       <div style="background:#fff; color:#000; padding:10px; border-radius:8px; font-weight:bold; font-size:14px; margin-bottom:15px; letter-spacing:1px;">lineleak@upi</div>
-      <button class="btn" style="width:100%;" onclick="enableDemoPro()">Demo Unlock (Testing)</button>
+      <button class="btn" style="width:100%;" onclick="enableOneWeekPro()">Activate 1-Week Pro (Demo)</button>
     </div>
   </div>
 
   <script>
     const MAX_FREE_LIMIT = 5;
+    const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000; // 7 Days in Milliseconds
     let isPro = false;
 
-    // Static curated lines
     const linesData = {
       '18+ Spicy': [
         'Dil clean rakhne ka shauk tha, par mood dark aur dimaag dirty nikla.',
@@ -173,22 +381,6 @@
       ]
     };
 
-    // Dynamic Fillers Templates (Dynamic Mixing)
-    const templates = {
-      'Rishta / Shaadi': [
-        { text: '{a} ke baad pata chala, {b} hi sabse bada sach hai.', a: ['Shaadi', 'Engagement', 'Pehla date', 'Proposal'], b: ['adjust karna', 'chup rehna', 'wallet khaali karna'] },
-        { text: '{a} se zyada mushkil kaam hai {b}.', a: ['Biwi ko manaana', 'Shaadi ka kharcha nikaalna'], b: ['UPSC crack karna', 'Everest chadhna', 'Bina jhagde ke shaam kaatna'] }
-      ],
-      'Parents / Ghar': [
-        { text: '{a} mein papa ka sirf ek hi jawaab hota hai — {b}.', a: ['bike maangne', 'result dikhaane', 'late aane'], b: ["'seedha ho ja'", "'ab bas'", "'tera baap kamaata hai kya'"] },
-        { text: 'Mummy ke paas {a} ka jawaab bhi {b} hota hai.', a: ['dukh', 'khushi', 'gussa'], b: ["'khaana kha le'", "'so ja jaake'"] }
-      ],
-      'Adulting / Job': [
-        { text: '{a} milta hai, {b} nahi aata.', a: ['Salary', 'Increment', 'Appraisal'], b: ['sukoon', 'khushi', 'weekend jaisa feel'] },
-        { text: 'Boss bolta hai {a}, dil mein bas {b} chal raha hota hai.', a: ["'passion se kaam karo'", "'ownership lo'"], b: ['resign ka khayal', 'weekend ka countdown'] }
-      ]
-    };
-
     let selectedCat = 'Random';
     const categories = ['Random', ...Object.keys(linesData)];
     let bags = {};
@@ -209,19 +401,27 @@
       updateCounterUI();
     }
 
+    // 1-Week Pro Expiry Check
     function checkProStatus() {
-      if (localStorage.getItem('ll_pro') === 'true') {
-        isPro = true;
-        document.getElementById('proBadge').style.display = 'inline-block';
-        document.getElementById('adStrip').style.display = 'none';
-        document.getElementById('proPlanBtn').innerText = 'Already Pro ✓';
-        document.getElementById('proPlanBtn').disabled = true;
+      const proExpiry = localStorage.getItem('ll_pro_expiry');
+      if (proExpiry) {
+        const now = new Date().getTime();
+        if (now < parseInt(proExpiry, 10)) {
+          isPro = true;
+          document.getElementById('proBadge').style.display = 'inline-block';
+          document.getElementById('proPlanBtn').innerText = 'Pro Active ✓';
+          document.getElementById('proPlanBtn').disabled = true;
+        } else {
+          // Expired
+          localStorage.removeItem('ll_pro_expiry');
+          isPro = false;
+        }
       }
     }
 
     function updateCounterUI() {
       if (isPro) {
-        document.getElementById('dailyLimitText').innerText = 'Pro Plan: Unlimited Access ⚡';
+        document.getElementById('dailyLimitText').innerText = 'Pro Plan Active: Unlimited Generates ⚡';
         return;
       }
       const used = getUsedCount();
@@ -250,23 +450,10 @@
       return pool[bags[cat].pop()];
     }
 
-    function fillTemplate(cat) {
-      const pool = templates[cat];
-      const tpl = pool[Math.floor(Math.random() * pool.length)];
-      let text = tpl.text;
-      ['a', 'b'].forEach(key => {
-        if (tpl[key]) {
-          const opt = tpl[key][Math.floor(Math.random() * tpl[key].length)];
-          text = text.replace(`{${key}}`, opt);
-        }
-      });
-      return text;
-    }
-
     function generateLine() {
       const used = getUsedCount();
       if (!isPro && used >= MAX_FREE_LIMIT) {
-        openCheckout('Pro Lifetime (Limit Exceeded)', '49');
+        openCheckout('Pro Pass (Limit Reached)', '49');
         return;
       }
 
@@ -276,14 +463,7 @@
         cat = keys[Math.floor(Math.random() * keys.length)];
       }
 
-      let line = '';
-      const useTemplate = templates[cat] && Math.random() < 0.4;
-      if (useTemplate) {
-        line = fillTemplate(cat);
-      } else {
-        line = drawFromBag(cat);
-      }
-
+      const line = drawFromBag(cat);
       document.getElementById('lineText').innerText = line;
       document.getElementById('catTag').innerText = cat.toUpperCase();
 
@@ -292,7 +472,7 @@
 
     function openCheckout(planName, price) {
       document.getElementById('planTitle').innerText = 'Upgrade to ' + planName;
-      document.getElementById('priceTag').innerText = 'Amount: ₹' + price;
+      document.getElementById('priceTag').innerText = 'Amount: ₹' + price + ' / 1 Week';
       document.getElementById('checkoutModal').style.display = 'flex';
     }
 
@@ -300,12 +480,14 @@
       document.getElementById('checkoutModal').style.display = 'none';
     }
 
-    function enableDemoPro() {
-      localStorage.setItem('ll_pro', 'true');
+    // Set 1 Week Expiry timestamp
+    function enableOneWeekPro() {
+      const expiryTime = new Date().getTime() + ONE_WEEK_MS;
+      localStorage.setItem('ll_pro_expiry', expiryTime.toString());
       checkProStatus();
       updateCounterUI();
       closeCheckout();
-      alert('Pro Unlocked for Demo!');
+      alert('1-Week Pro Pass Activated!');
     }
 
     document.getElementById('generateBtn').addEventListener('click', generateLine);
