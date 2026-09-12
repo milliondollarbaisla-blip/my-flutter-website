@@ -278,12 +278,12 @@
       currentCategory = category;
     }
 
-async function generateAIHook() {
+async function generateAIHook("YOUR_GEMINI_API_KEY_HERE") {
   const topic = document.getElementById('userTopic').value || "general growth";
   const outputEl = document.getElementById('hookOutputText');
   outputEl.textContent = "Training AI & Generating...";
 
-  if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+  if (GEMINI_API_KEY === "") {
     outputEl.textContent = `"Please update your Gemini API key in the JavaScript code!"`;
     return;
   }
