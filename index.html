@@ -6,14 +6,18 @@
   <title>LINELEAK - Line Generator</title>
   <style>
     body { background-color: #120E1B; color: #F7F3E9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 30px 15px; margin: 0; }
-    .container { max-width: 600px; margin: 0 auto; }
-    h1 { font-size: 32px; margin-bottom: 20px; letter-spacing: 1px; }
+    .container { max-width: 650px; margin: 0 auto; }
+    
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    h1 { font-size: 30px; margin: 0; letter-spacing: 1px; }
     .leak { color: #D4FF3D; }
-    .hero { background: linear-gradient(135deg, #8A5CFF, #FF3366); padding: 25px; border-radius: 20px; text-align: left; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+    .pro-badge { background: #D4FF3D; color: #120E1B; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 12px; display: none; }
+
+    .hero { background: linear-gradient(135deg, #8A5CFF, #FF3366); padding: 25px; border-radius: 20px; text-align: left; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
     .hero h2 { margin: 0 0 10px 0; font-size: 22px; }
     .hero p { margin: 0; opacity: 0.85; font-size: 14px; line-height: 1.4; }
     
-    .counter-badge { background: #1B1626; border: 1px solid #D4FF3D; color: #D4FF3D; display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 15px; }
+    .counter-badge { background: #1B1626; border: 1px solid #D4FF3D; color: #D4FF3D; display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 20px; }
 
     .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
     .chip { background: transparent; border: 1.5px solid #F7F3E9; color: #F7F3E9; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; }
@@ -27,21 +31,23 @@
     .btn:active { transform: scale(0.95); }
     .subtext { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 8px; }
 
-    /* Subscription Section */
-    .pricing-section { margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
-    .pricing-title { font-size: 24px; margin-bottom: 20px; color: #F7F3E9; }
-    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-top: 15px; }
-    .plan-card { background: #1B1626; border: 1px solid rgba(255,255,255,0.15); padding: 20px 15px; border-radius: 16px; text-align: center; }
-    .plan-card.popular { border: 2px solid #D4FF3D; position: relative; }
-    .badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #D4FF3D; color: #120E1B; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 10px; }
-    .plan-name { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
-    .plan-price { font-size: 22px; font-weight: 800; color: #D4FF3D; margin: 10px 0; }
-    .plan-features { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 15px; text-align: left; }
-    .plan-btn { width: 100%; background: transparent; border: 1px solid #D4FF3D; color: #D4FF3D; padding: 8px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px; }
-    .plan-card.popular .plan-btn { background: #D4FF3D; color: #120E1B; }
+    .ad-strip { border: 1px dashed rgba(255,255,255,0.25); border-radius: 12px; padding: 12px; margin-bottom: 30px; font-size: 12px; color: rgba(255,255,255,0.5); display: flex; justify-content: space-between; }
 
-    /* In-Page Modal Checkout Window */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(4px); }
+    /* Subscription Section */
+    .pricing-section { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
+    .pricing-title { font-size: 24px; margin-bottom: 20px; color: #F7F3E9; }
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+    .plan-card { background: #1B1626; border: 1px solid rgba(255,255,255,0.15); padding: 20px 15px; border-radius: 16px; text-align: left; }
+    .plan-card.popular { border: 2px solid #FF3366; background: linear-gradient(135deg, rgba(255,51,102,0.15), rgba(138,92,255,0.15)); position: relative; }
+    .badge { position: absolute; top: -10px; right: 15px; background: #FF3366; color: #FFF; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 10px; }
+    .plan-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #F7F3E9; }
+    .plan-price { font-size: 24px; font-weight: 800; color: #D4FF3D; margin: 10px 0; }
+    .plan-features { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 15px; }
+    .plan-btn { width: 100%; background: transparent; border: 1px solid #D4FF3D; color: #D4FF3D; padding: 10px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 13px; text-align: center; }
+    .plan-card.popular .plan-btn { background: #D4FF3D; color: #120E1B; border: none; }
+
+    /* Modal Popup Window */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(5px); }
     .modal-content { background: #1B1626; border: 1px solid #D4FF3D; padding: 25px; border-radius: 20px; max-width: 360px; width: 90%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
     .close-btn { position: absolute; top: 10px; right: 15px; font-size: 22px; color: #fff; cursor: pointer; }
     .upi-box { background: #120E1B; border: 1px dashed #D4FF3D; padding: 12px; border-radius: 10px; margin: 15px 0; font-weight: bold; color: #D4FF3D; font-size: 16px; }
@@ -49,48 +55,59 @@
 </head>
 <body>
   <div class="container">
-    <h1>LINE<span class="leak">LEAK</span></h1>
+    <div class="header">
+      <h1>LINE<span class="leak">LEAK</span></h1>
+      <div class="pro-badge" id="proBadge">PRO ✓</div>
+    </div>
+
     <div class="hero">
       <h2>Ek line, poora reel ka comment section bhar de.</h2>
-      <p>Unfiltered Hinglish brainrot & 18+ viral lines — reels pe chipkao aur tabahi dekho.</p>
+      <p>Random Hinglish brainrot lines & 18+ viral lines — reels pe chipkao, screenshot bano, aur comments padho.</p>
     </div>
     
-    <div class="counter-badge" id="dailyLimitText">Free Limit Left: 5 / 5 Today</div>
+    <div class="counter-badge" id="dailyLimitText">Free Quota: 5 / 5 Left Today</div>
 
     <div class="chips" id="chipsContainer"></div>
 
     <div class="card">
       <div id="catTag" class="tag">RANDOM</div>
       <div id="lineText" class="line-box">Button daba ke dekho, dimaag thoda ghoomega.</div>
-      <div class="subtext">(Text ko copy kar sakte ho)</div>
+      <div class="subtext">(Text ko select karke copy kar sakte ho)</div>
       <br>
       <button class="btn" id="generateBtn">🎲 Naya nikaalo</button>
     </div>
 
-    <!-- Subscriptions -->
+    <div class="ad-strip" id="adStrip">
+      <span>AD SLOT — Free version me ads show honge</span>
+      <span>Skip in 5s</span>
+    </div>
+
+    <!-- Pricing Section -->
     <div class="pricing-section">
-      <div class="pricing-title">Choose Your Plan 🚀</div>
+      <div class="pricing-title">Free rakho ya ₹49 mein VIP bano 🚀</div>
       <div class="plans-grid">
         <div class="plan-card">
-          <div class="plan-name">Free Leak</div>
+          <div class="plan-name">Free Tier</div>
           <div class="plan-price">₹0</div>
-          <div class="plan-features">✓ 5 Lines per day<br>✓ Basic Categories<br>✗ 18+ Unfiltered Access</div>
+          <div class="plan-features">
+            • Saari categories access<br>
+            • Din ke 5 free generates<br>
+            • Basic Ads included
+          </div>
           <button class="plan-btn" disabled style="opacity:0.5;">Current Plan</button>
         </div>
 
         <div class="plan-card popular">
-          <div class="badge">POPULAR</div>
-          <div class="plan-name">Pro Leaker</div>
-          <div class="plan-price">₹49<span style="font-size: 12px; color: #fff;">/mo</span></div>
-          <div class="plan-features">✓ Unlimited Daily Lines<br>✓ 18+ Spicy Unfiltered<br>✓ Custom Reels Copy Format</div>
-          <button class="plan-btn" onclick="openCheckout('Pro Plan', '49')">Get Pro</button>
-        </div>
-
-        <div class="plan-card">
-          <div class="plan-name">Creator Pack</div>
-          <div class="plan-price">₹149<span style="font-size: 12px; color: #fff;">/mo</span></div>
-          <div class="plan-features">✓ Unlimited Lines<br>✓ CSV Export All Lines<br>✓ Request Custom Lines</div>
-          <button class="plan-btn" onclick="openCheckout('Creator Pack', '149')">Upgrade</button>
+          <div class="badge">RECOMMENDED</div>
+          <div class="plan-name">Pro Lifetime</div>
+          <div class="plan-price">₹49 <span style="font-size: 12px; color: #fff;">/ lifetime</span></div>
+          <div class="plan-features">
+            • Unlimited generates, daily limit nahi<br>
+            • Zero ads, direct output<br>
+            • Exclusive 18+ Spicy pack<br>
+            • Weekly trending line updates
+          </div>
+          <button class="plan-btn" id="proPlanBtn" onclick="openCheckout('Pro Lifetime', '49')">Pro unlock karo</button>
         </div>
       </div>
     </div>
@@ -100,57 +117,85 @@
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeCheckout()">&times;</span>
-      <h3 id="planTitle" style="color:#D4FF3D; margin-top:0;">Upgrade Plan 🔥</h3>
-      <p style="font-size:14px; line-height:1.4;">Unlimited lines aur 18+ unfiltered access unlock karein:</p>
-      <div class="upi-box" id="priceTag">Amount: ₹49/month</div>
+      <h3 id="planTitle" style="color:#D4FF3D; margin-top:0;">Unlock Pro Access 🔥</h3>
+      <p style="font-size:14px; line-height:1.4;" id="modalDesc">Unlimited lines aur 18+ unfiltered access unlock karein:</p>
+      <div class="upi-box" id="priceTag">Amount: ₹49</div>
       <p style="font-size:12px; color:rgba(255,255,255,0.6); margin-bottom:8px;">Scan UPI QR or pay directly to UPI ID:</p>
       <div style="background:#fff; color:#000; padding:10px; border-radius:8px; font-weight:bold; font-size:14px; margin-bottom:15px; letter-spacing:1px;">lineleak@upi</div>
-      <button class="btn" style="width:100%;" onclick="alert('Payment processing logic connect karein!')">Pay Now</button>
+      <button class="btn" style="width:100%;" onclick="enableDemoPro()">Demo Unlock (Testing)</button>
     </div>
   </div>
 
   <script>
-    const data = {
+    const MAX_FREE_LIMIT = 5;
+    let isPro = false;
+
+    // Static curated lines
+    const linesData = {
       '18+ Spicy': [
         'Dil clean rakhne ka shauk tha, par mood dark aur dimaag dirty nikla.',
         'Nazrein seedhi hain, par soch me poora kamra hila dene wali energy hai.',
         'Masoom itna dikhta hu ki family me sanskari lagta hu, baaki personal life censor board me fasi hai.',
         'Pyaar vyaar sab moh maya hai, asal maza toh raat ko bina kisi guilt ke bakchodi pelne me hai.',
-        'Sanskari tab tak hu jab tak saamne waala bilkul limit me behave kare.'
+        'Sanskari tab tak hu jab tak saamne waala bilkul limit me behave kare.',
+        'Pyaar mein sab jayaz hai, bas UPI history clear rakhna.',
+        'Ex ko block karna aasan hai, dimaag se delete karna alag project hai.'
       ],
       'Rishta / Shaadi': [
-        'Swarg toh chala jaayega banda, par wahan bhi breakup ki EMI chalu milegi.',
-        'Biwi se zubaan ladaana Matlab recharge bina Wi-Fi ke chalane jaisa hai.',
-        'Shaadi woh laddu hai jo khaye wo bhi pachtaaye, jo na khaye uska dost photo bhej ke jalaaye.'
+        'Swarg toh chala jaayega bandaa, par wahaan bhi bandi nahi milegi.',
+        'Biwi se zubaan ladaane ka maza hi alag hai — jeetne ka toh sawaal hi nahi.',
+        'Shaadi ek exam hai jisme syllabus shaadi ke baad pata chalta hai.',
+        "Pehle 'I love you' bola tha, ab 'tune bola tha' sunna padta hai.",
+        'Sasural mein sabse bada sach — damaad ka wallet sabse zyada active hota hai.'
       ],
       'Parents / Ghar': [
-        "Mummy ka iconic Dialogue: 'Sona chhod de toh aadha dimaag ka bimari waise hi theek ho jaye.'",
-        'Ghar me Wi-Fi ka speed aur Papa ka mood dono kab drop ho jaye koi nahi bol sakta.',
-        'Rishtedaar: Beta aage ka kya plan hai? Me: Aapke jaane ke baad chai peene ka.'
+        "Aaj tak papa ne 'puchi' nahi di, bas 'seedha ho ja' diya hai.",
+        "Mummy ka ek hi dialogue — 'padhai chhod ke sab yaad hai.'",
+        'Ghar mein Wi-Fi password se zyada secret papa ki salary hai.',
+        'Bachpan mein maar padi, ab bas tone badal ke maar padti hai.'
       ],
       'Dosti': [
-        'Dost woh prani hai jo accident hone par police ko baad me, pehle tera video banayega.',
-        'Bhai tu bas gaddi start kar, case handle karne ke liye tera bhai zinda hai.',
-        'Chai, cigarette aur dost ki faaltu advice — poora desh isi pe tiki hai.'
+        'Dost woh hota hai jo tumhari galti pe sabse zyada haste — sabse pehle.',
+        'Group mein sabse zyada online, real life mein sabse zyada ghost.',
+        'Udhaar do dost ko, rishta khatam karne ka sabse tez tareeka.',
+        'Best friend ka matlab — jo tumhari secret sabko bata de, thoda maza le ke.'
       ],
       'Adulting / Job': [
-        'Salary account me bas landing karne aati hai, stay karne nahi.',
-        'HR: Where do you see yourself in 5 years? Me: Alive, hopefully not here.',
-        'Zindagi ek High-Speed Internet hai aur main 2G coverage me fasa hua hu.'
+        'Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.',
+        'Monday se pyaar sirf un logon ko hai jinki job hai hi nahi.',
+        "Boss bolta hai 'passion se kaam karo', salary slip mein passion ka column nahi hota.",
+        'Adulting ka matlab — bills yaad rehte hain, khushiyaan bhool jaati hain.'
       ],
       'Random Chaos': [
         'Zindagi ek WiFi hai — signal full dikhta hai, load kuch nahi hota.',
-        'Dimaag kharab hone pe 5 minute shaant rehne se ghanta kuch nahi hota.'
+        'Kal ka plan aaj bana lo, kal phir kal pe daal denge.',
+        'Motivation aata hai raat ko 2 baje, kaam karne ka time subah 9 baje hota hai.'
+      ]
+    };
+
+    // Dynamic Fillers Templates (Dynamic Mixing)
+    const templates = {
+      'Rishta / Shaadi': [
+        { text: '{a} ke baad pata chala, {b} hi sabse bada sach hai.', a: ['Shaadi', 'Engagement', 'Pehla date', 'Proposal'], b: ['adjust karna', 'chup rehna', 'wallet khaali karna'] },
+        { text: '{a} se zyada mushkil kaam hai {b}.', a: ['Biwi ko manaana', 'Shaadi ka kharcha nikaalna'], b: ['UPSC crack karna', 'Everest chadhna', 'Bina jhagde ke shaam kaatna'] }
+      ],
+      'Parents / Ghar': [
+        { text: '{a} mein papa ka sirf ek hi jawaab hota hai — {b}.', a: ['bike maangne', 'result dikhaane', 'late aane'], b: ["'seedha ho ja'", "'ab bas'", "'tera baap kamaata hai kya'"] },
+        { text: 'Mummy ke paas {a} ka jawaab bhi {b} hota hai.', a: ['dukh', 'khushi', 'gussa'], b: ["'khaana kha le'", "'so ja jaake'"] }
+      ],
+      'Adulting / Job': [
+        { text: '{a} milta hai, {b} nahi aata.', a: ['Salary', 'Increment', 'Appraisal'], b: ['sukoon', 'khushi', 'weekend jaisa feel'] },
+        { text: 'Boss bolta hai {a}, dil mein bas {b} chal raha hota hai.', a: ["'passion se kaam karo'", "'ownership lo'"], b: ['resign ka khayal', 'weekend ka countdown'] }
       ]
     };
 
     let selectedCat = 'Random';
-    const categories = ['Random', ...Object.keys(data)];
-    const MAX_FREE_LIMIT = 5;
+    const categories = ['Random', ...Object.keys(linesData)];
+    let bags = {};
 
     function getTodayKey() {
       const today = new Date();
-      return `lineleak_count_${today.getFullYear()}_${today.getMonth() + 1}_${today.getDate()}`;
+      return `ll_count_${today.getFullYear()}_${today.getMonth() + 1}_${today.getDate()}`;
     }
 
     function getUsedCount() {
@@ -158,15 +203,30 @@
     }
 
     function incrementCount() {
+      if (isPro) return;
       const current = getUsedCount();
       localStorage.setItem(getTodayKey(), current + 1);
       updateCounterUI();
     }
 
+    function checkProStatus() {
+      if (localStorage.getItem('ll_pro') === 'true') {
+        isPro = true;
+        document.getElementById('proBadge').style.display = 'inline-block';
+        document.getElementById('adStrip').style.display = 'none';
+        document.getElementById('proPlanBtn').innerText = 'Already Pro ✓';
+        document.getElementById('proPlanBtn').disabled = true;
+      }
+    }
+
     function updateCounterUI() {
+      if (isPro) {
+        document.getElementById('dailyLimitText').innerText = 'Pro Plan: Unlimited Access ⚡';
+        return;
+      }
       const used = getUsedCount();
       const left = Math.max(0, MAX_FREE_LIMIT - used);
-      document.getElementById('dailyLimitText').innerText = `Free Limit Left: ${left} / ${MAX_FREE_LIMIT} Today`;
+      document.getElementById('dailyLimitText').innerText = `Free Quota: ${left} / ${MAX_FREE_LIMIT} Left Today`;
     }
 
     function renderChips() {
@@ -182,29 +242,57 @@
       generateLine();
     }
 
+    function drawFromBag(cat) {
+      const pool = linesData[cat];
+      if (!bags[cat] || bags[cat].length === 0) {
+        bags[cat] = Array.from({length: pool.length}, (_, i) => i).sort(() => Math.random() - 0.5);
+      }
+      return pool[bags[cat].pop()];
+    }
+
+    function fillTemplate(cat) {
+      const pool = templates[cat];
+      const tpl = pool[Math.floor(Math.random() * pool.length)];
+      let text = tpl.text;
+      ['a', 'b'].forEach(key => {
+        if (tpl[key]) {
+          const opt = tpl[key][Math.floor(Math.random() * tpl[key].length)];
+          text = text.replace(`{${key}}`, opt);
+        }
+      });
+      return text;
+    }
+
     function generateLine() {
       const used = getUsedCount();
-      if (used >= MAX_FREE_LIMIT) {
-        openCheckout('Pro Plan (Limit Exceeded)', '49');
+      if (!isPro && used >= MAX_FREE_LIMIT) {
+        openCheckout('Pro Lifetime (Limit Exceeded)', '49');
         return;
       }
 
-      let pool = [];
-      if (selectedCat === 'Random') {
-        Object.values(data).forEach(arr => pool.push(...arr));
-      } else {
-        pool = data[selectedCat];
+      let cat = selectedCat;
+      if (cat === 'Random') {
+        const keys = Object.keys(linesData);
+        cat = keys[Math.floor(Math.random() * keys.length)];
       }
-      const randomIndex = Math.floor(Math.random() * pool.length);
-      document.getElementById('lineText').innerText = pool[randomIndex];
-      document.getElementById('catTag').innerText = selectedCat.toUpperCase();
+
+      let line = '';
+      const useTemplate = templates[cat] && Math.random() < 0.4;
+      if (useTemplate) {
+        line = fillTemplate(cat);
+      } else {
+        line = drawFromBag(cat);
+      }
+
+      document.getElementById('lineText').innerText = line;
+      document.getElementById('catTag').innerText = cat.toUpperCase();
 
       incrementCount();
     }
 
     function openCheckout(planName, price) {
       document.getElementById('planTitle').innerText = 'Upgrade to ' + planName;
-      document.getElementById('priceTag').innerText = 'Amount: ₹' + price + '/month';
+      document.getElementById('priceTag').innerText = 'Amount: ₹' + price;
       document.getElementById('checkoutModal').style.display = 'flex';
     }
 
@@ -212,7 +300,16 @@
       document.getElementById('checkoutModal').style.display = 'none';
     }
 
+    function enableDemoPro() {
+      localStorage.setItem('ll_pro', 'true');
+      checkProStatus();
+      updateCounterUI();
+      closeCheckout();
+      alert('Pro Unlocked for Demo!');
+    }
+
     document.getElementById('generateBtn').addEventListener('click', generateLine);
+    checkProStatus();
     renderChips();
     updateCounterUI();
   </script>
