@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LINELEAK - Line Generator</title>
+  <title>LINELEAK - The Ultimate Reel Audio & Caption Hook Generator</title>
   <style>
     :root {
       --bg-dark: #0B0813;
@@ -23,21 +23,22 @@
       margin: 0;
     }
 
-    .container { max-width: 600px; margin: 0 auto; }
+    .container { max-width: 680px; margin: 0 auto; }
 
     .header {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      margin-bottom: 20px;
-      padding: 0 5px;
+      justify-content: center;
+      margin-bottom: 25px;
     }
 
-    h1 {
-      font-size: 28px;
-      margin: 0;
-      letter-spacing: 1.5px;
+    h1.brand-title {
+      font-size: 38px;
+      margin: 0 0 10px 0;
+      letter-spacing: 2px;
       font-weight: 900;
+      text-transform: uppercase;
     }
 
     .leak {
@@ -56,6 +57,44 @@
       letter-spacing: 1px;
       display: none;
       box-shadow: 0 2px 10px rgba(225, 48, 108, 0.4);
+      margin-top: 8px;
+    }
+
+    /* Category Dropdown Container */
+    .dropdown-wrapper {
+      margin-top: 15px;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .category-select {
+      width: 100%;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 14px;
+      outline: none;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23F7F3E9%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px top 50%;
+      background-size: 12px auto;
+    }
+
+    .category-select:focus, .category-select:hover {
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 15px rgba(225, 48, 108, 0.3);
+    }
+
+    .category-select option {
+      background: #161224;
+      color: #FFF;
     }
 
     .hero {
@@ -77,7 +116,7 @@
     }
 
     .hero h2 { margin: 0 0 8px 0; font-size: 20px; font-weight: 800; }
-    .hero p { margin: 0; opacity: 0.75; font-size: 13.5px; line-height: 1.4; }
+    .hero p { margin: 0; opacity: 0.8; font-size: 14px; line-height: 1.5; }
 
     .counter-badge {
       background: rgba(255, 255, 255, 0.05);
@@ -92,39 +131,11 @@
       backdrop-filter: blur(10px);
     }
 
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 22px;
-    }
-
-    .chip {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--text-main);
-      padding: 7px 16px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 13px;
-      transition: all 0.2s ease;
-    }
-
-    .chip.active {
-      background: var(--ig-gradient);
-      border-color: transparent;
-      color: #FFF;
-      font-weight: 800;
-      box-shadow: 0 4px 12px rgba(225, 48, 108, 0.3);
-    }
-
     .card {
       background: var(--card-bg);
       padding: 30px 20px;
       border-radius: 24px;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 12px 30px rgba(0,0,0,0.5);
       position: relative;
@@ -139,10 +150,7 @@
       text-transform: uppercase;
     }
 
-    /* Idle View State */
-    .idle-view {
-      padding: 25px 10px;
-    }
+    .idle-view { padding: 20px 10px; }
 
     .idle-graphic {
       font-size: 42px;
@@ -168,6 +176,104 @@
     .idle-subtitle {
       font-size: 12px;
       color: rgba(255,255,255,0.5);
+    }
+
+    .btn {
+      background: var(--ig-gradient);
+      color: #FFF;
+      padding: 14px 32px;
+      border: none;
+      font-weight: 800;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
+      letter-spacing: 0.5px;
+    }
+
+    .btn:active { transform: scale(0.96); }
+
+    /* Reels Visual Stack Section */
+    .reels-section-title {
+      font-size: 20px;
+      font-weight: 800;
+      text-align: left;
+      margin: 35px 0 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .reel-mockup {
+      background: #191428;
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 220px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .reel-mockup:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-pink);
+    }
+
+    .reel-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .avatar-ring {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--ig-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+    }
+
+    .avatar-ring img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #000;
+    }
+
+    .reel-user { font-size: 11px; font-weight: 700; color: #FFF; }
+
+    .reel-overlay-text {
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.4;
+      color: #FFF;
+      background: rgba(0, 0, 0, 0.55);
+      padding: 10px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+    }
+
+    .reel-actions {
+      display: flex;
+      gap: 12px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
     }
 
     /* Pop-Up Modal Style */
@@ -225,22 +331,6 @@
       width: 100%;
       transition: width 5s linear;
     }
-
-    .btn {
-      background: var(--ig-gradient);
-      color: #FFF;
-      padding: 14px 32px;
-      border: none;
-      font-weight: 800;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 15px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
-      letter-spacing: 0.5px;
-    }
-
-    .btn:active { transform: scale(0.96); }
 
     .pricing-section {
       margin-top: 35px;
@@ -330,32 +420,93 @@
 
     .close-btn { position: absolute; top: 12px; right: 18px; font-size: 22px; color: #fff; cursor: pointer; }
     .upi-box { background: #0B0813; border: 1px dashed var(--neon-green); padding: 12px; border-radius: 12px; margin: 15px 0; font-weight: bold; color: var(--neon-green); font-size: 16px; }
+
+    /* Footer */
+    footer {
+      margin-top: 50px;
+      padding: 25px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ig-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(225, 48, 108, 0.4);
+      color: #FFF;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 13.5px;
+      font-weight: 700;
+      transition: all 0.25s ease;
+    }
+
+    .ig-link:hover {
+      background: var(--ig-gradient);
+      box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>LINE<span class="leak">LEAK</span></h1>
+      <h1 class="brand-title">LINE<span class="leak">LEAK</span></h1>
       <div class="pro-badge" id="proBadge">PRO VALID (1 WEEK)</div>
+
+      <!-- Category Dropdown Section -->
+      <div class="dropdown-wrapper">
+        <select class="category-select" id="categoryDropdown" onchange="selectCategory(this.value)">
+          <!-- Populated via Javascript -->
+        </select>
+      </div>
     </div>
 
     <div class="hero">
-      <h2>Reels Comment Section Hack ⚡</h2>
-      <p>Trending Reel inspired Hinglish lines — audio pe match karo aur viral jao.</p>
+      <h2>Viral Reel Hooks & Captions Engine ⚡</h2>
+      <p>Aapki video reels ko trending banane waali high-retention Hinglish lines aur audio text overlays.</p>
     </div>
     
     <div class="counter-badge" id="dailyLimitText">Free Quota: 5 / 5 Left Today</div>
 
-    <div class="chips" id="chipsContainer"></div>
-
     <div class="card" onclick="reopenLinePopup()">
       <div class="idle-view" id="idleBox">
-        <div class="idle-graphic">📉⚡🔥</div>
-        <div class="idle-title">Ready for Next Viral Leak</div>
+        <div class="idle-graphic">🎬🔥📈</div>
+        <div class="idle-title">Generate Next Reel Hook</div>
         <div class="idle-subtitle" id="idleSubtext">Tap button below to generate or tap card to view last line!</div>
       </div>
       <br>
-      <button class="btn" id="generateBtn" onclick="event.stopPropagation(); generateLine();">🔥 Generate Viral Line</button>
+      <button class="btn" id="generateBtn" onclick="event.stopPropagation(); generateLine();">🔥 Leak Reel Hook</button>
+    </div>
+
+    <!-- Visual Reels Stack Showcase -->
+    <div class="reels-section-title">
+      <span>✨ Trending Reel Overlay Formats</span>
+    </div>
+
+    <div class="reels-grid">
+      <div class="reel-mockup">
+        <div class="reel-header">
+          <div class="avatar-ring"></div>
+          <span class="reel-user">@lineleak.creator</span>
+        </div>
+        <div class="reel-overlay-text">"Aage se aisa nahi hoga bolkar, peeche se waisa hi kar deta hu."</div>
+        <div class="reel-actions">❤️ 12.4k &nbsp;💬 840 &nbsp;✈️ 3.1k</div>
+      </div>
+
+      <div class="reel-mockup">
+        <div class="reel-header">
+          <div class="avatar-ring"></div>
+          <span class="reel-user">@viral.vibes</span>
+        </div>
+        <div class="reel-overlay-text">"Account balance dekh ke lagta hai ab se chai bhi aadhi cup hi peeni padegi."</div>
+        <div class="reel-actions">❤️ 45.1k &nbsp;💬 2.3k &nbsp;✈️ 18.2k</div>
+      </div>
     </div>
 
     <div class="pricing-section">
@@ -365,9 +516,9 @@
           <div class="plan-name">Free Plan</div>
           <div class="plan-price">₹0</div>
           <div class="plan-features">
-            • 5 Lines Per Day<br>
-            • Basic Categories<br>
-            • Standard Reel Lines
+            • 5 Reel Hooks Per Day<br>
+            • Standard Categories<br>
+            • Viral Audio Overlays
           </div>
           <button class="plan-btn" disabled style="opacity:0.4;">Current Plan</button>
         </div>
@@ -379,13 +530,21 @@
           <div class="plan-features">
             • Unlimited Generates (7 Days)<br>
             • 18+ Unfiltered Spicy Access<br>
-            • Trending Reels Auto-Updates<br>
+            • Trending Reel Hooks Updates<br>
             • Zero Limits & Fast Output
           </div>
           <button class="plan-btn" id="proPlanBtn" onclick="openCheckout('Pro 1-Week Pass', '49')">Get 1-Week Pro</button>
         </div>
       </div>
     </div>
+
+    <footer>
+      <a href="https://www.instagram.com/lineleakweb/" target="_blank" class="ig-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Follow @lineleakweb on Instagram
+      </a>
+      <div style="font-size: 11px; color: rgba(255,255,255,0.4);">© 2026 LINELEAK. Built for Instagram Content Creators.</div>
+    </footer>
   </div>
 
   <!-- Line Pop-Up Modal -->
@@ -435,13 +594,7 @@
         'Main itna lazy hu ki galti se sapne mein bhi running karu toh thak ke uthta hu.',
         'Mera future itna dark hai ki usme torch lekar dhoondna padega.',
         'Duniya badalne nikla tha, mummy ne bola pehle apna kamra saaf kar.',
-        'Log ghamand me doobte hain, main toh bas overthinking me doobta hu.',
-        'Life mein itni problems hain ki solution dhoondte dhoondte nayi problem ban jaati hai.',
-        'Mera confidence level subah 100% hota hai aur shaam tak negative mein chala jaata hai.',
-        'Mera dimaag aur mera luck dono bilkul same hain, dono hi zaroorat ke time pe kaam nahi karte.',
-        'Bhagwan ne dimaag toh diya tha, par saath mein user manual dena bhool gaye.',
-        'Main wahi banda hu jo dukan par discount maangke full price deke aata hai.',
-        'Log talent se aage badhte hain, main toh bas luck ke bharose chal raha hu.'
+        'Log ghamand me doobte hain, main toh bas overthinking me doobta hu.'
       ],
       'Relatable Chaos': [
         'Jaa raha hu sir ko batane ki ab khana khana bhi bhool jaata hu.',
@@ -452,18 +605,7 @@
         'Dimaag keh raha hai mehnat kar, par body bol rahi hai 5 minute aur so ja.',
         'Raat ko 2 baje lagta hai poori duniya badal dunga, subah 9 baje uthna bhi task lagta hai.',
         'Mujhe gussa jaldi nahi aata, bas mere samne bakchodi thodi zyada ho jaati hai.',
-        'Dost bolte hain tu change ho gaya hai, bhai change nahi hua hu, bas recharge khatam ho gaya hai.',
-        'Self-control mera utna hi hai jitna raat ko 2 baje reels scroll karte waqt hota hai.',
-        'Subah uthte hi lagta hai aaj kuch tufani karenge, shaam tak pata chalta hai tufan ne hume hi udata diya.',
-        'Mera mood aur mausam dono ka koi bharosa nahi hai.',
-        'Insta open karo toh lagta hai sab ghoom rahe hain, bas main hi ek kone mein baitha hu.',
-        'Bina wajah gussa hona mera birthright hai.',
-        'Kaam karne ka man bohot hota hai, bas body allow nahi karti.',
-        'Raat ko 3 baje reels dekhke lagta hai main hi sabse akela hu.',
-        'Plan toh top karne ka tha, par series ne beech mein aake distraction de diya.',
-        'Battery 1% hoti hai tab tak charger dhoondne ka man nahi karta.',
-        'Phone ki gallery mein screenshots itne hain par kaam ka ek bhi nahi.',
-        'Raste mein koi jaan-pehchan wala dikh jaye toh phone dekhne ka natak chalu ho jaata hai.'
+        'Dost bolte hain tu change ho gaya hai, bhai change nahi hua hu, bas recharge khatam ho gaya hai.'
       ],
       'Rishta & Romance': [
         'Jis ladki ne 16 Somwar ka vrat kiya hoga, agar use main mil gaya toh uska Bholenath se bharosa uth jaayega.',
@@ -471,65 +613,21 @@
         'Chashma pehanne wali ladkiyon pe bharosa bilkul na karein.',
         'Usko lagta hai mai busy hu, par mai toh bas reply late karke apni value badha raha tha.',
         'Single rehne ka koi regret nahi hai, regret toh bas un crush par hai jinko time pe bhav de diya.',
-        'Pyaar me dhokha khana ek taraf, aur Insta reel bhejke seen pe chhutna ek taraf!',
-        'Uska Hmm sunne ke liye poori ramayan likhi thi maine.',
-        'Crush ko dekhte hi dimaag ka GPS offline ho jaata hai.',
-        'Pyaar mein padne ke baad insaan ya toh poet banta hai ya fir mememer.',
-        'Rishta wahi, bakchodi nayi.',
-        'Single rehna aasan hai, bas Shaadi ke Reels scroll karna band kar do.',
-        'Crush ne smiling emoji bheja tha, maine toh bacho ke naam bhi soch liye the.',
-        'Maine poocha tumka kya pasand hai? Usne bol diya apne kaam se kaam rakhna.',
-        'Mera dil aur mera account balance dono hi khali pade hain.',
-        'Pyaar ek dhokha hai, padhai karle abhi bhi mauka hai.',
-        'Love story shuru hone se pehle hi sibling zone ho gayi.',
-        'Usne bola main tumhein kabhi nahi chhodungi, fir door rehne ki salah de di.',
-        'Unse baat karne ke liye late night tak jaagta hu, aur woh kisi aur ke sath busy hain.',
-        'Pyaar ke chakkar mein padke maine apni sleep cycle kharab kar di.',
-        'Romantic Reels dekh ke lagta hai mera partner Google Maps mein ghum gaya hai.'
+        'Pyaar me dhokha khana ek taraf, aur Insta reel bhejke seen pe chhutna ek taraf!'
       ],
       '18+ Spicy': [
         'Dil clean rakhne ka shauk tha, par mood dark aur dimaag dirty nikla.',
         'Masoom itna dikhta hu ki family me sanskari lagta hu, baaki personal life censor board me fasi hai.',
         'Pyaar vyaar sab moh maya hai, asal maza toh raat ko bina kisi guilt ke bakchodi pelne me hai.',
         'Pyaar mein sab jayaz hai, bas UPI history clear rakhna.',
-        'Sanskari hone ki acting karta hu, andar se pure unfiltered bakchod hu.',
-        'Shareef bas WhatsApp status tak hu, baaki Instagram DM check mat karna.',
-        'Masoom chehra, dirty dimaag — mera signature style hai.',
-        'Sharafat ki ek umr hoti hai, meri shayad bachpan mein hi khatam ho gayi thi.',
-        'Log dil dekhte hain, main toh bas Insta ke hidden highlights dhoondta hu.',
-        'Hum utne bhi bhole nahi hain jitna hamara face dikhta hai.',
-        'Personal chats delete karne ka jo satisfaction hai, woh alag hi hai.',
-        'Life censor board ki tarah chal rahi hai, har achhe scene pe cut lag jaata hai.',
-        'Innocent look ke peeche high voltage drama chhupa hai.',
-        'Dimaag mein unfiltered thought chalte hain, bas munh pe filter lagana padta hai.',
-        'Sanskari lagna ek art hai, aur main iska Picasso hu.',
-        'Log flirting seekhte hain, hum toh birth se certified hain.',
-        'Dost bolte hain tu dangerous hai, main bolta hu bas mood dark hai.',
-        'Nazar saaf hai, dimaag ki guarantee nahi le sakta.',
-        'Sober rehne ka irada tha, par mood ne wapis cocktail bana diya.',
-        'Raat ke 12 baje ke baad mera dimaag alag hi mode mein chala jaata hai.'
+        'Sanskari hone ki acting karta hu, andar se pure unfiltered bakchod hu.'
       ],
       'Adulting / Job': [
         'Account balance dekh ke lagta hai ab se chai bhi aadhi cup hi peeni padegi.',
         'Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.',
         'Monday se pyaar sirf un logon ko hai jinki job hai hi nahi.',
         "Boss bolta hai 'passion se kaam karo', salary slip mein passion ka column nahi hota.",
-        'Account balance dekh ke lagta hai ab se paani pee ke hi guzara karna padega.',
-        'Work-life balance dhoondte dhoondte khud balance kho chuka hu.',
-        'HR bolta hai We are like a family, par family me salary toh nahi milti na bhai?',
-        'Month end chal raha hai, ab toh Zomato open karne mein bhi darr lagta hai.',
-        'Job lagne ke baad pata chala ki school ke exams hi aasan the.',
-        'Salary account mein aati hai aur Notification aate hi goodbye bol deti hai.',
-        'Subah alarm bajta hai toh lagta hai resign letter tayyar kar lu.',
-        'Work experience dhoondte dhoondte khud ex ban chuka hu.',
-        'Meeting call pe mute rehna hi mera sabse bada contribution hota hai.',
-        'Chai breaks hi ek maatra wajah hain office jaane ki.',
-        'Appraisal ke naam pe sirf taareef mili, paise toh gayab the.',
-        'Weekend khatam hone ki speed light ki speed se bhi fast hoti hai.',
-        'Ghar wale bolte hain beta bada ho gaya, beta andar se abhi bhi kinder joy maang raha hai.',
-        'TAX cutne ke baad lagta hai main deshwasi nahi, desh ka donor hu.',
-        'Laptop ka screen dekhte dekhte aankhein aur future dono dhundle lagne lage hain.',
-        'Kaam itna hai ki break lene pe bhi guilt feel hone lagta hai.'
+        'Account balance dekh ke lagta hai ab se paani pee ke hi guzara karna padega.'
       ]
     };
 
@@ -579,16 +677,15 @@
       document.getElementById('dailyLimitText').innerText = `Free Quota: ${left} / ${MAX_FREE_LIMIT} Left Today`;
     }
 
-    function renderChips() {
-      const container = document.getElementById('chipsContainer');
-      container.innerHTML = categories.map(cat => 
-        `<button class="chip ${cat === selectedCat ? 'active' : ''}" onclick="selectCategory('${cat}')">${cat}</button>`
+    function renderDropdown() {
+      const select = document.getElementById('categoryDropdown');
+      select.innerHTML = categories.map(cat => 
+        `<option value="${cat}" ${cat === selectedCat ? 'selected' : ''}>📂 Section: ${cat}</option>`
       ).join('');
     }
 
     function selectCategory(cat) {
       selectedCat = cat;
-      renderChips();
       generateLine();
     }
 
@@ -677,7 +774,7 @@
     }
 
     checkProStatus();
-    renderChips();
+    renderDropdown();
     updateCounterUI();
   </script>
 </body>
