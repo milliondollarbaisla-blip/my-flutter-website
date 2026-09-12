@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LINELEAK - The Ultimate Reel Audio & Caption Hook Generator</title>
+    
+    <!-- Firebase SDKs for Flutter Web Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
     <style>
         :root {
             --bg-dark: #080813;
@@ -106,7 +111,18 @@
             50% { transform: scaleY(1); }
         }
 
-        /* Buttons & Actions */
+        /* Inputs & Buttons */
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: var(--bg-dark);
+            border: 1px solid rgba(247, 243, 233, 0.2);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 16px;
+        }
+
         .btn-gradient {
             background: var(--ig-gradient);
             color: white;
@@ -135,7 +151,7 @@
             border-radius: 8px;
             padding: 12px;
             position: fixed;
-            zIndex: 1000;
+            z-index: 1000;
             left: 50%;
             bottom: 30px;
             transform: translateX(-50%);
@@ -159,10 +175,18 @@
 
         <!-- Hook Category Filters -->
         <div class="filter-chips">
-            <div class="chip active" onclick="filterCategory('viral')">🔥 Viral</div>
-            <div class="chip" onclick="filterCategory('educational')">💡 Educational</div>
-            <div class="chip" onclick="filterCategory('storytelling')">📖 Storytelling</div>
-            <div class="chip" onclick="filterCategory('direct')">⚡ Direct Response</div>
+            <div class="chip active" onclick="filterCategory(event, 'viral')">🔥 Viral</div>
+            <div class="chip" onclick="filterCategory(event, 'educational')">💡 Educational</div>
+            <div class="chip" onclick="filterCategory(event, 'storytelling')">📖 Storytelling</div>
+            <div class="chip" onclick="filterCategory(event, 'direct')">⚡ Direct Response</div>
+        </div>
+
+        <!-- Firebase Phone Auth Section -->
+        <div class="glass-card">
+            <h3>Phone Verification (OTP)</h3>
+            <input type="text" id="phone-number" class="input-field" placeholder="+91 Your Phone Number">
+            <button class="btn-gradient" onclick="sendOTP()">Send SMS OTP</button>
+            <div id="recaptcha-container" style="margin-top: 15px;"></div>
         </div>
 
         <!-- Main Generator Card with Glassmorphism -->
@@ -184,20 +208,58 @@
     <div id="toast">Copied to clipboard successfully!</div>
 
     <script>
-        function filterCategory(category) {
+        // Initialize Firebase with your Web App configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_ACTUAL_API_KEY_HERE",
+            authDomain: "your-app.firebaseapp.com",
+            projectId: "your-app-id",
+            storageBucket: "your-app.appspot.com",
+            messagingSenderId: "your-sender-id",
+            appId: "your-app-id"
+        };
+        
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        function filterCategory(e, category) {
             document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
-            event.target.classList.add('active');
+            e.target.classList.add('active');
         }
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
-            showToast();
+            showToast("Copied to clipboard successfully!");
         }
 
-        function showToast() {
+        function showToast(message) {
             const toast = document.getElementById("toast");
+            toast.innerText = message;
             toast.className = "show";
             setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // Setup Firebase reCAPTCHA for Web SMS OTP
+        window.onload = function() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible',
+                'callback': (response) => {
+                    // reCAPTCHA solved, allow signInWithPhoneNumber
+                }
+            });
+        };
+
+        function sendOTP() {
+            const phoneNumber = document.getElementById('phone-number').value;
+            const appVerifier = window.recaptchaVerifier;
+
+            firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then((confirmationResult) => {
+                    window.confirmationResult = confirmationResult;
+                    showToast("OTP sent successfully!");
+                }).catch((error) => {
+                    showToast("Error: " + error.message);
+                });
         }
     </script>
 </body>
