@@ -221,7 +221,7 @@
           </div>
           <div class="form-group">
             <label for="user-email">Email or Phone</label>
-            <input type="text" id="user-email" required placeholder="example@mail.com">
+            <input type="text" id="user-email" required placeholder="example@mail.com or +91...">
           </div>
           <div class="form-group">
             <label for="user-password">Password</label>
@@ -238,7 +238,7 @@
       <!-- Step 2: OTP Verification -->
       <div id="otp-form-step" class="step-section">
         <h3 class="modal-title">Verify OTP</h3>
-        <p style="font-size: 13px; color: #ccc; text-align: center;">Enter the 4-digit code sent to your registered contact.</p>
+        <p style="font-size: 13px; color: #ccc; text-align: center;">Enter the 4-digit code generated for your registration.</p>
         <form onsubmit="handleOtpSubmit(event)">
           <div class="form-group">
             <input type="text" id="otp-input" maxlength="4" placeholder="1234" style="text-align: center; letter-spacing: 5px; font-size: 20px;" required>
@@ -252,10 +252,10 @@
   <script>
     let isRegisterMode = false;
     let isLoggedIn = false;
+    let generatedOtpCode = "";
 
     function openAuthModal() {
       if (isLoggedIn) {
-        // Logout logic
         isLoggedIn = false;
         document.getElementById('auth-trigger-btn').innerText = "Sign In / Register";
         alert("You have logged out.");
@@ -292,6 +292,10 @@
     function handleAuthSubmit(event) {
       event.preventDefault();
       if (isRegisterMode) {
+        // Generate a random 4-digit code and simulate sending it via an alert popup prompt
+        generatedOtpCode = Math.floor(1000 + Math.random() * 9000).toString();
+        alert(`[Simulated SMS / Gmail OTP Sent]\nYour verification code is: ${generatedOtpCode}`);
+
         // Switch to OTP step
         document.getElementById('auth-form-step').classList.remove('active');
         document.getElementById('otp-form-step').classList.add('active');
@@ -307,19 +311,21 @@
     function handleOtpSubmit(event) {
       event.preventDefault();
       const otpVal = document.getElementById('otp-input').value;
-      if (otpVal.length === 4) {
+      
+      if (otpVal === generatedOtpCode || otpVal === "1234") {
         isLoggedIn = true;
         document.getElementById('auth-trigger-btn').innerText = "Account / Logout";
         closeAuthModal();
         alert("Registration complete! You are now logged in.");
       } else {
-        alert("Please enter a valid 4-digit OTP.");
+        alert("Invalid OTP code. Please check the code that was generated or enter '1234'.");
       }
     }
 
     function resetAuthSteps() {
       document.getElementById('auth-form-step').classList.add('active');
       document.getElementById('otp-form-step').classList.remove('active');
+      document.getElementById('otp-input').value = "";
     }
   </script>
 </body>
