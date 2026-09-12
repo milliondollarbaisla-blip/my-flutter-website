@@ -35,7 +35,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     h1.brand-title {
@@ -65,10 +65,13 @@
       margin-top: 5px;
     }
 
-    /* Instagram Styled Custom Circular Dropdown / Category Picker */
+    /* Centered Category Selector Container */
     .dropdown-container {
-      margin: 15px 0 25px 0;
+      margin: 15px auto 25px auto;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .dropdown-label {
@@ -78,18 +81,23 @@
       margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      text-align: center;
     }
 
     .circular-categories {
       display: flex;
       gap: 14px;
+      justify-content: center; /* Center Aligned */
+      align-items: center;
+      flex-wrap: nowrap;
       overflow-x: auto;
-      padding: 6px 4px 12px 4px;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE */
+      max-width: 100%;
+      padding: 6px 10px 12px 10px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
 
-    .circular-categories::-webkit-scrollbar { display: none; } /* Safari & Chrome */
+    .circular-categories::-webkit-scrollbar { display: none; }
 
     .cat-circle-item {
       display: flex;
@@ -101,8 +109,8 @@
     }
 
     .circle-ring {
-      width: 62px;
-      height: 62px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.1);
       padding: 3px;
@@ -138,6 +146,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-align: center;
     }
 
     .cat-circle-item.active .circle-label {
@@ -238,7 +247,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* Famous Creator Reel Mockups Grid */
+    /* Famous Meme Creators Overlay Grid */
     .reels-section-title {
       font-size: 20px;
       font-weight: 800;
@@ -272,12 +281,11 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.6);
     }
 
-    /* Dark Overlay for Reading Text */
     .reel-mockup::before {
       content: '';
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.9) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.9) 100%);
       z-index: 1;
     }
 
@@ -288,8 +296,8 @@
 
     .reel-header { display: flex; align-items: center; gap: 8px; }
     .avatar-ring {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       background: var(--ig-gradient);
       padding: 2px;
@@ -315,7 +323,7 @@
       font-weight: 800;
       line-height: 1.4;
       color: #FFF;
-      background: rgba(11, 8, 19, 0.8);
+      background: rgba(11, 8, 19, 0.82);
       padding: 12px;
       border-radius: 12px;
       border-left: 3px solid var(--accent-pink);
@@ -333,7 +341,7 @@
     }
 
     .stat-pill {
-      background: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.2);
       padding: 4px 10px;
       border-radius: 15px;
       backdrop-filter: blur(5px);
@@ -409,7 +417,7 @@
       <div class="pro-badge" id="proBadge">PRO VALID (1 WEEK)</div>
     </div>
 
-    <!-- Instagram Interactive Circular Category Selector (Safari Fixed) -->
+    <!-- Centered Instagram Circular Selector -->
     <div class="dropdown-container">
       <div class="dropdown-label">Select Reel Category ⚡</div>
       <div class="circular-categories" id="circularCategories">
@@ -434,85 +442,85 @@
       <button class="btn" id="generateBtn" onclick="event.stopPropagation(); generateLine();">🔥 Leak Reel Hook</button>
     </div>
 
-    <!-- Trending Reel Formats (Famous Indian Creators) -->
+    <!-- Famous Meme Creators Reels Overlays -->
     <div class="reels-section-title">
-      <span>✨ Viral Indian Creators Overlay Formats</span>
+      <span>✨ Viral Indian Creator Reel Formats</span>
     </div>
 
     <div class="reels-grid">
-      <!-- Yashraj Mukhate -->
-      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=600&q=80');">
+      <!-- Puneet Superstar Meme Reel -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80');">
         <div class="reel-header">
           <div class="avatar-ring">
-            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Yashraj">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Puneet">
           </div>
-          <span class="reel-user">@yashrajmukhate</span>
-          <span class="viral-badge">🚀 18.5M Views</span>
+          <span class="reel-user">@puneetsuperstar_official</span>
+          <span class="viral-badge">🔥 14.8M Views</span>
         </div>
         <div class="reel-body">
-          <div class="reel-overlay-text">"Rasode me kaun tha? Jab maine music banaya tab pata chala viral hit tha!"</div>
+          <div class="reel-overlay-text">"Kothi bangle wale logo ko kya pata Lord Puneet ki viral power! Kothibangle wale fir roye!"</div>
         </div>
         <div class="reel-actions">
-          <span class="stat-pill">❤️ 1.8M</span>
-          <span class="stat-pill">💬 45.2k</span>
-          <span class="stat-pill">✈️ 310k</span>
+          <span class="stat-pill">❤️ 1.5M</span>
+          <span class="stat-pill">💬 62.1k</span>
+          <span class="stat-pill">✈️ 420k</span>
         </div>
       </div>
 
-      <!-- Mr. Faisu (Faisal Shaikh) -->
+      <!-- CarryMinati Reel -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80');">
+        <div class="reel-header">
+          <div class="avatar-ring">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="Carry">
+          </div>
+          <span class="reel-user">@carryminati</span>
+          <span class="viral-badge">⚡ 22.4M Views</span>
+        </div>
+        <div class="reel-body">
+          <div class="reel-overlay-text">"Toh kaise hai aap log? Like aur share button phod do!"</div>
+        </div>
+        <div class="reel-actions">
+          <span class="stat-pill">❤️ 2.9M</span>
+          <span class="stat-pill">💬 110k</span>
+          <span class="stat-pill">✈️ 650k</span>
+        </div>
+      </div>
+
+      <!-- Yashraj Mukhate Meme Audio Reel -->
+      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80');">
+        <div class="reel-header">
+          <div class="avatar-ring">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" alt="Yashraj">
+          </div>
+          <span class="reel-user">@yashrajmukhate</span>
+          <span class="viral-badge">🚀 19.1M Views</span>
+        </div>
+        <div class="reel-body">
+          <div class="reel-overlay-text">"Rasode me kaun tha? Jab viral beat drop ho jaye reel script ke saath!"</div>
+        </div>
+        <div class="reel-actions">
+          <span class="stat-pill">❤️ 2.1M</span>
+          <span class="stat-pill">💬 54.3k</span>
+          <span class="stat-pill">✈️ 380k</span>
+        </div>
+      </div>
+
+      <!-- Round2Hell Meme Screenshot -->
       <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80');">
         <div class="reel-header">
           <div class="avatar-ring">
-            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80" alt="Faisu">
+            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80" alt="R2H">
           </div>
-          <span class="reel-user">@mr_faisu_07</span>
-          <span class="viral-badge">🔥 12.1M Views</span>
+          <span class="reel-user">@round2hell</span>
+          <span class="viral-badge">💥 31.0M Views</span>
         </div>
         <div class="reel-body">
-          <div class="reel-overlay-text">"Attitude toh pehle bhi tha, ab bas aesthetic look ke saath trending me hai."</div>
+          <div class="reel-overlay-text">"Dost bole ki mehnati ban ja, par dimaag bola pehle Instagram viral notifications check kar!"</div>
         </div>
         <div class="reel-actions">
-          <span class="stat-pill">❤️ 1.2M</span>
-          <span class="stat-pill">💬 18.9k</span>
-          <span class="stat-pill">✈️ 180k</span>
-        </div>
-      </div>
-
-      <!-- Dolly Singh -->
-      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80');">
-        <div class="reel-header">
-          <div class="avatar-ring">
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Dolly">
-          </div>
-          <span class="reel-user">@dollysingh</span>
-          <span class="viral-badge">💥 6.4M Views</span>
-        </div>
-        <div class="reel-body">
-          <div class="reel-overlay-text">"Raju ki mummy wala POV shoot karte huye jab viral reel notifications screen par spam ho jaye!"</div>
-        </div>
-        <div class="reel-actions">
-          <span class="stat-pill">❤️ 680k</span>
-          <span class="stat-pill">💬 12.4k</span>
-          <span class="stat-pill">✈️ 94k</span>
-        </div>
-      </div>
-
-      <!-- CarryMinati -->
-      <div class="reel-mockup" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80');">
-        <div class="reel-header">
-          <div class="avatar-ring">
-            <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=100&q=80" alt="Carry">
-          </div>
-          <span class="reel-user">@carryminati</span>
-          <span class="viral-badge">⚡ 25.0M Views</span>
-        </div>
-        <div class="reel-body">
-          <div class="reel-overlay-text">"Toh kaise hai aap log? Like and share button tod do bilkul!"</div>
-        </div>
-        <div class="reel-actions">
-          <span class="stat-pill">❤️ 3.1M</span>
-          <span class="stat-pill">💬 98.5k</span>
-          <span class="stat-pill">✈️ 520k</span>
+          <span class="stat-pill">❤️ 3.8M</span>
+          <span class="stat-pill">💬 142k</span>
+          <span class="stat-pill">✈️ 890k</span>
         </div>
       </div>
     </div>
@@ -656,7 +664,6 @@
       document.getElementById('dailyLimitText').innerText = `Free Quota: ${left} / ${MAX_FREE_LIMIT} Left Today`;
     }
 
-    /* Render Circular Category Items (Instagram Story Style) */
     function renderCircularCategories() {
       const container = document.getElementById('circularCategories');
       container.innerHTML = categories.map(cat => {
@@ -761,7 +768,6 @@
       alert('1-Week Pro Pass Activated!');
     }
 
-    // Initialize Page
     checkProStatus();
     renderCircularCategories();
     updateCounterUI();
