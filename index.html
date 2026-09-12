@@ -1,19 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+  <base href="/">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
-    h1 { color: #333; }
-    p { color: #666; }
-    .btn { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
-  </style>
+  <title>LINELEAK</title>
+  <script src="https://cdn.jsdelivr.net/npm/dartapp@latest/dartapp.js"></script>
+  <script src="https://www.gstatic.com/flutter-canvaskit/3.19.0/canvaskit.js"></script>
 </head>
 <body>
-  <h1>Welcome to My Website!</h1>
-  <p>App is live and running successfully.</p>
-  <a href="#" class="btn">Explore Services</a>
+  <script src="https://cdn.jsdelivr.net/gh/flutter/flutter@master/bin/cache/flutter_web_sdk/flutter.js"></script>
+  <script>
+    window.addEventListener('load', function(ev) {
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: null,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
