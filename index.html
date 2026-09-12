@@ -17,8 +17,9 @@
     .chip.active { background: #F7F3E9; color: #120E1B; }
     .card { background: #1B1626; padding: 30px 20px; border-radius: 20px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); }
     .tag { color: #D4FF3D; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
-    .line-box { font-size: 20px; font-weight: bold; margin: 20px 0; min-height: 60px; line-height: 1.4; }
-    .btn { background: #D4FF3D; color: #120E1B; padding: 12px 28px; border: none; font-weight: 800; border-radius: 30px; cursor: pointer; font-size: 15px; }
+    .line-box { font-size: 20px; font-weight: bold; margin: 20px 0; min-height: 60px; line-height: 1.4; display: flex; align-items: center; justify-content: center; }
+    .btn { background: #D4FF3D; color: #120E1B; padding: 12px 28px; border: none; font-weight: 800; border-radius: 30px; cursor: pointer; font-size: 15px; transition: 0.2s; }
+    .btn:active { transform: scale(0.95); }
     .subtext { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 8px; }
   </style>
 </head>
@@ -29,39 +30,82 @@
       <h2>Ek line, poora reel ka comment section bhar de.</h2>
       <p>Random Hinglish brainrot lines — reels pe chipkao, screenshot bano, aur comments padho.</p>
     </div>
+    
     <div class="chips" id="chipsContainer"></div>
+
     <div class="card">
       <div id="catTag" class="tag">RANDOM</div>
       <div id="lineText" class="line-box">Button daba ke dekho, dimaag thoda ghoomega.</div>
       <div class="subtext">(Text ko copy kar sakte ho)</div>
       <br>
-      <button class="btn" onclick="generateLine()">🎲 Naya nikaalo</button>
+      <button class="btn" id="generateBtn">🎲 Naya nikaalo</button>
     </div>
   </div>
 
   <script>
     const data = {
-      'Rishta / Shaadi': ['Swarg toh chala jaayega bandaa, par wahaan bhi bandi nahi milegi.', 'Biwi se zubaan ladaane ka maza hi alag hai — jeetne ka toh sawaal hi nahi.'],
-      'Parents / Ghar': ["Mummy ka ek hi dialogue — 'padhai chhod ke sab yaad hai.'", 'Ghar mein Wi-Fi password se zyada secret papa ki salary hai.'],
-      'Dosti': ['Dost woh hota hai jo tumhari galti pe sabse zyada haste — sabse pehle.'],
-      'Adulting / Job': ['Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.'],
-      'Random Chaos': ['Zindagi ek WiFi hai — signal full dikhta hai, load kuch nahi hota.'],
-      'Spicy Extra': ['Pyaar mein sab jayaz hai, bas UPI history clear rakhna.']
+      'Rishta / Shaadi': [
+        'Swarg toh chala jaayega bandaa, par wahaan bhi bandi nahi milegi.',
+        'Biwi se zubaan ladaane ka maza hi alag hai — jeetne ka toh sawaal hi nahi.',
+        'Shaadi woh laddu hai jo khaye wo bhi roye, jo na khaye wo bhi roye.'
+      ],
+      'Parents / Ghar': [
+        "Mummy ka ek hi dialogue — 'padhai chhod ke sab yaad hai.'",
+        'Ghar mein Wi-Fi password se zyada secret papa ki salary hai.',
+        'Mummy: Rishtedaar aa rahe hain, ghar saaf karo!'
+      ],
+      'Dosti': [
+        'Dost woh hota hai jo tumhari galti pe sabse zyada haste — sabse pehle.',
+        'Bhai tu bas haan bol, Baaki aage dekh lenge.',
+        'Chai pine chale? — Aise dosto se hi desh chal raha hai.'
+      ],
+      'Adulting / Job': [
+        'Salary aati hai, dikhti bhi nahi, bas account chhoo ke nikal jaati hai.',
+        'Monday morning motivation: Resign letter tayar rakhna.',
+        'HR: Tell me about yourself. Me: I need money.'
+      ],
+      'Random Chaos': [
+        'Zindagi ek WiFi hai — signal full dikhta hai, load kuch nahi hota.',
+        'Dimaag kharab hone pe 5 minute shaant rehne se ghanta kuch nahi hota.'
+      ],
+      'Spicy Extra': [
+        'Pyaar mein sab jayaz hai, bas UPI history clear rakhna.',
+        'Ek taraf ka pyaar aur ek taraf ka loan — dono ki EMI zindagi bhar chalti hai.'
+      ]
     };
+
     let selectedCat = 'Random';
     const categories = ['Random', ...Object.keys(data)];
 
     function renderChips() {
-      document.getElementById('chipsContainer').innerHTML = categories.map(cat => 
-        `<button class="chip ${cat === selectedCat ? 'active' : ''}" onclick="selectCat('${cat}')">${cat}</button>`
+      const container = document.getElementById('chipsContainer');
+      container.innerHTML = categories.map(cat => 
+        `<button class="chip ${cat === selectedCat ? 'active' : ''}" onclick="selectCategory('${cat}')">${cat}</button>`
       ).join('');
     }
-    function selectCat(cat) { selectedCat = cat; renderChips(); generateLine(); }
+
+    function selectCategory(cat) {
+      selectedCat = cat;
+      renderChips();
+      generateLine();
+    }
+
     function generateLine() {
-      let pool = selectedCat === 'Random' ? Object.values(data).flat() : data[selectedCat];
-      document.getElementById('lineText').innerText = pool[Math.floor(Math.random() * pool.length)];
+      let pool = [];
+      if (selectedCat === 'Random') {
+        Object.values(data).forEach(arr => pool.push(...arr));
+      } else {
+        pool = data[selectedCat];
+      }
+      const randomIndex = Math.floor(Math.random() * pool.length);
+      document.getElementById('lineText').innerText = pool[randomIndex];
       document.getElementById('catTag').innerText = selectedCat.toUpperCase();
     }
+
+    // Event Listener setup
+    document.getElementById('generateBtn').addEventListener('click', generateLine);
+
+    // Initial render
     renderChips();
   </script>
 </body>
