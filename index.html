@@ -44,6 +44,7 @@
       justify-content: flex-end;
       align-items: center;
       margin-bottom: 10px;
+      position: relative;
     }
 
     .auth-btn-small {
@@ -55,6 +56,90 @@
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .user-avatar-mini {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--ig-gradient);
+    }
+
+    /* Account Dropdown Menu */
+    .account-dropdown {
+      display: none;
+      position: absolute;
+      top: 38px;
+      right: 0;
+      background: #181329;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      width: 220px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      z-index: 80;
+      text-align: left;
+      overflow: hidden;
+    }
+
+    .account-dropdown-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .account-dropdown-header img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--ig-gradient);
+    }
+
+    .account-dropdown-info .acc-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #FFF;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
+    }
+
+    .account-dropdown-info .acc-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .account-menu-item {
+      padding: 10px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      width: 100%;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      text-align: left;
+    }
+
+    .account-menu-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .account-menu-item.logout {
+      color: #ff5c5c;
     }
 
     h1.brand-title {
@@ -519,14 +604,29 @@
       border: 1px solid rgba(255,255,255,0.2);
       background: #0B0813;
       color: #FFF;
-      font-size: 16px; /* Prevents auto zoom on iOS */
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="user-bar">
-      <button class="auth-btn-small" id="userAccountBtn" onclick="openAuthModal()">Sign In / Register</button>
+      <button class="auth-btn-small" id="userAccountBtn" onclick="toggleAccountDropdown(event)">Sign In / Register</button>
+      
+      <!-- Account Dropdown Menu (Right Corner) -->
+      <div class="account-dropdown" id="accountDropdown">
+        <div class="account-dropdown-header">
+          <img id="ddUserAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar">
+          <div class="account-dropdown-info">
+            <div class="acc-name" id="ddUserName">Creator</div>
+            <div class="acc-sub" id="ddUserSub">Free Tier</div>
+          </div>
+        </div>
+        <button class="account-menu-item" onclick="openProfileModal()">✏️ Edit Profile</button>
+        <button class="account-menu-item" onclick="showSubscriptionModal()">⚡ Show My Subscription</button>
+        <button class="account-menu-item" onclick="openHelpModal()">❓ Help & Support</button>
+        <button class="account-menu-item logout" onclick="logoutUser()">🚪 Logout</button>
+      </div>
     </div>
 
     <div class="header">
@@ -663,7 +763,8 @@
     </footer>
   </div>
 
-  <div class="modal" id="authModal" style="display:none;">
+  <!-- Auth Modal -->
+  <div class="modal" id="authModal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeAuthModal()">&times;</span>
       
@@ -713,7 +814,53 @@
           <button class="btn" style="width:100%; padding:11px; font-size:13px; margin-top:5px;" onclick="verifyRealSMSOTP()">Verify & Complete</button>
         </div>
       </div>
+    </div>
+  </div>
 
+  <!-- Edit Profile Modal -->
+  <div class="modal" id="profileModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeProfileModal()">&times;</span>
+      <h3 style="margin-top:0;">Edit Profile 👤</h3>
+      
+      <div class="auth-box">
+        <label style="font-size:12px; color:rgba(255,255,255,0.8);">Profile Name</label>
+        <input type="text" id="editProfileName" class="auth-input" placeholder="Enter name" style="width:100%; margin-bottom:10px;">
+
+        <label style="font-size:12px; color:rgba(255,255,255,0.8);">Profile Picture Image URL</label>
+        <input type="text" id="editProfilePic" class="auth-input" placeholder="https://image-link.com/photo.jpg" style="width:100%; margin-bottom:10px;">
+        
+        <div style="display:flex; gap:8px;">
+          <button class="secondary-action-btn" onclick="removeProfilePic()">Remove Photo</button>
+          <button class="btn" style="flex:1; padding:10px;" onclick="saveProfileChanges()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subscription Modal -->
+  <div class="modal" id="subModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeSubModal()">&times;</span>
+      <h3 style="color:var(--neon-green); margin-top:0;">My Subscription ⚡</h3>
+      <div id="subStatusContent" style="font-size:13.5px; margin: 15px 0; line-height: 1.6;">Checking status...</div>
+      <button class="btn" style="width:100%;" onclick="closeSubModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div class="modal" id="helpModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeHelpModal()">&times;</span>
+      <h3 style="margin-top:0;">Help & Support ❓</h3>
+      <p style="font-size:13px; color:rgba(255,255,255,0.8); line-height:1.5; text-align:left;">
+        <b>How to use LINELEAK:</b><br>
+        1. Select your target reel category from the top carousel.<br>
+        2. Adjust slang intensity if needed.<br>
+        3. Tap <b>Generate</b> to get an instant viral hook + CapCut layout export.<br><br>
+        Need assistance? DM us on Instagram @lineleakweb.
+      </p>
+      <button class="btn" style="width:100%;" onclick="closeHelpModal()">Got It</button>
     </div>
   </div>
 
@@ -807,22 +954,38 @@
       const savedUser = localStorage.getItem('ll_user');
       if (savedUser) {
         currentUser = JSON.parse(savedUser);
-        document.getElementById('userAccountBtn').innerText = `👤 ${currentUser.name || currentUser.phone}`;
+        const name = currentUser.name || currentUser.phone || "Creator";
+        const avatar = currentUser.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80";
+        
+        document.getElementById('userAccountBtn').innerHTML = `<img src="${avatar}" class="user-avatar-mini" alt=""> ${name} ▾`;
+        document.getElementById('ddUserName').innerText = name;
+        document.getElementById('ddUserAvatar').src = avatar;
+        document.getElementById('ddUserSub').innerText = isPro ? "Pro Member ⚡" : "Free Tier";
       } else {
         currentUser = null;
-        document.getElementById('userAccountBtn').innerText = 'Sign In / Register';
+        document.getElementById('userAccountBtn').innerHTML = 'Sign In / Register';
+        document.getElementById('accountDropdown').style.display = 'none';
+      }
+    }
+
+    function toggleAccountDropdown(e) {
+      e.stopPropagation();
+      if (!currentUser) {
+        openAuthModal();
+        return;
+      }
+      const dropdown = document.getElementById('accountDropdown');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.closest('.user-bar')) {
+        document.getElementById('accountDropdown').style.display = 'none';
       }
     }
 
     function openAuthModal() {
-      if (currentUser) {
-        if (confirm("Do you want to log out?")) {
-          localStorage.removeItem('ll_user');
-          currentUser = null;
-          checkAuthState();
-        }
-        return;
-      }
+      document.getElementById('accountDropdown').style.display = 'none';
       document.getElementById('authStep1').style.display = 'block';
       document.getElementById('authStep2').style.display = 'none';
       document.getElementById('authModal').style.display = 'flex';
@@ -833,7 +996,7 @@
     }
 
     function signInGoogle() {
-      const user = { name: "Google Creator", type: "google" };
+      const user = { name: "Google Creator", type: "google", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" };
       localStorage.setItem('ll_user', JSON.stringify(user));
       checkAuthState();
       closeAuthModal();
@@ -866,7 +1029,7 @@
       const phoneInput = localStorage.getItem('ll_target_phone');
 
       if (userEnteredOtp === savedOtp) {
-        const user = { phone: phoneInput, type: "phone" };
+        const user = { name: "Mobile Creator", phone: phoneInput, type: "phone", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" };
         localStorage.setItem('ll_user', JSON.stringify(user));
         checkAuthState();
         closeAuthModal();
@@ -874,6 +1037,67 @@
       } else {
         alert('Incorrect OTP code entered. Please check your code and try again.');
       }
+    }
+
+    function logoutUser() {
+      localStorage.removeItem('ll_user');
+      currentUser = null;
+      checkAuthState();
+      alert('Logged out successfully.');
+    }
+
+    function openProfileModal() {
+      document.getElementById('accountDropdown').style.display = 'none';
+      if (!currentUser) return;
+      document.getElementById('editProfileName').value = currentUser.name || '';
+      document.getElementById('editProfilePic').value = currentUser.avatar || '';
+      document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').style.display = 'none';
+    }
+
+    function removeProfilePic() {
+      document.getElementById('editProfilePic').value = '';
+    }
+
+    function saveProfileChanges() {
+      if (!currentUser) return;
+      const newName = document.getElementById('editProfileName').value.trim();
+      const newPic = document.getElementById('editProfilePic').value.trim();
+      
+      if (newName) currentUser.name = newName;
+      currentUser.avatar = newPic || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80";
+      
+      localStorage.setItem('ll_user', JSON.stringify(currentUser));
+      checkAuthState();
+      closeProfileModal();
+      alert('Profile updated successfully!');
+    }
+
+    function showSubscriptionModal() {
+      document.getElementById('accountDropdown').style.display = 'none';
+      const statusBox = document.getElementById('subStatusContent');
+      if (isPro) {
+        statusBox.innerHTML = `Status: <b style="color:var(--neon-green)">PRO PASS ACTIVE</b><br>Enjoy unlimited hooks, unrestricted 18+ street slang, and one-tap CapCut exports.`;
+      } else {
+        statusBox.innerHTML = `Status: <b>Free Tier</b><br>Upgrade to the Pro Pass for ₹49/week to unlock full unlimited access.`;
+      }
+      document.getElementById('subModal').style.display = 'flex';
+    }
+
+    function closeSubModal() {
+      document.getElementById('subModal').style.display = 'none';
+    }
+
+    function openHelpModal() {
+      document.getElementById('accountDropdown').style.display = 'none';
+      document.getElementById('helpModal').style.display = 'flex';
+    }
+
+    function closeHelpModal() {
+      document.getElementById('helpModal').style.display = 'none';
     }
 
     function checkProStatus() {
@@ -1013,8 +1237,8 @@
       alert('1-Week Pro Pass Activated!');
     }
 
-    checkAuthState();
     checkProStatus();
+    checkAuthState();
     renderCircularCategories();
   </script>
 </body>
